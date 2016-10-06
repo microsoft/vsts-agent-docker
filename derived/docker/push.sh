@@ -9,5 +9,5 @@ fi
 cd $(dirname $0)
 
 while read DOCKER_VERSION na; do
-  echo docker push microsoft/vsts-agent:${VSTS_AGENT_TAG}docker-$DOCKER_VERSION
+  docker push microsoft/vsts-agent:${VSTS_AGENT_TAG}docker-$DOCKER_VERSION
 done < <(cat versions | sed 's/\r//')

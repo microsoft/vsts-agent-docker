@@ -7,9 +7,9 @@ push() {
   VSTS_AGENT_VERSION=$3
 
   if [ -z "$VSTS_AGENT_VERSION" ]; then
-    echo docker push microsoft/vsts-agent:ubuntu-$UBUNTU_VERSION
+    docker push microsoft/vsts-agent:ubuntu-$UBUNTU_VERSION
   else
-    echo docker push microsoft/vsts-agent:ubuntu-$UBUNTU_VERSION-$VSTS_AGENT_VERSION
+    docker push microsoft/vsts-agent:ubuntu-$UBUNTU_VERSION-$VSTS_AGENT_VERSION
   fi
 }
 
