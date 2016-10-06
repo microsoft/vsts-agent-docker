@@ -2,7 +2,8 @@
 
 cd "$(dirname $0)"
 
-GITHUB_BASE_URL="https://github.com/microsoft/vsts-agent-docker/blob/master"
+GIT_COMMIT=${1:-$(git rev-parse HEAD)}
+GITHUB_BASE_URL="https://github.com/microsoft/vsts-agent-docker/blob/$GIT_COMMIT"
 LATEST_TAG=$(cat latest.tag)
 
 while read DOCKER_TAG; do
