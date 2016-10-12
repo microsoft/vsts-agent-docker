@@ -2,7 +2,11 @@
 set -e
 
 if [ $(id -u) -eq 0 ]; then
+  if [ -n "$VSTS_AGENT" ]; then
+    export VSTS_AGENT=$(eval echo $VSTS_AGENT)
+  fi
   if [ -n "$VSTS_WORK" ]; then
+    export VSTS_WORK=$(eval echo $VSTS_WORK)
     mkdir -p "$VSTS_WORK"
     chown -R vsts:vsts "$VSTS_WORK"
   fi
@@ -46,7 +50,7 @@ if [ -n "$VSTS_AGENT_IGNORE" ]; then
 fi
 
 ./config.sh --unattended \
-  --agent "$(eval echo ${VSTS_AGENT:-$(hostname)})" \
+  --agent "${VSTS_AGENT:-$(hostname)}" \
   --url "https://$VSTS_ACCOUNT.visualstudio.com" \
   --auth PAT \
   --token "$VSTS_TOKEN" \

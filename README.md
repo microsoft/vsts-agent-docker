@@ -53,7 +53,7 @@ VSTS agents can be further configured with additional environment variables:
 - `VSTS_POOL`: the name of the agent pool (default: `"Default"`)
 - `VSTS_WORK`: the agent work folder (default: `"_work"`)
 
-The `VSTS_AGENT` value is evaluated inside the container as an expression.
+The `VSTS_AGENT` and `VSTS_WORK` values are evaluated inside the container as an expression so they can use shell expansions. The `VSTS_AGENT` value is evaluated first, so the `VSTS_WORK` value may reference the expanded `VSTS_AGENT` value.
 
 To run a particular VSTS agent version on Ubuntu 14.04 for a specific account with a custom agent name, pool and a volume mapped agent work folder:
 ```
@@ -62,7 +62,7 @@ docker run \
   -e VSTS_TOKEN=<pat> \
   -e VSTS_AGENT='$(hostname)-agent'
   -e VSTS_POOL=mypool \
-  -e VSTS_WORK=/var/vsts \
+  -e VSTS_WORK='/var/vsts/$VSTS_AGENT' \
   -v /var/vsts:/var/vsts \
   -it microsoft/vsts-agent:ubuntu-14.04-2.106.0
 ```
