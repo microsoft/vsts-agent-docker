@@ -21,6 +21,7 @@ RUN set -x \
  && docker-compose -v
 
 COPY ./docker-start.sh .
-RUN chown vsts:vsts docker-start.sh
+RUN chown vsts:vsts docker-start.sh \
+ && chmod +x docker-start.sh
 
 CMD ["./docker-start.sh"]
