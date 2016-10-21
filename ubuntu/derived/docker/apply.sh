@@ -1,10 +1,8 @@
 #!/bin/bash
+set -e
 
 VSTS_AGENT_TAG=$1
-BASE_DIR=$2
-if [ -z "$BASE_DIR" ]; then
-  exit 0
-fi
+BASE_DIR="$2"
 
 cd "$(dirname $0)"
 

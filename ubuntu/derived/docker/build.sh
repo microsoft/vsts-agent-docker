@@ -1,18 +1,13 @@
 #!/bin/bash
+set -e
 
 VSTS_AGENT_TAG=$1
-BASE_DIR=$2
-if [ -z "$BASE_DIR" ]; then
-  BASE_DIR=$VSTS_AGENT_TAG
-  VSTS_AGENT_TAG=
-else
-  VSTS_AGENT_TAG=${VSTS_AGENT_TAG}-
-fi
+BASE_DIR="$2"
 
-cd $(dirname $0)
+cd "$(dirname $0)"
 
 while read DOCKER_VERSION na; do
-  docker build -t microsoft/vsts-agent:${VSTS_AGENT_TAG}docker-$DOCKER_VERSION $BASE_DIR/docker/$DOCKER_VERSION
-  ../standard/build.sh ${VSTS_AGENT_TAG}docker-$DOCKER_VERSION "$BASE_DIR/docker/$DOCKER_VERSION"
-
+  TAG=${VSTS_AGENT_TAG}-docker-$DOCKER_VERSION
+  TARGET_DIR="$BASE_DIR/docker/$DOCKER_VERSION"
+  docker build -t microsoft/vsts-agent:$TAG "$TARGET_DIR"
 done < <(cat versions | sed 's/\r//')

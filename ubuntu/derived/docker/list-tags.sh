@@ -1,13 +1,10 @@
 #!/bin/bash
+set -e
 
-if [ -z "$2" ]; then
-  VSTS_AGENT_TAG=
-else
-  VSTS_AGENT_TAG=${1}-
-fi
+VSTS_AGENT_TAG=$1
 
-cd $(dirname $0)
+cd "$(dirname $0)"
 
 while read DOCKER_VERSION na; do
-  echo ${VSTS_AGENT_TAG}docker-$DOCKER_VERSION
+  echo ${VSTS_AGENT_TAG}-docker-$DOCKER_VERSION
 done < <(cat versions | sed 's/\r//')
