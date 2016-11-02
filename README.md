@@ -4,42 +4,24 @@
 This repository contains images for the Visual Studio Team Services (VSTS) agent that runs tasks as part of a build or release.
 
 ## Supported tags and `Dockerfile` links
-VSTS agent images are tagged according to the base OS, the VSTS agent version, and tools that are installed:
+VSTS agent images are tagged according to the base OS, an optional Team Foundation Server (TFS) version, and tools that are installed:
 
-- [`ubuntu-14.04`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/Dockerfile) [(ubuntu/14.04/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/Dockerfile)
-- [`ubuntu-14.04-docker-1.11.2`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/docker/1.11.2/Dockerfile) [(ubuntu/14.04/docker/1.11.2/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/docker/1.11.2/Dockerfile)
-- [`ubuntu-14.04-docker-1.12.1`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/docker/1.12.1/Dockerfile) [(ubuntu/14.04/docker/1.12.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/docker/1.12.1/Dockerfile)
-- [`ubuntu-14.04-2.106.0`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.106.0/Dockerfile) [(ubuntu/14.04/2.106.0/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.106.0/Dockerfile)
-- [`ubuntu-14.04-2.106.0-docker-1.11.2`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.106.0/docker/1.11.2/Dockerfile) [(ubuntu/14.04/2.106.0/docker/1.11.2/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.106.0/docker/1.11.2/Dockerfile)
-- [`ubuntu-14.04-2.106.0-docker-1.12.1`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.106.0/docker/1.12.1/Dockerfile) [(ubuntu/14.04/2.106.0/docker/1.12.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.106.0/docker/1.12.1/Dockerfile)
-- [`ubuntu-14.04-2.107.0`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.107.0/Dockerfile) [(ubuntu/14.04/2.107.0/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.107.0/Dockerfile)
-- [`ubuntu-14.04-2.107.0-docker-1.11.2`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.107.0/docker/1.11.2/Dockerfile) [(ubuntu/14.04/2.107.0/docker/1.11.2/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.107.0/docker/1.11.2/Dockerfile)
-- [`ubuntu-14.04-2.107.0-docker-1.12.1`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.107.0/docker/1.12.1/Dockerfile) [(ubuntu/14.04/2.107.0/docker/1.12.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.107.0/docker/1.12.1/Dockerfile)
-- [`ubuntu-14.04-2.107.1`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.107.1/Dockerfile) [(ubuntu/14.04/2.107.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.107.1/Dockerfile)
-- [`ubuntu-14.04-2.107.1-docker-1.11.2`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.107.1/docker/1.11.2/Dockerfile) [(ubuntu/14.04/2.107.1/docker/1.11.2/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.107.1/docker/1.11.2/Dockerfile)
-- [`ubuntu-14.04-2.107.1-docker-1.12.1`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.107.1/docker/1.12.1/Dockerfile) [(ubuntu/14.04/2.107.1/docker/1.12.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.107.1/docker/1.12.1/Dockerfile)
-- [`ubuntu-14.04-2.108.0`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.108.0/Dockerfile) [(ubuntu/14.04/2.108.0/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.108.0/Dockerfile)
-- [`ubuntu-14.04-2.108.0-docker-1.11.2`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.108.0/docker/1.11.2/Dockerfile) [(ubuntu/14.04/2.108.0/docker/1.11.2/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.108.0/docker/1.11.2/Dockerfile)
-- [`ubuntu-14.04-2.108.0-docker-1.12.1`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.108.0/docker/1.12.1/Dockerfile) [(ubuntu/14.04/2.108.0/docker/1.12.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/14.04/2.108.0/docker/1.12.1/Dockerfile)
-- [`ubuntu-16.04`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/Dockerfile) [(ubuntu/16.04/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/Dockerfile)
-- [`ubuntu-16.04-docker-1.11.2`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/docker/1.11.2/Dockerfile) [(ubuntu/16.04/docker/1.11.2/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/docker/1.11.2/Dockerfile)
-- [`ubuntu-16.04-docker-1.12.1`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/docker/1.12.1/Dockerfile), [`latest`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/docker/1.12.1/Dockerfile) [(ubuntu/16.04/docker/1.12.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/docker/1.12.1/Dockerfile)
-- [`ubuntu-16.04-2.106.0`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.106.0/Dockerfile) [(ubuntu/16.04/2.106.0/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.106.0/Dockerfile)
-- [`ubuntu-16.04-2.106.0-docker-1.11.2`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.106.0/docker/1.11.2/Dockerfile) [(ubuntu/16.04/2.106.0/docker/1.11.2/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.106.0/docker/1.11.2/Dockerfile)
-- [`ubuntu-16.04-2.106.0-docker-1.12.1`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.106.0/docker/1.12.1/Dockerfile) [(ubuntu/16.04/2.106.0/docker/1.12.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.106.0/docker/1.12.1/Dockerfile)
-- [`ubuntu-16.04-2.107.0`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.107.0/Dockerfile) [(ubuntu/16.04/2.107.0/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.107.0/Dockerfile)
-- [`ubuntu-16.04-2.107.0-docker-1.11.2`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.107.0/docker/1.11.2/Dockerfile) [(ubuntu/16.04/2.107.0/docker/1.11.2/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.107.0/docker/1.11.2/Dockerfile)
-- [`ubuntu-16.04-2.107.0-docker-1.12.1`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.107.0/docker/1.12.1/Dockerfile) [(ubuntu/16.04/2.107.0/docker/1.12.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.107.0/docker/1.12.1/Dockerfile)
-- [`ubuntu-16.04-2.107.1`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.107.1/Dockerfile) [(ubuntu/16.04/2.107.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.107.1/Dockerfile)
-- [`ubuntu-16.04-2.107.1-docker-1.11.2`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.107.1/docker/1.11.2/Dockerfile) [(ubuntu/16.04/2.107.1/docker/1.11.2/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.107.1/docker/1.11.2/Dockerfile)
-- [`ubuntu-16.04-2.107.1-docker-1.12.1`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.107.1/docker/1.12.1/Dockerfile) [(ubuntu/16.04/2.107.1/docker/1.12.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.107.1/docker/1.12.1/Dockerfile)
-- [`ubuntu-16.04-2.108.0`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.108.0/Dockerfile) [(ubuntu/16.04/2.108.0/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.108.0/Dockerfile)
-- [`ubuntu-16.04-2.108.0-docker-1.11.2`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.108.0/docker/1.11.2/Dockerfile) [(ubuntu/16.04/2.108.0/docker/1.11.2/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.108.0/docker/1.11.2/Dockerfile)
-- [`ubuntu-16.04-2.108.0-docker-1.12.1`](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.108.0/docker/1.12.1/Dockerfile) [(ubuntu/16.04/2.108.0/docker/1.12.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/4634d73509a48e73dff8c56eae1582a75b562f08/ubuntu/16.04/2.108.0/docker/1.12.1/Dockerfile)
+- [`ubuntu-14.04`](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/14.04/Dockerfile) [(ubuntu/14.04/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/14.04/Dockerfile)
+- [`ubuntu-14.04-docker-1.11.2`](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/14.04/docker/1.11.2/Dockerfile) [(ubuntu/14.04/docker/1.11.2/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/14.04/docker/1.11.2/Dockerfile)
+- [`ubuntu-14.04-docker-1.12.1`](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/14.04/docker/1.12.1/Dockerfile) [(ubuntu/14.04/docker/1.12.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/14.04/docker/1.12.1/Dockerfile)
+- [`ubuntu-14.04-tfs15`](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/14.04/tfs15/Dockerfile) [(ubuntu/14.04/tfs15/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/14.04/tfs15/Dockerfile)
+- [`ubuntu-14.04-tfs15-docker-1.11.2`](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/14.04/tfs15/docker/1.11.2/Dockerfile) [(ubuntu/14.04/tfs15/docker/1.11.2/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/14.04/tfs15/docker/1.11.2/Dockerfile)
+- [`ubuntu-14.04-tfs15-docker-1.12.1`](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/14.04/tfs15/docker/1.12.1/Dockerfile) [(ubuntu/14.04/tfs15/docker/1.12.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/14.04/tfs15/docker/1.12.1/Dockerfile)
+- [`ubuntu-16.04`](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/16.04/Dockerfile) [(ubuntu/16.04/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/16.04/Dockerfile)
+- [`ubuntu-16.04-docker-1.11.2`](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/16.04/docker/1.11.2/Dockerfile) [(ubuntu/16.04/docker/1.11.2/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/16.04/docker/1.11.2/Dockerfile)
+- [`ubuntu-16.04-docker-1.12.1`](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/16.04/docker/1.12.1/Dockerfile) [(ubuntu/16.04/docker/1.12.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/16.04/docker/1.12.1/Dockerfile)
+- [`ubuntu-16.04-tfs15`](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/16.04/tfs15/Dockerfile) [(ubuntu/16.04/tfs15/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/16.04/tfs15/Dockerfile)
+- [`ubuntu-16.04-tfs15-docker-1.11.2`](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/16.04/tfs15/docker/1.11.2/Dockerfile) [(ubuntu/16.04/tfs15/docker/1.11.2/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/16.04/tfs15/docker/1.11.2/Dockerfile)
+- [`ubuntu-16.04-tfs15-docker-1.12.1`](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/16.04/tfs15/docker/1.12.1/Dockerfile) [(ubuntu/16.04/tfs15/docker/1.12.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/2622be1bdcc605fd77ca26b3676a4b1a7596b3a7/ubuntu/16.04/tfs15/docker/1.12.1/Dockerfile)
 
-Ubuntu 14.04 and Ubuntu 16.04 are currently supported OSes with CentOS 7.2 support coming shortly.
+Ubuntu 14.04 and Ubuntu 16.04 are the currently supported OSes with CentOS 7.2 support coming shortly.
 
-If not specified, the VSTS version is automatically determined at container startup. Automatic determination is preferred to ensure the correct version of the agent is chosen, and is reasonably used for scenarios where the container is long running. Specific versions can be used when the version is already known and container startup performance is more critical.
+When used with VSTS, the agent version is automatically determined at container startup based on the account to which the agent is being connected. When used with TFS, a specific versioned image should be chosen.
 
 Additional images that are based on the standalone agent images provide a variety of capabilities that enable it to support specific VSTS build and release tasks.
 
@@ -52,6 +34,7 @@ VSTS agents must be started with account connection information, which is provid
 - `VSTS_TOKEN`: a personal access token (PAT) for the Visual Studio account that has been given at least the **Agent Pools (read, manage)** scope.
 
 To run the default VSTS agent image for a specific Visual Studio account:
+
 ```
 docker run \
   -e VSTS_ACCOUNT=<name> \
@@ -67,7 +50,8 @@ VSTS agents can be further configured with additional environment variables:
 
 The `VSTS_AGENT` and `VSTS_WORK` values are evaluated inside the container as an expression so they can use shell expansions. The `VSTS_AGENT` value is evaluated first, so the `VSTS_WORK` value may reference the expanded `VSTS_AGENT` value.
 
-To run a particular VSTS agent version on Ubuntu 14.04 for a specific account with a custom agent name, pool and a volume mapped agent work folder:
+To run a VSTS agent on Ubuntu 14.04 for a specific account with a custom agent name, pool and a volume mapped agent work folder:
+
 ```
 docker run \
   -e VSTS_ACCOUNT=<name> \
@@ -76,15 +60,16 @@ docker run \
   -e VSTS_POOL=mypool \
   -e VSTS_WORK='/var/vsts/$VSTS_AGENT' \
   -v /var/vsts:/var/vsts \
-  -it microsoft/vsts-agent:ubuntu-14.04-2.106.0
+  -it microsoft/vsts-agent:ubuntu-14.04
 ```
 
 ## Additional Images
 
 ### `docker` images
-These derived images include a version of the Docker CLI and the most recent version of the Docker Compose CLI. This image cannot run most of the built-in VSTS build or release tasks but it can run tasks that invoke arbitrary Docker workloads.
+These derived images include a version of the Docker CLI and a recent version of the Docker Compose CLI. This image cannot run most of the built-in VSTS build or release tasks but it can run tasks that invoke arbitrary Docker workloads.
 
-These images are not designed to run "docker in docker", but rather to re-use the host instance of Docker. To do this, volume map the host's Docker socket into the container:
+These images are not designed to run "Docker in Docker", but rather to re-use the host instance of Docker. To do this, volume map the host's Docker socket into the container:
+
 ```
 docker run \
   -e VSTS_ACCOUNT=<name> \
