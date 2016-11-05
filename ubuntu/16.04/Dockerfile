@@ -15,11 +15,9 @@ RUN apt-get update \
         libunwind8 \
  && rm -rf /var/lib/apt/lists/*
 
-RUN adduser --system --group vsts
-WORKDIR /home/vsts
+WORKDIR /vsts
 
 COPY ./start.sh .
-RUN chown vsts:vsts start.sh \
- && chmod +x start.sh
+RUN chmod +x start.sh
 
 CMD ["./start.sh"]

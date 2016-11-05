@@ -12,12 +12,13 @@ apply() {
   VERSIONED_DIR=
 
   if [ -z "$VSTS_AGENT_VERSION" ]; then
-    rm -rf $UBUNTU_VERSION
-    mkdir $UBUNTU_VERSION
-  else
-    mkdir $UBUNTU_VERSION/$VSTS_AGENT_RELEASE
+    mkdir -p $UBUNTU_VERSION
+  elif [ "$VSTS_AGENT_VERSION" != "$VSTS_AGENT_RELEASE" ]; then
+    mkdir -p $UBUNTU_VERSION/$VSTS_AGENT_RELEASE
     VERSIONED_SRC=versioned/
     VERSIONED_DIR=/$VSTS_AGENT_RELEASE
+  else
+    return 0
   fi
 
   sed \

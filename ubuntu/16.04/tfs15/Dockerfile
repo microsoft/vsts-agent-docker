@@ -13,17 +13,18 @@ RUN apt-get update \
         libunwind8 \
  && rm -rf /var/lib/apt/lists/*
 
-RUN adduser --system --group vsts
-WORKDIR /home/vsts/agent
+WORKDIR /vsts
 
 RUN set -x \
  && curl -fSL https://github.com/Microsoft/vsts-agent/releases/download/v2.105.7/vsts-agent-ubuntu.16.04-x64-2.105.7.tar.gz -o agent.tgz \
- && tar -xzf agent.tgz \
- && chown -R vsts:vsts . \
+ && mkdir agent \
+ && cd agent \
+ && tar -xzf ../agent.tgz \
+ && chown -R root:root . \
+ && cd .. \
  && rm agent.tgz
 
 COPY ./start.sh .
-RUN chown vsts:vsts start.sh \
- && chmod +x start.sh
+RUN chmod +x start.sh
 
 CMD ["./start.sh"]

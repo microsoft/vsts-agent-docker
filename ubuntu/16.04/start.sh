@@ -18,18 +18,16 @@ fi
 if [ -n "$VSTS_WORK" ]; then
   export VSTS_WORK=$(eval echo $VSTS_WORK)
   mkdir -p "$VSTS_WORK"
-  chown -R vsts:vsts "$VSTS_WORK"
 fi
 
-mkdir /home/vsts/agent
-cd /home/vsts/agent
-chown vsts:vsts .
+mkdir /vsts/agent
+cd /vsts/agent
 
 cleanup() {
   if [ -e "./config.sh" ]; then
-    su vsts -s /bin/bash -c './config.sh remove --unattended \
+    ./bin/Agent.Listener remove --unattended \
       --auth PAT \
-      --token "$VSTS_TOKEN"'
+      --token "$VSTS_TOKEN"
   fi
 }
 
@@ -48,20 +46,23 @@ if [ -z "$VSTS_AGENT_URL" -o "$VSTS_AGENT_URL" == "null" ]; then
 fi
 
 echo Downloading and installing VSTS agent...
-su vsts -s /bin/bash -c 'curl -LsS $VSTS_AGENT_URL | tar -xz' & wait $!
+curl -LsS $VSTS_AGENT_URL | tar -xz & wait $!
+chown -R root:root .
 
-export VSO_AGENT_IGNORE=_,MAIL,PATH,UBUNTU_VERSION,VSTS_AGENT_URL,VSO_AGENT_IGNORE,VSTS_AGENT,VSTS_ACCOUNT,VSTS_TOKEN,VSTS_POOL,VSTS_WORK
+export VSO_AGENT_IGNORE=_,MAIL,OLDPWD,PATH,PWD,UBUNTU_VERSION,VSTS_AGENT_URL,VSO_AGENT_IGNORE,VSTS_AGENT,VSTS_ACCOUNT,VSTS_TOKEN,VSTS_POOL,VSTS_WORK
 if [ -n "$VSTS_AGENT_IGNORE" ]; then
   export VSO_AGENT_IGNORE=$VSO_AGENT_IGNORE,VSTS_AGENT_IGNORE,$VSTS_AGENT_IGNORE
 fi
 
-su vsts -s /bin/bash -c './config.sh --unattended \
+source ./env.sh
+
+./bin/Agent.Listener configure --unattended \
   --agent "${VSTS_AGENT:-$(hostname)}" \
   --url "https://$VSTS_ACCOUNT.visualstudio.com" \
   --auth PAT \
   --token "$VSTS_TOKEN" \
   --pool "${VSTS_POOL:-Default}" \
   --work "${VSTS_WORK:-_work}" \
-  --replace' & wait $!
+  --replace & wait $!
 
-su vsts -s /bin/bash -c ./run.sh & wait $!
+./bin/Agent.Listener run & wait $!
