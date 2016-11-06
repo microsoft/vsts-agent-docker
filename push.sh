@@ -3,6 +3,8 @@ set -e
 
 cd "$(dirname $0)"
 
-ubuntu/push.sh
+while read dir; do
+  docker push microsoft/vsts-agent:${dir//\//-}
+done < <(./dirs.sh)
 
 docker push microsoft/vsts-agent:latest

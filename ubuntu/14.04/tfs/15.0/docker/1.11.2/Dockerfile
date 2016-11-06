@@ -1,4 +1,4 @@
-FROM microsoft/vsts-agent:ubuntu-16.04-tfs15
+FROM microsoft/vsts-agent:ubuntu-14.04-tfs-15.0
 
 ENV DOCKER_BUCKET get.docker.com
 ENV DOCKER_VERSION 1.11.2
@@ -19,9 +19,3 @@ RUN set -x \
  && curl -fSL "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m`" -o /usr/local/bin/docker-compose \
  && chmod +x /usr/local/bin/docker-compose \
  && docker-compose -v
-
-COPY ./docker-start.sh .
-RUN chown vsts:vsts docker-start.sh \
- && chmod +x docker-start.sh
-
-CMD ["./docker-start.sh"]
