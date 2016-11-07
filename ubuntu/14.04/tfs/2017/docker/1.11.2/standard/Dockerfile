@@ -39,7 +39,10 @@ RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
  && rm -rf ~/n
 
 # Configure environment variables
-RUN export M2_HOME=$(which mvn) \
- && export ANT_HOME=$(which ant) \
- && export dotnet=$(which dotnet) \
- && export GRADLE_HOME=$(which gradle)
+ENV ANT_HOME=/usr/share/ant \
+    bower=/usr/local/bin/bower \
+    dotnet=/usr/bin/dotnet \
+    GRADLE_HOME=/usr/share/gradle \
+    grunt=/usr/local/bin/grunt \
+    JAVA_HOME=/usr/lib/jvm/default-java \
+    M2_HOME=/usr/share/maven \
