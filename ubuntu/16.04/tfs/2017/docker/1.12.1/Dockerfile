@@ -1,4 +1,4 @@
-FROM microsoft/vsts-agent:ubuntu-16.04-tfs-15.0
+FROM microsoft/vsts-agent:ubuntu-16.04-tfs-2017
 
 ENV DOCKER_BUCKET get.docker.com
 ENV DOCKER_VERSION 1.12.1
