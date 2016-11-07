@@ -32,9 +32,11 @@ RUN echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release
     dotnet-dev-1.0.0-preview2-003131 \
  && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js and related build tools
-RUN curl -sL https://git.io/n-install | N_PREFIX=/usr/local/nodejs bash -s -- -y
-RUN npm install -g bower grunt gulp
+# Install stable Node.js and related build tools
+RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
+ && ~/n/bin/n stable \
+ && npm install -g bower grunt gulp n \
+ && rm -rf ~/n
 
 # Configure environment variables
 RUN export M2_HOME=$(which mvn) \
