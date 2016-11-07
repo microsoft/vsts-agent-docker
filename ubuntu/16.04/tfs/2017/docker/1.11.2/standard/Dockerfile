@@ -1,4 +1,4 @@
-FROM microsoft/vsts-agent:ubuntu-16.04-tfs-15.0-docker-1.11.2
+FROM microsoft/vsts-agent:ubuntu-16.04-tfs-2017-docker-1.11.2
 
 # Install packages
 RUN echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list \

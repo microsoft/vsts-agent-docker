@@ -1,7 +1,7 @@
-FROM microsoft/vsts-agent:ubuntu-16.04-tfs-15.0-docker-1.12.1
+FROM microsoft/vsts-agent:ubuntu-14.04-tfs-2017-docker-1.11.2
 
 # Install packages
-RUN echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list \
+RUN echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release/ trusty main" > /etc/apt/sources.list.d/dotnetdev.list \
  && apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893 \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -24,7 +24,7 @@ RUN echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release
     python \
     python3 \
     # Java and related build tools
-    openjdk-8-jdk \
+    openjdk-7-jdk \
     ant \
     gradle \
     maven \
