@@ -5,8 +5,6 @@ RUN echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release
  && apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893 \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
-    # Essential build tools (gcc, make, etc.)
-    build-essential \
     # Basic utilities
     curl \
     dnsutils \
@@ -20,6 +18,8 @@ RUN echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release
     unzip \
     wget \
     zip \
+    # Essential build tools (gcc, make, etc.)
+    build-essential \
     # Python
     python \
     python3 \

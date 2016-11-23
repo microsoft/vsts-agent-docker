@@ -1,1 +1,1 @@
-ubuntu-16.04-docker-1.12.1
+ubuntu-16.04-docker-1.12.1-standard

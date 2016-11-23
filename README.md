@@ -19,13 +19,13 @@ VSTS agent images are tagged according to the base OS, an optional Team Foundati
 - [`ubuntu-16.04-tfs-2017-docker-1.11.2`](https://github.com/microsoft/vsts-agent-docker/blob/e8d78f64a61630239f6d6a2ec7e805089edc9376/ubuntu/16.04/tfs/2017/docker/1.11.2/Dockerfile) [(ubuntu/16.04/tfs/2017/docker/1.11.2/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/e8d78f64a61630239f6d6a2ec7e805089edc9376/ubuntu/16.04/tfs/2017/docker/1.11.2/Dockerfile)
 - [`ubuntu-16.04-tfs-2017-docker-1.12.1`](https://github.com/microsoft/vsts-agent-docker/blob/e8d78f64a61630239f6d6a2ec7e805089edc9376/ubuntu/16.04/tfs/2017/docker/1.12.1/Dockerfile) [(ubuntu/16.04/tfs/2017/docker/1.12.1/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/e8d78f64a61630239f6d6a2ec7e805089edc9376/ubuntu/16.04/tfs/2017/docker/1.12.1/Dockerfile)
 
-Ubuntu 14.04 and Ubuntu 16.04 are the currently supported OSes with CentOS 7.2 support coming shortly.
+Ubuntu 14.04 and Ubuntu 16.04 are the currently supported OSes with plans for CentOS 7.2 support.
 
-When used with VSTS, the agent version is automatically determined at container startup based on the account to which the agent is being connected. When used with TFS, a specific versioned image should be chosen.
+When used with VSTS, the agent version is automatically determined and downloaded at container startup based on the account to which the agent is connecting. When used with TFS, an image that matches the installed TFS version should be chosen.
 
 Additional images that are based on the standalone agent images provide a variety of capabilities that enable it to support specific VSTS build and release tasks.
 
-The `latest` tag always points at a standard image based on the best supported OS with automatic agent version determination, as well as including capabilities that enable many of the built-in VSTS build and release tasks. 
+The `latest` tag always points at a standard image based on the best supported OS that targets VSTS and includes capabilities enabling many of the built-in VSTS build and release tasks.
 
 ## How to use these images
 VSTS agents must be started with account connection information, which is provided through two environment variables:
@@ -68,7 +68,7 @@ docker run \
 ### `docker` images
 These derived images include a version of the Docker CLI and a recent version of the Docker Compose CLI. This image cannot run most of the built-in VSTS build or release tasks but it can run tasks that invoke arbitrary Docker workloads.
 
-These images are not designed to run "Docker in Docker", but rather to re-use the host instance of Docker. To do this, volume map the host's Docker socket into the container:
+These images do not run "Docker in Docker", but rather re-use the host instance of Docker. To enable this, volume map the host's Docker socket into the container:
 
 ```
 docker run \
@@ -79,4 +79,12 @@ docker run \
 ```
 
 ### `standard` images
-These images are based on the `docker` images and include a set of standard capabilities that enable many of the built-in VSTS build and release tasks as well as providing support for arbitrary Docker workloads.
+These derived images are based on the `docker` images and include a set of standard capabilities that enable many of the built-in VSTS build and release tasks. The standard toolset includes:
+
+- Basic command-line utilities (curl, ftp, etc.)
+- Essential build tools (gcc, make, etc.)
+- Python and Python 3
+- OpenJDK 7 (Ubuntu 14.04) or 8 (Ubuntu 16.04)
+- Java tools (ant, gradle, maven)
+- .NET Core SDK
+- Node.js (latest stable version)
