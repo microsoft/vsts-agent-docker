@@ -26,6 +26,7 @@ RUN echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release
     # Java and related build tools
     openjdk-$(OPENJDK_VERSION)-jdk \
     ant \
+    ant-optional \
     # .NET Core SDK
     dotnet-dev-1.0.0-preview2-003131 \
  && rm -rf /var/lib/apt/lists/*
