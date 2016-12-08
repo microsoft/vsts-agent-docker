@@ -10,20 +10,19 @@ RUN choco install \
     nodejs \
     jdk8 \
     curl \
-    microsoft-build-tools \
     maven \
     gradle \
     ant \
     docker \
     ruby \
+    visualstudio2015community \
     --confirm \
     ---limit-output \
-    --timeout 216000 \
-    && rmdir /S /Q C:\chococache
+    --timeout 216000
    # choco install visualstudio2015community --confirm --timeout 216000 \
 
 # common node tools
-RUN npm install gulp -g && npm install grunt -g && npm install -g less
+RUN npm install gulp -g && npm install grunt -g && npm install -g less && npm install phantomjs -g
 
 #.NET Core 1.0 Runtime
 ENV DOTNET_VERSION 1.0.1
@@ -70,9 +69,10 @@ RUN setx /M PATH "%PATH%;%ProgramFiles%\dotnet"
 # Trigger the population of the local package cache
 ENV NUGET_XMLDOC_MODE skip
 
-RUN mkdir warmup \
-    && cd warmup \
+RUN mkdir C:\warmup \
+    && cd C:\warmup \
     && dotnet new \
     && cd .. \
-    && rmdir /q/s warmup
+    && rmdir /S /Q C:\warmup \
+    && rmdir /S /Q C:\chococache
 
