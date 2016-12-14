@@ -55,5 +55,5 @@ ENV ANT_HOME=/usr/share/ant \
     dotnet=/usr/bin/dotnet \
     GRADLE_HOME=/usr/share/gradle \
     grunt=/usr/local/bin/grunt \
-    JAVA_HOME=/usr/lib/jvm/default-java \
+    JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64 \
     M2_HOME=/usr/share/maven \
