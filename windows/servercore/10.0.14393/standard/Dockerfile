@@ -43,7 +43,9 @@ RUN choco install \
     --package-parameters "--includeOptional"
 
 # common node tools
-RUN npm install gulp -g && npm install grunt -g && npm install -g less && npm install phantomjs -g
+RUN npm install gulp -g && npm install grunt -g && npm install -g less && npm install phantomjs-prebuilt -g
+
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Install .NET Core
 ENV DOTNET_VERSION 1.1.1
@@ -68,6 +70,8 @@ ENV DOTNET_SDK_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/Sdk/$
 RUN Invoke-WebRequest $Env:DOTNET_SDK_DOWNLOAD_URL -OutFile dotnet.zip; \
     Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet; \
     Remove-Item -Force dotnet.zip
+
+SHELL ["cmd", "/S", "/C"]
 
 RUN setx /M PATH "%PATH%;%ProgramFiles%\dotnet"
 
