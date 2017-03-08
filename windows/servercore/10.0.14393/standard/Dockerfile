@@ -15,54 +15,59 @@ RUN choco install \
     ant \
     docker \
     ruby \
-    visualstudio2015community \
     --confirm \
-    ---limit-output \
+    --limit-output \
     --timeout 216000
    # choco install visualstudio2015community --confirm --timeout 216000 \
+
+RUN choco install \
+    dotnet4.6.1 \
+    --confirm \
+    --limit-output
+
+RUN choco install \
+    visualstudio2017enterprise --package-parameters "--passive --locale en-US" \
+    --confirm \
+    --limit-output \
+    --timeout 216000 \
+    -pre
+
+RUN choco install \
+    visualstudio2017-workload-azure \
+    visualstudio2017-workload-netcoretools \
+    visualstudio2017-workload-netweb \
+    -pre \
+    --confirm \
+    --limit-output \
+    --timeout 21600 \
+    --package-parameters "--includeOptional"
 
 # common node tools
 RUN npm install gulp -g && npm install grunt -g && npm install -g less && npm install phantomjs -g
 
-#.NET Core 1.0 Runtime
-ENV DOTNET_VERSION 1.0.1
-ENV DOTNET_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/preview/Binaries/$DOTNET_VERSION/dotnet-win-x64.$DOTNET_VERSION.zip
-
-RUN powershell -NoProfile -Command \
-        $ErrorActionPreference = 'Stop'; \
-        Invoke-WebRequest %DOTNET_DOWNLOAD_URL% -OutFile dotnet.zip; \
-        Expand-Archive dotnet.zip -DestinationPath '%ProgramFiles%\dotnet' -Force; \
-        Remove-Item -Force dotnet.zip
-
-# .NET Core SDK
-ENV DOTNET_SDK_VERSION 1.0.0-preview2-1-003177
-ENV DOTNET_SDK_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/preview/Binaries/$DOTNET_SDK_VERSION/dotnet-dev-win-x64.$DOTNET_SDK_VERSION.zip
-
-RUN powershell -NoProfile -Command \
-        $ErrorActionPreference = 'Stop'; \
-        Invoke-WebRequest %DOTNET_SDK_DOWNLOAD_URL% -OutFile dotnet.zip; \
-        Expand-Archive dotnet.zip -DestinationPath '%ProgramFiles%\dotnet' -Force; \
-        Remove-Item -Force dotnet.zip
-
-# .NET Core 1.1 Runtime
-ENV DOTNET_VERSION 1.1.0
+# Install .NET Core
+ENV DOTNET_VERSION 1.1.1
 ENV DOTNET_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/release/1.1.0/Binaries/$DOTNET_VERSION/dotnet-win-x64.$DOTNET_VERSION.zip
 
-RUN powershell -NoProfile -Command \
-        $ErrorActionPreference = 'Stop'; \
-        Invoke-WebRequest %DOTNET_DOWNLOAD_URL% -OutFile dotnet.zip; \
-        Expand-Archive dotnet.zip -DestinationPath '%ProgramFiles%\dotnet' -Force; \
-        Remove-Item -Force dotnet.zip
+RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
+    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet; \
+    Remove-Item -Force dotnet.zip
 
-# .NET Core SDK
-# ENV DOTNET_SDK_VERSION 1.0.0-preview3-004056
-# ENV DOTNET_SDK_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/preview/Binaries/$DOTNET_SDK_VERSION/dotnet-dev-win-x64.$DOTNET_SDK_VERSION.zip
+# Install .NET Core
+ENV DOTNET_VERSION 1.0.4
+ENV DOTNET_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/preview/Binaries/$DOTNET_VERSION/dotnet-win-x64.$DOTNET_VERSION.zip
 
-# RUN powershell -NoProfile -Command \
-#        $ErrorActionPreference = 'Stop'; \
-#        Invoke-WebRequest %DOTNET_SDK_DOWNLOAD_URL% -OutFile dotnet.zip; \
-#        Expand-Archive dotnet.zip -DestinationPath '%ProgramFiles%\dotnet' -Force; \
-#        Remove-Item -Force dotnet.zip
+RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
+    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet; \
+    Remove-Item -Force dotnet.zip
+    
+# Install .NET Core SDK
+ENV DOTNET_SDK_VERSION 1.0.1
+ENV DOTNET_SDK_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/Sdk/$DOTNET_SDK_VERSION/dotnet-dev-win-x64.$DOTNET_SDK_VERSION.zip
+
+RUN Invoke-WebRequest $Env:DOTNET_SDK_DOWNLOAD_URL -OutFile dotnet.zip; \
+    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet; \
+    Remove-Item -Force dotnet.zip
 
 RUN setx /M PATH "%PATH%;%ProgramFiles%\dotnet"
 
