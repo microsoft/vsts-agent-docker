@@ -2,7 +2,7 @@ FROM microsoft/vsts-agent:ubuntu-16.04-tfs-2017-docker-1.12.1
 
 # Install packages
 RUN echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list \
- && apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893 \
+ && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893 \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
     # Basic utilities
@@ -28,7 +28,7 @@ RUN echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release
     ant \
     ant-optional \
     # .NET Core SDK
-    dotnet-dev-1.0.0-preview2-003131 \
+    dotnet-dev-1.0.1 \
  && rm -rf /var/lib/apt/lists/*
 
 # Install maven separately to avoid apt-get errors

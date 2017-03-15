@@ -87,7 +87,9 @@ docker run \
 ```
 
 ### `standard` images
-These derived images are based on the `docker` images and include a set of standard capabilities that enable many of the built-in VSTS build and release tasks. The standard toolset includes:
+These derived images are based on the `docker` images and include a set of standard capabilities that enable many of the built-in VSTS build and release tasks.
+
+The Ubuntu-based images include the following tools:
 
 - Basic command-line utilities (curl, ftp, etc.)
 - Essential build tools (gcc, make, etc.)
@@ -96,3 +98,5 @@ These derived images are based on the `docker` images and include a set of stand
 - Java tools (ant, gradle, maven)
 - .NET Core SDK
 - Node.js (latest stable version)
+
+For details on the specific versions of these tools, see [this](https://github.com/Microsoft/vsts-agent-docker/tree/master/ubuntu/derived/standard) page.
