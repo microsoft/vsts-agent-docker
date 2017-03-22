@@ -9,7 +9,7 @@ The Ubuntu-based standard images include the following tools:
 - .NET Core SDK
 - Node.js (latest stable version)
 
-The standard images are versioned according to their build date, which allows you to reference an image that guarantees particular versions of the underlying tools. The following sections describe which versions of the key tools described above are included in each versioned image.
+The default standard images are updated periodically with newer versions of the above tools. If you want to lock down to specific versions, you can reference a specific build, described in the following sections.
 
 ## ubuntu-14.04
 
