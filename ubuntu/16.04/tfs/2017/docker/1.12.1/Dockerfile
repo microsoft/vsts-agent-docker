@@ -13,7 +13,7 @@ RUN set -x \
  && rm docker.tgz \
  && docker -v
 
-ENV DOCKER_COMPOSE_VERSION 1.8.0
+ENV DOCKER_COMPOSE_VERSION 1.11.2
 
 RUN set -x \
  && curl -fSL "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m`" -o /usr/local/bin/docker-compose \

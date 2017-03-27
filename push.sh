@@ -10,9 +10,8 @@ while read dir; do
     docker tag microsoft/vsts-agent:${dir//\//-} microsoft/vsts-agent:${dir//\//-}-$DATE
     docker push microsoft/vsts-agent:${dir//\//-}-$DATE
     docker rmi microsoft/vsts-agent:${dir//\//-}-$DATE
-  else
-    docker push microsoft/vsts-agent:${dir//\//-}
   fi
+  docker push microsoft/vsts-agent:${dir//\//-}
 done < <(./dirs.sh)
 
 docker push microsoft/vsts-agent:latest
