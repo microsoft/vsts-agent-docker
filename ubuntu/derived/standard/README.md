@@ -13,6 +13,15 @@ The default standard images are updated periodically with newer versions of the 
 
 ## ubuntu-14.04
 
+### build 2017-03-27 (20170327)
+- Python 2.7.6, 3.4.3
+- OpenJDK 1.7.0_121
+- Ant 1.9.3
+- Gradle 1.4
+- Maven 3.0.5
+- .NET Core SDK 1.0.1
+- Node.js v7.6.0
+
 ### build 2017-03-15 (20170315)
 - Python 2.7.6, 3.4.3
 - OpenJDK 1.7.0_121
@@ -32,6 +41,15 @@ The default standard images are updated periodically with newer versions of the 
 - Node.js v7.2.0
 
 ## ubuntu-16.04
+
+### build 2017-03-27 (20170327)
+- Python 2.7.12, 3.5.2
+- OpenJDK 1.8.0_121
+- Ant 1.9.6
+- Gradle 2.10
+- Maven 3.3.9
+- .NET Core SDK 1.0.1
+- Node.js v7.6.0
 
 ### build 2017-03-15 (20170315)
 - Python 2.7.12, 3.5.2
