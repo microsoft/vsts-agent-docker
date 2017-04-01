@@ -3,7 +3,7 @@ set -e
 
 cd "$(dirname $0)"
 
-DATE=$(date +%Y%m%d)
+DATE=${1:-$(date +%Y%m%d)}
 
 while read dir; do
   if [ -n "$(echo $dir | grep /standard$)" ]; then
