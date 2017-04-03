@@ -125,7 +125,7 @@ The Ubuntu-based images include the following tools:
 - Basic command-line utilities (curl, ftp, etc.)
 - Essential build tools (gcc, make, etc.)
 - Python and Python 3
-- OpenJDK 7 (Ubuntu 14.04) or 8 (Ubuntu 16.04)
+- Oracle JDK 6, 7 (Default JDK on 14.04) and 8 (Default JDK on 16.04)
 - Java tools (ant, gradle, maven)
 - .NET Core SDK
 - Node.js (latest stable version)
