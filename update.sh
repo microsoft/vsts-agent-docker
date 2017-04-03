@@ -46,14 +46,14 @@ ubuntu() {
         unix2dos -q $DOCKER_DIR/Dockerfile
       fi
 
-      while read TARGET_UBUNTU_VERSION UBUNTU_RELEASE OPENJDK_VERSION; do
+      while read TARGET_UBUNTU_VERSION UBUNTU_RELEASE DEFAULT_JDK_VERSION; do
         if [ "$UBUNTU_VERSION" == "$TARGET_UBUNTU_VERSION" ]; then
           STANDARD_DIR=$DOCKER_DIR/standard
           mkdir -p $STANDARD_DIR
           sed \
             -e s/'$(VSTS_AGENT_TAG)'/$VSTS_AGENT_TAG-docker-$DOCKER_VERSION/g \
             -e s/'$(UBUNTU_RELEASE)'/$UBUNTU_RELEASE/g \
-            -e s/'$(OPENJDK_VERSION)'/$OPENJDK_VERSION/g \
+            -e s/'$(DEFAULT_JDK_VERSION)'/$DEFAULT_JDK_VERSION/g \
             derived/standard/Dockerfile.template > $STANDARD_DIR/Dockerfile
           if [ -n "$(which unix2dos)" ]; then
             unix2dos -q $STANDARD_DIR/Dockerfile
