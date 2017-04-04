@@ -23,12 +23,26 @@ RUN echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release
     # Python
     python \
     python3 \
-    # Java and related build tools
-    openjdk-7-jdk \
-    ant \
-    ant-optional \
     # .NET Core SDK
     dotnet-dev-1.0.1 \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install Oracle JDKs
+RUN echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
+ && echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections \
+ && apt-add-repository -y ppa:webupd8team/java \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends \
+    oracle-java6-installer \
+    oracle-java7-installer \
+    oracle-java8-installer \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install ant separately to avoid apt-get errors
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+    ant \
+    ant-optional \
  && rm -rf /var/lib/apt/lists/*
 
 # Install maven separately to avoid apt-get errors
@@ -55,5 +69,9 @@ ENV ANT_HOME=/usr/share/ant \
     dotnet=/usr/bin/dotnet \
     GRADLE_HOME=/usr/share/gradle \
     grunt=/usr/local/bin/grunt \
-    JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64 \
+    JAVA_HOME=/usr/lib/jvm/java-7-oracle \
+    JAVA_HOME_6_X64=/usr/lib/jvm/java-6-oracle \
+    JAVA_HOME_7_X64=/usr/lib/jvm/java-7-oracle \
+    JAVA_HOME_8_X64=/usr/lib/jvm/java-8-oracle \
+    JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8 \
     M2_HOME=/usr/share/maven \
