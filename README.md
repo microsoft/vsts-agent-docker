@@ -104,6 +104,21 @@ docker run \
 
 ## Derived Images
 
+### `standard` images
+These derived images include a set of standard capabilities that enable many of the built-in VSTS build and release tasks. For instance, the Ubuntu-based standard images include:
+
+- Basic command-line utilities (curl, ftp, etc.)
+- Essential build tools (gcc, make, etc.)
+- Oracle JDK 6, 7 (default on 14.04) and 8 (default on 16.04)
+- Java tools (ant, gradle, maven)
+- Python and Python 3
+- Node.js (latest stable version)
+- .NET Core SDK
+
+The standard images are updated periodically with newer versions of the above tools. If you want to lock down to specific versions, you can reference a specific build of a standard image.
+
+For more details on the Ubuntu-based standard images, see [this](https://github.com/Microsoft/vsts-agent-docker/tree/master/ubuntu/derived/standard) page.
+
 ### `docker` images
 These derived images include a version of the Docker CLI and a recent version of the Docker Compose CLI (currently 1.8.0). This image cannot run most of the built-in VSTS build or release tasks but it can run tasks that invoke arbitrary Docker workloads.
 
@@ -117,17 +132,5 @@ docker run \
   -it microsoft/vsts-agent:ubuntu-16.04-docker-1.11.2
 ```
 
-### `standard` images
-These derived images are based on the `docker` images and include a set of standard capabilities that enable many of the built-in VSTS build and release tasks.
-
-The Ubuntu-based images include the following tools:
-
-- Basic command-line utilities (curl, ftp, etc.)
-- Essential build tools (gcc, make, etc.)
-- Python and Python 3
-- Oracle JDK 6, 7 (Default JDK on 14.04) and 8 (Default JDK on 16.04)
-- Java tools (ant, gradle, maven)
-- .NET Core SDK
-- Node.js (latest stable version)
-
-The default standard images are updated periodically with newer versions of the above tools. If you want to lock down to specific versions, you can reference a specific build of a standard image. For more details, see [this](https://github.com/Microsoft/vsts-agent-docker/tree/master/ubuntu/derived/standard) page.
+### `docker-standard` images
+These derived images bring together a docker image and a standard image.

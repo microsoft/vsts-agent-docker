@@ -1,17 +1,20 @@
 ## Standard images
-The Ubuntu-based standard images include the following tools:
+The Ubuntu-based standard images include a set of standard capabilities that enable many of the built-in VSTS build and release tasks.
 
-- Basic command-line utilities (curl, ftp, etc.)
-- Essential build tools (gcc, make, etc.)
-- Python and Python 3
-- Oracle JDK 6, 7 (Default JDK on 14.04) and 8 (Default JDK on 16.04)
-- Java tools (ant, gradle, maven)
-- .NET Core SDK
-- Node.js (latest stable version)
-
-The default standard images are updated periodically with newer versions of the above tools. If you want to lock down to specific versions, you can reference a specific build, described in the following sections.
+This page describes the versions of tools that are available in specific builds of the standard image.
 
 ## ubuntu-14.04
+
+### build 2017-04-05 (20170405)
+- Oracle JDK 6 (1.6.0_45)
+- Oracle JDK 7 (1.7.0_80)
+- Oracle JDK 8 (1.8.0_121)
+- Ant 1.9.3
+- Gradle 1.4
+- Maven 3.0.5
+- Python 2.7.6, 3.4.3
+- Node.js v7.8.0
+- .NET Core SDK 1.0.1
 
 ### build 2017-03-27 (20170327)
 - Python 2.7.6, 3.4.3
@@ -32,6 +35,17 @@ The default standard images are updated periodically with newer versions of the 
 - Node.js v7.6.0
 
 ## ubuntu-16.04
+
+### build 2017-04-05 (20170405)
+- Oracle JDK 6 (1.6.0_45)
+- Oracle JDK 7 (1.7.0_80)
+- Oracle JDK 8 (1.8.0_121)
+- Ant 1.9.6
+- Gradle 2.10
+- Maven 3.3.9
+- Python 2.7.12, 3.5.2
+- Node.js v7.8.0
+- .NET Core SDK 1.0.1
 
 ### build 2017-03-27 (20170327)
 - Python 2.7.12, 3.5.2

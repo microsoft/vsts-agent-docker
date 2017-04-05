@@ -9,6 +9,11 @@ ubuntu() {
   dirs() {
     BASE_DIR=$1
     echo $BASE_DIR
+    while read TARGET_UBUNTU_VERSION na; do
+      if [ -n "$(echo $BASE_DIR | grep ^ubuntu/$TARGET_UBUNTU_VERSION)" ]; then
+        echo $BASE_DIR/standard
+      fi
+    done < <(cat derived/standard/versions | sed 's/\r//')
     while read DOCKER_VERSION na; do
       DOCKER_DIR=$BASE_DIR/docker/$DOCKER_VERSION
       echo $DOCKER_DIR

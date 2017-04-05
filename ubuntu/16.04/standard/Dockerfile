@@ -1,4 +1,4 @@
-FROM microsoft/vsts-agent:$(VSTS_AGENT_TAG)
+FROM microsoft/vsts-agent:ubuntu-16.04
 
 # Install basic utilities and build tools
 RUN apt-get update \
@@ -27,8 +27,8 @@ RUN echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-s
     oracle-java6-installer \
     oracle-java7-installer \
     oracle-java8-installer \
-    oracle-java$(DEFAULT_JDK_VERSION)-set-default \
- && ln -s /usr/lib/jvm/java-$(DEFAULT_JDK_VERSION)-oracle /usr/lib/jvm/default-java \
+    oracle-java8-set-default \
+ && ln -s /usr/lib/jvm/java-8-oracle /usr/lib/jvm/default-java \
  && rm -rf /var/lib/apt/lists/*
 
 # Install ant separately to avoid apt-get errors
@@ -64,7 +64,7 @@ RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
  && rm -rf ~/n
 
 # Install .NET Core SDK
-RUN echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release/ $(UBUNTU_RELEASE) main" > /etc/apt/sources.list.d/dotnetdev.list \
+RUN echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list \
  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893 \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -77,7 +77,7 @@ ENV ANT_HOME=/usr/share/ant \
     dotnet=/usr/bin/dotnet \
     GRADLE_HOME=/usr/share/gradle \
     grunt=/usr/local/bin/grunt \
-    JAVA_HOME=/usr/lib/jvm/java-$(DEFAULT_JDK_VERSION)-oracle \
+    JAVA_HOME=/usr/lib/jvm/java-8-oracle \
     JAVA_HOME_6_X64=/usr/lib/jvm/java-6-oracle \
     JAVA_HOME_7_X64=/usr/lib/jvm/java-7-oracle \
     JAVA_HOME_8_X64=/usr/lib/jvm/java-8-oracle \
