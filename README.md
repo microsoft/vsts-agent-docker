@@ -74,6 +74,7 @@ When using an image that targets a specific TFS version, the connection informat
 
 - `TFS_HOST`: the hostname of the Team Foundation Server
 - `TFS_URL`: the full URL of the Team Foundation Server
+- `VSTS_TOKEN`: a personal access token (PAT) for the Team Foundation Server account that has been given at least the **Agent Pools (read, manage)** scope.
 
 If `TFS_HOST` is provided, the TFS URL is set to `http://$TFS_HOST:8080/tfs`. If `TFS_URL` is provided, any `TFS_HOST` environment variable is ignored.
 
@@ -82,6 +83,7 @@ To run a VSTS agent image for TFS 2017 that identifies the server at `http://myt
 ```
 docker run \
   -e TFS_HOST=mytfs \
+  -e VSTS_TOKEN=<pat> \
   -it microsoft/vsts-agent:ubuntu-16.04-tfs-2017
 ```
 
