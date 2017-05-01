@@ -17,13 +17,15 @@ RUN choco install \
     ruby \
     --confirm \
     --limit-output \
-    --timeout 216000
+    --timeout 216000 \
+    && rmdir /S /Q C:\chococache
    # choco install visualstudio2015community --confirm --timeout 216000 \
 
 RUN choco install \
     dotnet4.6.1 \
     --confirm \
-    --limit-output
+    --limit-output \
+    && rmdir /S /Q C:\chococache
 
 RUN choco install \
     visualstudio2017enterprise \
@@ -31,7 +33,8 @@ RUN choco install \
     --confirm \
     --limit-output \
     --timeout 216000 \
-    -pre
+    -pre \
+    && rmdir /S /Q C:\chococache
 
 RUN choco install \
     visualstudio2017-workload-azure \
@@ -41,7 +44,8 @@ RUN choco install \
     --confirm \
     --limit-output \
     --timeout 21600 \
-    --package-parameters "--includeOptional"
+    --package-parameters "--includeOptional" \
+    && rmdir /S /Q C:\chococache
 
 # common node tools
 RUN npm install gulp -g && npm install grunt -g && npm install -g less && npm install phantomjs-prebuilt -g
@@ -83,6 +87,5 @@ RUN mkdir C:\warmup \
     && cd C:\warmup \
     && dotnet new \
     && cd .. \
-    && rmdir /S /Q C:\warmup \
-    && rmdir /S /Q C:\chococache
+    && rmdir /S /Q C:\warmup 
 
