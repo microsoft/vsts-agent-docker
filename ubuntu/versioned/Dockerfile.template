@@ -15,6 +15,11 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends git-lfs \
  && rm -rf /var/lib/apt/lists/*
 
+# Accept the TEE EULA
+RUN mkdir -p "/root/.microsoft/Team Foundation/4.0/Configuration/TEE-Mementos" \
+ && cd "/root/.microsoft/Team Foundation/4.0/Configuration/TEE-Mementos" \
+ && echo '<ProductIdData><eula-14.0 value="true"/></ProductIdData>' > "com.microsoft.tfs.client.productid.xml"
+
 WORKDIR /vsts
 
 RUN set -x \
