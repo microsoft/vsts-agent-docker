@@ -6,6 +6,7 @@ RUN apt-get update \
     build-essential \
     curl \
     dnsutils \
+    file \
     ftp \
     iproute2 \
     iputils-ping \
@@ -70,6 +71,9 @@ RUN echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release
  && apt-get install -y --no-install-recommends \
     dotnet-dev-1.0.1 \
  && rm -rf /var/lib/apt/lists/*
+
+# Run dotnet command to populate initial cache
+RUN dotnet help
 
 # Configure environment variables
 ENV ANT_HOME=/usr/share/ant \
