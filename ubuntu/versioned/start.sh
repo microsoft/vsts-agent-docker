@@ -45,6 +45,8 @@ source ./env.sh
 ./bin/Agent.Listener configure --unattended \
   --agent "${VSTS_AGENT:-$(hostname)}" \
   --url "$TFS_URL" \
+  --auth PAT \
+  --token "$VSTS_TOKEN" \
   --pool "${VSTS_POOL:-Default}" \
   --work "${VSTS_WORK:-_work}" \
   --replace & wait $!

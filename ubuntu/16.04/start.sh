@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+if [ -e /vsts/agent -a ! -e /vsts/agent/.agent ]; then
+  rm -rf /vsts/agent
+fi
+
 if [ -e /vsts/agent ]; then
   export VSO_AGENT_IGNORE=_,MAIL,OLDPWD,PATH,PWD,UBUNTU_VERSION,VSO_AGENT_IGNORE
   if [ -n "$VSTS_AGENT_IGNORE" ]; then
