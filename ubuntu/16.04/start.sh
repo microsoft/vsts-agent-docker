@@ -1,6 +1,17 @@
 #!/bin/bash
 set -e
 
+if [ -e /vsts/agent ]; then
+  export VSO_AGENT_IGNORE=_,MAIL,OLDPWD,PATH,PWD,UBUNTU_VERSION,VSO_AGENT_IGNORE
+  if [ -n "$VSTS_AGENT_IGNORE" ]; then
+    export VSO_AGENT_IGNORE=$VSO_AGENT_IGNORE,VSTS_AGENT_IGNORE,$VSTS_AGENT_IGNORE
+  fi
+  trap 'kill -SIGINT $!; exit 130' INT
+  trap 'kill -SIGTERM $!; exit 143' TERM
+  /vsts/agent/bin/Agent.Listener run & wait $!
+  exit $?
+fi
+
 if [ -z "$VSTS_ACCOUNT" ]; then
   echo 1>&2 error: missing VSTS_ACCOUNT environment variable
   exit 1

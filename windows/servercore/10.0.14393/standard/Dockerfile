@@ -26,7 +26,8 @@ RUN choco install \
     --limit-output
 
 RUN choco install \
-    visualstudio2017enterprise --package-parameters "--passive --locale en-US" \
+    visualstudio2017enterprise \
+    --package-parameters "--passive --locale en-US --includeOptional" \
     --confirm \
     --limit-output \
     --timeout 216000 \
@@ -52,7 +53,7 @@ ENV DOTNET_VERSION 1.1.1
 ENV DOTNET_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/release/1.1.0/Binaries/$DOTNET_VERSION/dotnet-win-x64.$DOTNET_VERSION.zip
 
 RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
-    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet; \
+    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
     Remove-Item -Force dotnet.zip
 
 # Install .NET Core
@@ -60,7 +61,7 @@ ENV DOTNET_VERSION 1.0.4
 ENV DOTNET_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/preview/Binaries/$DOTNET_VERSION/dotnet-win-x64.$DOTNET_VERSION.zip
 
 RUN Invoke-WebRequest $Env:DOTNET_DOWNLOAD_URL -OutFile dotnet.zip; \
-    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet; \
+    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
     Remove-Item -Force dotnet.zip
     
 # Install .NET Core SDK
@@ -68,7 +69,7 @@ ENV DOTNET_SDK_VERSION 1.0.1
 ENV DOTNET_SDK_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/Sdk/$DOTNET_SDK_VERSION/dotnet-dev-win-x64.$DOTNET_SDK_VERSION.zip
 
 RUN Invoke-WebRequest $Env:DOTNET_SDK_DOWNLOAD_URL -OutFile dotnet.zip; \
-    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet; \
+    Expand-Archive dotnet.zip -DestinationPath $Env:ProgramFiles\dotnet -Force; \
     Remove-Item -Force dotnet.zip
 
 SHELL ["cmd", "/S", "/C"]

@@ -1,9 +1,13 @@
 #!/bin/bash
 set -e
 
-if [ -z "$VSTS_ACCOUNT" ]; then
-  echo 1>&2 error: missing VSTS_ACCOUNT environment variable
+if [ -z "$TFS_HOST" -a -z "$TFS_URL" ]; then
+  echo 1>&2 error: missing TFS_HOST environment variable
   exit 1
+fi
+
+if [ -z "$TFS_URL" ]; then
+  export TFS_URL=http://$TFS_HOST:8080/tfs
 fi
 
 if [ -z "$VSTS_TOKEN" ]; then
@@ -31,7 +35,7 @@ cleanup() {
 trap 'cleanup; exit 130' INT
 trap 'cleanup; exit 143' TERM
 
-export VSO_AGENT_IGNORE=_,MAIL,OLDPWD,PATH,PWD,VSO_AGENT_IGNORE,VSTS_AGENT,VSTS_ACCOUNT,VSTS_TOKEN,VSTS_POOL,VSTS_WORK
+export VSO_AGENT_IGNORE=_,MAIL,OLDPWD,PATH,PWD,VSO_AGENT_IGNORE,VSTS_AGENT,TFS_HOST,TFS_URL,VSTS_TOKEN,VSTS_POOL,VSTS_WORK
 if [ -n "$VSTS_AGENT_IGNORE" ]; then
   export VSO_AGENT_IGNORE=$VSO_AGENT_IGNORE,VSTS_AGENT_IGNORE,$VSTS_AGENT_IGNORE
 fi
@@ -40,9 +44,7 @@ source ./env.sh
 
 ./bin/Agent.Listener configure --unattended \
   --agent "${VSTS_AGENT:-$(hostname)}" \
-  --url "https://$VSTS_ACCOUNT.visualstudio.com" \
-  --auth PAT \
-  --token "$VSTS_TOKEN" \
+  --url "$TFS_URL" \
   --pool "${VSTS_POOL:-Default}" \
   --work "${VSTS_WORK:-_work}" \
   --replace & wait $!
