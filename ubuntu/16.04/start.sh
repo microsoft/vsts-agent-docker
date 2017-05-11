@@ -1,11 +1,12 @@
 #!/bin/bash
 set -e
+shopt -s extglob
 
 if [ -e /vsts/agent -a ! -e /vsts/agent/.agent ]; then
-  rm -rf /vsts/agent
+  rm -rf /vsts/agent/!(_work)
 fi
 
-if [ -e /vsts/agent ]; then
+if [ -e /vsts/agent -a -e /vsts/agent/bin/Agent.Listener ]; then
   export VSO_AGENT_IGNORE=_,MAIL,OLDPWD,PATH,PWD,UBUNTU_VERSION,VSO_AGENT_IGNORE
   if [ -n "$VSTS_AGENT_IGNORE" ]; then
     export VSO_AGENT_IGNORE=$VSO_AGENT_IGNORE,VSTS_AGENT_IGNORE,$VSTS_AGENT_IGNORE
@@ -35,7 +36,6 @@ if [ -n "$VSTS_WORK" ]; then
   mkdir -p "$VSTS_WORK"
 fi
 
-mkdir /vsts/agent
 cd /vsts/agent
 
 cleanup() {
