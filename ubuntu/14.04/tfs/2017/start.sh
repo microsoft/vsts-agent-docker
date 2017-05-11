@@ -32,6 +32,11 @@ cleanup() {
     --token "$VSTS_TOKEN"
 }
 
+if [ -e /vsts/agent/.agent ]; then
+  echo "Agent config still exists, removing it..."
+  cleanup
+fi
+
 trap 'cleanup; exit 130' INT
 trap 'cleanup; exit 143' TERM
 
