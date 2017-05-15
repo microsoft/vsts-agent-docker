@@ -1,11 +1,7 @@
 #!/bin/bash
 set -e
 
-if [ -e /vsts/agent -a ! -e /vsts/agent/.agent ]; then
-  rm -rf /vsts/agent
-fi
-
-if [ -e /vsts/agent ]; then
+if [ ! -e /vsts/.configure -a -e /vsts/agent ]; then
   export VSO_AGENT_IGNORE=_,MAIL,OLDPWD,PATH,PWD,UBUNTU_VERSION,VSO_AGENT_IGNORE
   if [ -n "$VSTS_AGENT_IGNORE" ]; then
     export VSO_AGENT_IGNORE=$VSO_AGENT_IGNORE,VSTS_AGENT_IGNORE,$VSTS_AGENT_IGNORE
@@ -27,19 +23,21 @@ if [ -z "$VSTS_TOKEN" ]; then
 fi
 
 if [ -n "$VSTS_AGENT" ]; then
-  export VSTS_AGENT=$(eval echo $VSTS_AGENT)
+  export VSTS_AGENT="$(eval echo $VSTS_AGENT)"
 fi
 
 if [ -n "$VSTS_WORK" ]; then
-  export VSTS_WORK=$(eval echo $VSTS_WORK)
+  export VSTS_WORK="$(eval echo $VSTS_WORK)"
   mkdir -p "$VSTS_WORK"
 fi
 
+touch /vsts/.configure
+rm -rf /vsts/agent
 mkdir /vsts/agent
 cd /vsts/agent
 
 cleanup() {
-  if [ -e "./config.sh" ]; then
+  if [ -e config.sh ]; then
     ./bin/Agent.Listener remove --unattended \
       --auth PAT \
       --token "$VSTS_TOKEN"

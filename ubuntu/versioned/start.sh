@@ -16,11 +16,11 @@ if [ -z "$VSTS_TOKEN" ]; then
 fi
 
 if [ -n "$VSTS_AGENT" ]; then
-  export VSTS_AGENT=$(eval echo $VSTS_AGENT)
+  export VSTS_AGENT="$(eval echo $VSTS_AGENT)"
 fi
 
 if [ -n "$VSTS_WORK" ]; then
-  export VSTS_WORK=$(eval echo $VSTS_WORK)
+  export VSTS_WORK="$(eval echo $VSTS_WORK)"
   mkdir -p "$VSTS_WORK"
 fi
 
@@ -32,8 +32,8 @@ cleanup() {
     --token "$VSTS_TOKEN"
 }
 
-if [ -e /vsts/agent/.agent ]; then
-  echo "Agent config still exists, removing it..."
+if [ -e .agent ]; then
+  echo "Removing existing VSTS agent configuration..."
   cleanup
 fi
 
