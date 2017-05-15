@@ -7,7 +7,7 @@ if [ -z "$TFS_HOST" -a -z "$TFS_URL" ]; then
 fi
 
 if [ -z "$TFS_URL" ]; then
-  export TFS_URL=http://$TFS_HOST:8080/tfs
+  export TFS_URL=https://$TFS_HOST/tfs
 fi
 
 if [ -z "$VSTS_TOKEN" ]; then
