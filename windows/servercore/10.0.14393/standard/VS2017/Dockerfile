@@ -33,14 +33,12 @@ RUN choco install \
     --confirm \
     --limit-output \
     --timeout 216000 \
-    -pre \
     && rmdir /S /Q C:\chococache
 
 RUN choco install \
     visualstudio2017-workload-azure \
     visualstudio2017-workload-netcoretools \
     visualstudio2017-workload-netweb \
-    -pre \
     --confirm \
     --limit-output \
     --timeout 21600 \
