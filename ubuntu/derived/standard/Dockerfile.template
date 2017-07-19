@@ -17,6 +17,7 @@ RUN apt-get update \
     unzip \
     wget \
     zip \
+    tzdata \
  && rm -rf /var/lib/apt/lists/*
 
 # Install cmake
