@@ -19,18 +19,22 @@ RUN apt-get update \
     zip \
  && rm -rf /var/lib/apt/lists/*
 
-# Install Oracle JDKs
-RUN echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
- && echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections \
- && apt-add-repository -y ppa:webupd8team/java \
- && apt-get update \
- && apt-get install -y --no-install-recommends \
-    oracle-java6-installer \
-    oracle-java7-installer \
-    oracle-java8-installer \
-    oracle-java$(DEFAULT_JDK_VERSION)-set-default \
- && ln -s /usr/lib/jvm/java-$(DEFAULT_JDK_VERSION)-oracle /usr/lib/jvm/default-java \
+# Install cmake
+RUN echo Downloading cmake... \
+ && curl -sL https://cmake.org/files/v3.8/cmake-3.8.2-Linux-x86_64.sh -o cmake.sh \
+ && chmod +x cmake.sh \
+ && ./cmake.sh --prefix=/usr/local --exclude-subdir \
+ && rm -rf cmake.sh
+
+# Install Open JDKs (separate commands to avoid apt-get errors)
+RUN apt-add-repository -y ppa:openjdk-r/ppa
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends openjdk-7-jdk \
  && rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends openjdk-8-jdk \
+ && rm -rf /var/lib/apt/lists/*
+RUN update-alternatives --set java /usr/lib/jvm/java-$(DEFAULT_JDK_VERSION)-openjdk-amd64/jre/bin/java
 
 # Install ant separately to avoid apt-get errors
 RUN apt-get update \
@@ -69,7 +73,7 @@ RUN echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release
  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893 \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
-    dotnet-dev-1.0.1 \
+    dotnet-dev-1.0.4 \
  && rm -rf /var/lib/apt/lists/*
 
 # Run dotnet command to populate initial cache
@@ -81,9 +85,8 @@ ENV ANT_HOME=/usr/share/ant \
     dotnet=/usr/bin/dotnet \
     GRADLE_HOME=/usr/share/gradle \
     grunt=/usr/local/bin/grunt \
-    JAVA_HOME=/usr/lib/jvm/java-$(DEFAULT_JDK_VERSION)-oracle \
-    JAVA_HOME_6_X64=/usr/lib/jvm/java-6-oracle \
-    JAVA_HOME_7_X64=/usr/lib/jvm/java-7-oracle \
-    JAVA_HOME_8_X64=/usr/lib/jvm/java-8-oracle \
+    JAVA_HOME=/usr/lib/jvm/java-$(DEFAULT_JDK_VERSION)-openjdk-amd64 \
+    JAVA_HOME_7_X64=/usr/lib/jvm/java-7-openjdk-amd64 \
+    JAVA_HOME_8_X64=/usr/lib/jvm/java-8-opnejdk-amd64 \
     JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8 \
     M2_HOME=/usr/share/maven
