@@ -6,13 +6,13 @@ This page describes the versions of tools that are available in specific builds 
 ## ubuntu-16.04
 
 ### build 2017-07-19 (20170719)
-- Open JDK 7 (1.7.0_80)
-- Open JDK 8 (1.8.0_121)
+- Open JDK 7 (1.7.0_95)
+- Open JDK 8 (1.8.0_131)
 - Ant 1.9.6
 - Gradle 2.10
 - Maven 3.3.9
 - Python 2.7.12, 3.5.2
-- Node.js v7.10.0
+- Node.js v8.0.0
 - .NET Core SDK 1.0.4
 
 ### build 2017-05-05 (20170505)
