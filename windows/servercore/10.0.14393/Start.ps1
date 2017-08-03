@@ -11,6 +11,11 @@ if ($env:VSTS_TOKEN -eq $null) {
 } else {
     if (Test-Path -Path $env:VSTS_TOKEN -ItemType Leaf) {
         $env:VSTS_TOKEN = Get-Content -Path $env:VSTS_TOKEN -ErrorAction Stop | Where-Object {$_} | Select-Object -First 1
+        
+        if ([string]::IsNullOrEmpty($env:VSTS_TOKEN)) {
+            Write-Error "Missing VSTS_TOKEN file content"
+            exit 1
+        }
     }
 }
 
