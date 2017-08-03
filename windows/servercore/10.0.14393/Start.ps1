@@ -9,7 +9,7 @@ if ($env:VSTS_TOKEN -eq $null) {
     Write-Error "Missing VSTS_TOKEN environment variable"
     exit 1
 } else {
-    if (Test-Path -Path $env:VSTS_TOKEN -ItemType Leaf) {
+    if (Test-Path -Path $env:VSTS_TOKEN -PathType Leaf) {
         $env:VSTS_TOKEN = Get-Content -Path $env:VSTS_TOKEN -ErrorAction Stop | Where-Object {$_} | Select-Object -First 1
         
         if ([string]::IsNullOrEmpty($env:VSTS_TOKEN)) {
