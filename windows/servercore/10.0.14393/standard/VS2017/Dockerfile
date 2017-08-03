@@ -1,4 +1,4 @@
-FROM microsoft/vsts-agent:windows-10.0.14393
+FROM microsoft/vsts-agent:windows-servercore-10.0.14393
 
 ENV chocolateyUseWindowsCompression=false
 RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
