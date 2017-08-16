@@ -1,15 +1,11 @@
 FROM microsoft/vsts-agent:$(VSTS_AGENT_TAG)
 
-ENV DOCKER_BUCKET get.docker.com
+ENV DOCKER_CHANNEL stable
 ENV DOCKER_VERSION $(DOCKER_VERSION)
-ENV DOCKER_SHA256 $(DOCKER_SHA256)
 
-RUN set -x \
- && curl -fSL "https://${DOCKER_BUCKET}/builds/`uname -s`/`uname -m`/docker-${DOCKER_VERSION}.tgz" -o docker.tgz \
- && echo "${DOCKER_SHA256} *docker.tgz" | sha256sum -c - \
- && tar -xzvf docker.tgz \
- && mv docker/* /usr/local/bin/ \
- && rmdir docker \
+RUN set -ex \
+ && curl -fL "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/`uname -m`/docker-${DOCKER_VERSION}.tgz" -o docker.tgz \
+ && tar --extract --file docker.tgz --strip-components 1 --directory /usr/local/bin \
  && rm docker.tgz \
  && docker -v
 

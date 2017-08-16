@@ -37,7 +37,7 @@ VSTS agent images are tagged according to the base OS, an optional Team Foundati
 - [`ubuntu-16.04-tfs-2017-u1-docker-17.03.0-ce`](https://github.com/microsoft/vsts-agent-docker/blob/0d013f268898773a6d85db3ba8c2a14f3c82ea50/ubuntu/16.04/tfs/2017-u1/docker/17.03.0-ce/Dockerfile) [(ubuntu/16.04/tfs/2017-u1/docker/17.03.0-ce/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/0d013f268898773a6d85db3ba8c2a14f3c82ea50/ubuntu/16.04/tfs/2017-u1/docker/17.03.0-ce/Dockerfile)
 - [`ubuntu-16.04-tfs-2017-u1-docker-17.03.0-ce-standard`](https://github.com/microsoft/vsts-agent-docker/blob/0d013f268898773a6d85db3ba8c2a14f3c82ea50/ubuntu/16.04/tfs/2017-u1/docker/17.03.0-ce/standard/Dockerfile) [(ubuntu/16.04/tfs/2017-u1/docker/17.03.0-ce/standard/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/0d013f268898773a6d85db3ba8c2a14f3c82ea50/ubuntu/16.04/tfs/2017-u1/docker/17.03.0-ce/standard/Dockerfile)
 
-Ubuntu 16.04 is the currently supported OS with plans for CentOS 7.2 and Windows support.
+Ubuntu 16.04 is currently the only supported OS, but there are plans for Windows support.
 
 When used with VSTS, the agent version is automatically determined and downloaded at container startup based on the account to which the agent is connecting. When used with TFS, an image that matches the installed TFS version should be chosen.
 
@@ -101,19 +101,16 @@ docker run \
 ## Derived Images
 
 ### `standard` images
-These derived images include a set of standard capabilities that enable many of the built-in VSTS build and release tasks. For instance, the Ubuntu-based standard images include:
+These derived images include a set of standard capabilities that enable many of the built-in VSTS build and release tasks. The Ubuntu-based standard images currently include:
 
 - Basic command-line utilities (curl, ftp, etc.)
-- Essential build tools (gcc, make, cmake, etc.)
-- Open JDK 8
-- Java tools (ant, gradle, maven)
-- Python and Python 3
-- Node.js (latest stable version)
-- .NET Core SDK
-
-The standard images are updated periodically with newer versions of the above tools. If you want to lock down to specific versions, you can reference a specific build of a standard image.
-
-For more details on the Ubuntu-based standard images, see [this](https://github.com/Microsoft/vsts-agent-docker/tree/master/ubuntu/derived/standard) page.
+- Essential build tools (gcc, make, etc.)
+- CMake 3.9.1
+- Open JDK 7 (1.7.0_95) and 8 (1.8.0_131)
+- Java tools (ant 1.9.6, gradle 2.10, maven 3.3.9)
+- Python 2.7.12 and Python 3.5.2
+- Node.js 8.4.0
+- .NET Core SDK 2.0.0
 
 ### `docker` images
 These derived images include a version of the Docker CLI and a compatible version of the Docker Compose CLI. This image cannot run most of the built-in VSTS build or release tasks but it can run tasks that invoke arbitrary Docker workloads.
@@ -125,7 +122,7 @@ docker run \
   -e VSTS_ACCOUNT=<name> \
   -e VSTS_TOKEN=<pat> \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -it microsoft/vsts-agent:ubuntu-16.04-docker-1.11.2
+  -it microsoft/vsts-agent:ubuntu-16.04-docker-17.06.0-ce
 ```
 
 ### `docker-standard` images

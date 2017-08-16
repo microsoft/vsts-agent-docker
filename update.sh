@@ -48,13 +48,12 @@ ubuntu() {
       fi
     done < <(cat derived/standard/versions | sed 's/\r//')
 
-    while read DOCKER_VERSION DOCKER_SHA256 DOCKER_COMPOSE_VERSION; do
+    while read DOCKER_VERSION DOCKER_COMPOSE_VERSION; do
       DOCKER_DIR=$TARGET_DIR/docker/$DOCKER_VERSION
       mkdir -p $DOCKER_DIR
       sed \
         -e s/'$(VSTS_AGENT_TAG)'/$VSTS_AGENT_TAG/g \
         -e s/'$(DOCKER_VERSION)'/$DOCKER_VERSION/g \
-        -e s/'$(DOCKER_SHA256)'/$DOCKER_SHA256/g \
         -e s/'$(DOCKER_COMPOSE_VERSION)'/$DOCKER_COMPOSE_VERSION/g \
         derived/docker/Dockerfile.template > $DOCKER_DIR/Dockerfile
       if [ -n "$(which unix2dos)" ]; then
@@ -68,7 +67,6 @@ ubuntu() {
           sed \
             -e s/'$(VSTS_AGENT_TAG)'/$VSTS_AGENT_TAG-standard/g \
             -e s/'$(DOCKER_VERSION)'/$DOCKER_VERSION/g \
-            -e s/'$(DOCKER_SHA256)'/$DOCKER_SHA256/g \
             -e s/'$(DOCKER_COMPOSE_VERSION)'/$DOCKER_COMPOSE_VERSION/g \
             derived/docker/Dockerfile.template > $STANDARD_DIR/Dockerfile
           if [ -n "$(which unix2dos)" ]; then

@@ -1,7 +1,7 @@
-FROM microsoft/vsts-agent:ubuntu-16.04-tfs-2017-u1
+FROM microsoft/vsts-agent:ubuntu-16.04-standard
 
 ENV DOCKER_CHANNEL stable
-ENV DOCKER_VERSION 17.03.0-ce
+ENV DOCKER_VERSION 17.06.0-ce
 
 RUN set -ex \
  && curl -fL "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/`uname -m`/docker-${DOCKER_VERSION}.tgz" -o docker.tgz \

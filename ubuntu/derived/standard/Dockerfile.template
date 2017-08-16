@@ -22,7 +22,7 @@ RUN apt-get update \
 
 # Install cmake
 RUN echo Downloading cmake... \
- && curl -sL https://cmake.org/files/v3.8/cmake-3.8.2-Linux-x86_64.sh -o cmake.sh \
+ && curl -sL https://cmake.org/files/v3.9/cmake-3.9.1-Linux-x86_64.sh -o cmake.sh \
  && chmod +x cmake.sh \
  && ./cmake.sh --prefix=/usr/local --exclude-subdir \
  && rm -rf cmake.sh
@@ -70,11 +70,11 @@ RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
  && rm -rf ~/n
 
 # Install .NET Core SDK
-RUN echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet-release/ $(UBUNTU_RELEASE) main" > /etc/apt/sources.list.d/dotnetdev.list \
- && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893 \
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg \
+ && echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(UBUNTU_RELEASE)-prod $(UBUNTU_RELEASE) main" > /etc/apt/sources.list.d/dotnetdev.list \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
-    dotnet-dev-1.0.4 \
+    dotnet-sdk-2.0.0 \
  && rm -rf /var/lib/apt/lists/*
 
 # Run dotnet command to populate initial cache

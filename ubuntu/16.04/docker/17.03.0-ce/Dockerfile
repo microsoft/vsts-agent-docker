@@ -1,19 +1,15 @@
 FROM microsoft/vsts-agent:ubuntu-16.04
 
-ENV DOCKER_BUCKET get.docker.com
+ENV DOCKER_CHANNEL stable
 ENV DOCKER_VERSION 17.03.0-ce
-ENV DOCKER_SHA256 4a9766d99c6818b2d54dc302db3c9f7b352ad0a80a2dc179ec164a3ba29c2d3e
 
-RUN set -x \
- && curl -fSL "https://${DOCKER_BUCKET}/builds/`uname -s`/`uname -m`/docker-${DOCKER_VERSION}.tgz" -o docker.tgz \
- && echo "${DOCKER_SHA256} *docker.tgz" | sha256sum -c - \
- && tar -xzvf docker.tgz \
- && mv docker/* /usr/local/bin/ \
- && rmdir docker \
+RUN set -ex \
+ && curl -fL "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/`uname -m`/docker-${DOCKER_VERSION}.tgz" -o docker.tgz \
+ && tar --extract --file docker.tgz --strip-components 1 --directory /usr/local/bin \
  && rm docker.tgz \
  && docker -v
 
-ENV DOCKER_COMPOSE_VERSION 1.11.2
+ENV DOCKER_COMPOSE_VERSION 1.15.0
 
 RUN set -x \
  && curl -fSL "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m`" -o /usr/local/bin/docker-compose \
