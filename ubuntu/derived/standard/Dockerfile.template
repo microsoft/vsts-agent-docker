@@ -76,6 +76,25 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /et
  && apt-get install -y --no-install-recommends \
     dotnet-sdk-2.0.0 \
  && rm -rf /var/lib/apt/lists/*
+ 
+# Install pre-reqs for the agent/.NET Core
+RUN apt-get update \ 
+&& apt-get install -y --no-install-recommends \ 
+software-properties-common \ 
+&& apt-add-repository ppa:git-core/ppa \ 
+&& apt-get update \ 
+&& apt-get install -y --no-install-recommends \ 
+git \ 
+libcurl3 \ 
+libicu55 \ 
+libunwind8 \ 
+&& rm -rf /var/lib/apt/lists/*
+
+# Install GIT LFS
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash \ 
+&& apt-get install git-lfs \ 
+&& git lfs install \ 
+&& rm -rf /var/lib/apt/lists/*
 
 # Run dotnet command to populate initial cache
 RUN dotnet help
