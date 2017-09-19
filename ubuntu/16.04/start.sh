@@ -1,11 +1,14 @@
 #!/bin/bash
 set -e
 
-if [ ! -e /vsts/.configure -a -e /vsts/agent ]; then
-  export VSO_AGENT_IGNORE=_,MAIL,OLDPWD,PATH,PWD,UBUNTU_VERSION,VSO_AGENT_IGNORE
-  if [ -n "$VSTS_AGENT_IGNORE" ]; then
-    export VSO_AGENT_IGNORE=$VSO_AGENT_IGNORE,VSTS_AGENT_IGNORE,$VSTS_AGENT_IGNORE
-  fi
+UBUNTU_VERSION=$1
+
+export VSO_AGENT_IGNORE=_,MAIL,OLDPWD,PATH,PWD,VSTS_AGENT,VSTS_ACCOUNT,VSTS_TOKEN,VSTS_POOL,VSTS_WORK,VSO_AGENT_IGNORE
+if [ -n "$VSTS_AGENT_IGNORE" ]; then
+  export VSO_AGENT_IGNORE=$VSO_AGENT_IGNORE,VSTS_AGENT_IGNORE,$VSTS_AGENT_IGNORE
+fi
+
+if [ -e /vsts/agent -a ! -e /vsts/.configure ]; then
   trap 'kill -SIGINT $!; exit 130' INT
   trap 'kill -SIGTERM $!; exit 143' TERM
   /vsts/agent/bin/Agent.Listener run & wait $!
@@ -48,7 +51,7 @@ trap 'cleanup; exit 130' INT
 trap 'cleanup; exit 143' TERM
 
 echo Determining matching VSTS agent...
-export VSTS_AGENT_URL=$(curl -LsS \
+VSTS_AGENT_URL=$(curl -LsS \
   -u "user:$VSTS_TOKEN" \
   -H 'Accept:application/json;api-version=3.0-preview' \
   "https://$VSTS_ACCOUNT.visualstudio.com/_apis/distributedtask/packages/agent?platform=ubuntu.$UBUNTU_VERSION-x64" \
@@ -61,11 +64,6 @@ fi
 echo Downloading and installing VSTS agent...
 curl -LsS $VSTS_AGENT_URL | tar -xz & wait $!
 chown -R root:root .
-
-export VSO_AGENT_IGNORE=_,MAIL,OLDPWD,PATH,PWD,UBUNTU_VERSION,VSTS_AGENT_URL,VSO_AGENT_IGNORE,VSTS_AGENT,VSTS_ACCOUNT,VSTS_TOKEN,VSTS_POOL,VSTS_WORK
-if [ -n "$VSTS_AGENT_IGNORE" ]; then
-  export VSO_AGENT_IGNORE=$VSO_AGENT_IGNORE,VSTS_AGENT_IGNORE,$VSTS_AGENT_IGNORE
-fi
 
 source ./env.sh
 

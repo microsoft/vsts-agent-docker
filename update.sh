@@ -6,85 +6,107 @@ cd "$(dirname $0)"
 ubuntu() {
   cd ubuntu
 
-  update() {
-    UBUNTU_VERSION=$1
-    LIBICU_VERSION=$2
-    VSTS_AGENT_RELEASE=$3
-    VSTS_AGENT_VERSION=$4
+  while read UBUNTU_VERSION LIBICU_VERSION; do
+    BASE_DIR=$UBUNTU_VERSION
 
-    TEMPLATE_DIR=.
-    TARGET_DIR=$UBUNTU_VERSION
-    VSTS_AGENT_TAG=ubuntu-$UBUNTU_VERSION
-    if [ -n "$VSTS_AGENT_RELEASE" ]; then
-      TEMPLATE_DIR=versioned
-      TARGET_DIR=$TARGET_DIR/${VSTS_AGENT_RELEASE/-/\/}
-      VSTS_AGENT_TAG=$VSTS_AGENT_TAG-$VSTS_AGENT_RELEASE
-    fi
-
+    TARGET_DIR=$BASE_DIR
     mkdir -p $TARGET_DIR
 
+    # Update base image
     sed \
       -e s/'$(UBUNTU_VERSION)'/$UBUNTU_VERSION/g \
       -e s/'$(LIBICU_VERSION)'/$LIBICU_VERSION/g \
-      -e s/'$(VSTS_AGENT_VERSION)'/$VSTS_AGENT_VERSION/g \
-      $TEMPLATE_DIR/Dockerfile.template > $TARGET_DIR/Dockerfile
+      Dockerfile.template > $UBUNTU_VERSION/Dockerfile
     if [ -n "$(which unix2dos)" ]; then
       unix2dos -q $TARGET_DIR/Dockerfile
     fi
-    cp $TEMPLATE_DIR/start.sh $TARGET_DIR
+    cp start.sh $TARGET_DIR
 
+    BASE_TAG=ubuntu-$UBUNTU_VERSION
+
+    # Update standard image
     while read TARGET_UBUNTU_VERSION UBUNTU_RELEASE DEFAULT_JDK_VERSION; do
-      if [ "$UBUNTU_VERSION" == "$TARGET_UBUNTU_VERSION" ]; then
-        STANDARD_DIR=$TARGET_DIR/standard
-        mkdir -p $STANDARD_DIR
+      if [ "$TARGET_UBUNTU_VERSION" == "$UBUNTU_VERSION" ]; then
+        TARGET_DIR=$BASE_DIR/standard
+        mkdir -p $TARGET_DIR
         sed \
-          -e s/'$(VSTS_AGENT_TAG)'/$VSTS_AGENT_TAG/g \
+          -e s/'$(VSTS_AGENT_TAG)'/$BASE_TAG/g \
           -e s/'$(UBUNTU_RELEASE)'/$UBUNTU_RELEASE/g \
           -e s/'$(DEFAULT_JDK_VERSION)'/$DEFAULT_JDK_VERSION/g \
-          derived/standard/Dockerfile.template > $STANDARD_DIR/Dockerfile
+          standard/Dockerfile.template > $TARGET_DIR/Dockerfile
         if [ -n "$(which unix2dos)" ]; then
-          unix2dos -q $STANDARD_DIR/Dockerfile
+          unix2dos -q $TARGET_DIR/Dockerfile
         fi
       fi
-    done < <(cat derived/standard/versions | sed 's/\r//')
+    done < <(cat standard/versions | sed 's/\r//')
 
+    # Update docker images
     while read DOCKER_VERSION DOCKER_COMPOSE_VERSION; do
-      DOCKER_DIR=$TARGET_DIR/docker/$DOCKER_VERSION
-      mkdir -p $DOCKER_DIR
+      TARGET_DIR=$BASE_DIR/docker/$DOCKER_VERSION
+      mkdir -p $TARGET_DIR
       sed \
-        -e s/'$(VSTS_AGENT_TAG)'/$VSTS_AGENT_TAG/g \
+        -e s/'$(VSTS_AGENT_TAG)'/$BASE_TAG/g \
         -e s/'$(DOCKER_VERSION)'/$DOCKER_VERSION/g \
         -e s/'$(DOCKER_COMPOSE_VERSION)'/$DOCKER_COMPOSE_VERSION/g \
-        derived/docker/Dockerfile.template > $DOCKER_DIR/Dockerfile
+        docker/Dockerfile.template > $TARGET_DIR/Dockerfile
       if [ -n "$(which unix2dos)" ]; then
-        unix2dos -q $DOCKER_DIR/Dockerfile
+        unix2dos -q $TARGET_DIR/Dockerfile
       fi
-
-      while read TARGET_UBUNTU_VERSION UBUNTU_RELEASE DEFAULT_JDK_VERSION; do
-        if [ "$UBUNTU_VERSION" == "$TARGET_UBUNTU_VERSION" ]; then
-          STANDARD_DIR=$DOCKER_DIR/standard
-          mkdir -p $STANDARD_DIR
+      # Update docker-standard image
+      while read TARGET_UBUNTU_VERSION na; do
+        if [ "$TARGET_UBUNTU_VERSION" == "$UBUNTU_VERSION" ]; then
+          TARGET_DIR=$TARGET_DIR/standard
+          mkdir -p $TARGET_DIR
           sed \
-            -e s/'$(VSTS_AGENT_TAG)'/$VSTS_AGENT_TAG-standard/g \
+            -e s/'$(VSTS_AGENT_TAG)'/${BASE_TAG}-standard/g \
             -e s/'$(DOCKER_VERSION)'/$DOCKER_VERSION/g \
             -e s/'$(DOCKER_COMPOSE_VERSION)'/$DOCKER_COMPOSE_VERSION/g \
-            derived/docker/Dockerfile.template > $STANDARD_DIR/Dockerfile
+            docker/Dockerfile.template > $TARGET_DIR/Dockerfile
           if [ -n "$(which unix2dos)" ]; then
-            unix2dos -q $STANDARD_DIR/Dockerfile
+            unix2dos -q $TARGET_DIR/Dockerfile
           fi
         fi
-      done < <(cat derived/standard/versions | sed 's/\r//')
-    done < <(cat derived/docker/versions | sed 's/\r//')
+      done < <(cat standard/versions | sed 's/\r//')
+    done < <(cat docker/versions | sed 's/\r//')
+  done < <(cat versions | sed 's/\r//')
+
+  tfs() {
+    VSTS_AGENT_TAG=$1
+    TARGET_DIR=$2
+    mkdir -p $TARGET_DIR
+    sed \
+      -e s/'$(VSTS_AGENT_TAG)'/$VSTS_AGENT_TAG/g \
+      -e s/'$(VSTS_AGENT_VERSION)'/$VSTS_AGENT_VERSION/g \
+      -e s/'$(UBUNTU_VERSION)'/$UBUNTU_VERSION/g \
+      tfs/Dockerfile.template > $TARGET_DIR/Dockerfile
+    if [ -n "$(which unix2dos)" ]; then
+      unix2dos -q $TARGET_DIR/Dockerfile
+    fi
+    cp tfs/start.sh $TARGET_DIR
   }
 
+  # Update TFS base, standard, docker and docker-standard images
   while read UBUNTU_VERSION LIBICU_VERSION; do
-    update $UBUNTU_VERSION $LIBICU_VERSION
-    while read VSTS_AGENT_RELEASE VSTS_AGENT_VERSION; do
-      update $UBUNTU_VERSION $LIBICU_VERSION $VSTS_AGENT_RELEASE $VSTS_AGENT_VERSION
-    done < <(cat versioned/releases | sed 's/\r//')
+    while read TFS_RELEASE VSTS_AGENT_VERSION; do
+      BASE_DIR=$UBUNTU_VERSION/${TFS_RELEASE/-/\/}
+      tfs $BASE_TAG $BASE_DIR
+      while read TARGET_UBUNTU_VERSION na; do
+        if [ "$TARGET_UBUNTU_VERSION" == "$UBUNTU_VERSION" ]; then
+          tfs ${BASE_TAG}-standard $BASE_DIR/standard
+        fi
+      done < <(cat standard/versions | sed 's/\r//')
+      while read DOCKER_VERSION DOCKER_COMPOSE_VERSION; do
+        tfs ${BASE_TAG}-docker-$DOCKER_VERSION $BASE_DIR/docker/$DOCKER_VERSION
+        while read TARGET_UBUNTU_VERSION na; do
+          if [ "$TARGET_UBUNTU_VERSION" == "$UBUNTU_VERSION" ]; then
+            tfs ${BASE_TAG}-docker-$DOCKER_VERSION-standard $BASE_DIR/docker/$DOCKER_VERSION/standard
+          fi
+        done < <(cat standard/versions | sed 's/\r//')
+      done < <(cat docker/versions | sed 's/\r//')
+    done < <(cat tfs/releases | sed 's/\r//')
   done < <(cat versions | sed 's/\r//')
 
   cd ..
 }
 
-ubuntu
+${1:-ubuntu}

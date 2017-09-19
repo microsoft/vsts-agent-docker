@@ -1,5 +1,4 @@
 FROM ubuntu:16.04
-ENV UBUNTU_VERSION=16.04
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -27,4 +26,4 @@ WORKDIR /vsts
 COPY ./start.sh .
 RUN chmod +x start.sh
 
-CMD ["./start.sh"]
+CMD ["./start.sh", "16.04"]

@@ -1,0 +1,15 @@
+FROM microsoft/vsts-agent:$(VSTS_AGENT_TAG)
+
+RUN set -x \
+ && curl -fSL https://github.com/Microsoft/vsts-agent/releases/download/v$(VSTS_AGENT_VERSION)/vsts-agent-ubuntu.$(UBUNTU_VERSION)-x64-$(VSTS_AGENT_VERSION).tar.gz -o agent.tgz \
+ && mkdir agent \
+ && cd agent \
+ && tar -xzf ../agent.tgz \
+ && chown -R root:root . \
+ && cd .. \
+ && rm agent.tgz
+
+COPY ./start.sh .
+RUN chmod +x start.sh
+
+CMD ["./start.sh"]

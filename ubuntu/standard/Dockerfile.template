@@ -27,7 +27,7 @@ RUN echo Downloading cmake... \
  && ./cmake.sh --prefix=/usr/local --exclude-subdir \
  && rm -rf cmake.sh
 
-# Install Open JDKs (separate commands to avoid apt-get errors)
+# Install Open JDKs
 RUN apt-add-repository -y ppa:openjdk-r/ppa
 RUN apt-get update \
  && apt-get install -y --no-install-recommends openjdk-7-jdk \
@@ -37,20 +37,20 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 RUN update-alternatives --set java /usr/lib/jvm/java-$(DEFAULT_JDK_VERSION)-openjdk-amd64/jre/bin/java
 
-# Install ant separately to avoid apt-get errors
+# Install ant
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     ant \
     ant-optional \
  && rm -rf /var/lib/apt/lists/*
 
-# Install maven separately to avoid apt-get errors
+# Install maven
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     maven \
  && rm -rf /var/lib/apt/lists/*
 
-# Install gradle separately to avoid apt-get errors
+# Install gradle
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     gradle \

@@ -1,17 +1,15 @@
-FROM microsoft/vsts-agent:ubuntu-16.04-tfs-2017-u1
-
-ENV DOCKER_CHANNEL stable
-ENV DOCKER_VERSION 17.03.0-ce
-
-RUN set -ex \
- && curl -fL "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/`uname -m`/docker-${DOCKER_VERSION}.tgz" -o docker.tgz \
- && tar --extract --file docker.tgz --strip-components 1 --directory /usr/local/bin \
- && rm docker.tgz \
- && docker -v
-
-ENV DOCKER_COMPOSE_VERSION 1.15.0
+FROM microsoft/vsts-agent:ubuntu-16.04-docker-17.03.0-ce
 
 RUN set -x \
- && curl -fSL "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m`" -o /usr/local/bin/docker-compose \
- && chmod +x /usr/local/bin/docker-compose \
- && docker-compose -v
+ && curl -fSL https://github.com/Microsoft/vsts-agent/releases/download/v2.116.1/vsts-agent-ubuntu.16.04-x64-2.116.1.tar.gz -o agent.tgz \
+ && mkdir agent \
+ && cd agent \
+ && tar -xzf ../agent.tgz \
+ && chown -R root:root . \
+ && cd .. \
+ && rm agent.tgz
+
+COPY ./start.sh .
+RUN chmod +x start.sh
+
+CMD ["./start.sh"]

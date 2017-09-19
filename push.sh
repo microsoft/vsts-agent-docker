@@ -7,4 +7,6 @@ while read dir; do
   docker push microsoft/vsts-agent:${dir//\//-}
 done < <(./dirs.sh)
 
-docker push microsoft/vsts-agent:latest
+if [ -n "$(docker images -f reference=microsoft/vsts-agent:latest -q)" ]; then
+  docker push microsoft/vsts-agent:latest
+fi

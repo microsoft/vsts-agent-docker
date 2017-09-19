@@ -1,5 +1,4 @@
 FROM ubuntu:$(UBUNTU_VERSION)
-ENV UBUNTU_VERSION=$(UBUNTU_VERSION)
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -27,4 +26,4 @@ WORKDIR /vsts
 COPY ./start.sh .
 RUN chmod +x start.sh
 
-CMD ["./start.sh"]
+CMD ["./start.sh", "$(UBUNTU_VERSION)"]

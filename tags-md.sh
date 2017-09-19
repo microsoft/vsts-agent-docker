@@ -15,4 +15,4 @@ while read dir; do
     MD="$MD, [\`latest\`]($GITHUB_BASE_URL/$DOCKERFILE_URL)"
   fi
   echo "- $MD [($DOCKERFILE_URL)]($GITHUB_BASE_URL/$DOCKERFILE_URL)"
-done < <(./dirs.sh)
+done < <(./dirs.sh $1)
