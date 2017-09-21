@@ -80,6 +80,15 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /et
 # Run dotnet command to populate initial cache
 RUN dotnet help
 
+# Configure AzCLI 2.0  Instructions taken from https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
+RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ wheezy main" | \
+     tee /etc/apt/sources.list.d/azure-cli.list \
+     && apt-key adv --keyserver packages.microsoft.com --recv-keys 417A0893 \
+     && apt-get install -y --no-install-recommends apt-transport-https \
+     && apt-get update && apt-get install -y --no-install-recommends azure-cli \
+     && rm -rf /var/lib/apt/lists/* \
+     && az --version
+
 # Configure environment variables
 ENV ANT_HOME=/usr/share/ant \
     bower=/usr/local/bin/bower \
@@ -91,11 +100,3 @@ ENV ANT_HOME=/usr/share/ant \
     JAVA_HOME_8_X64=/usr/lib/jvm/java-8-opnejdk-amd64 \
     JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8 \
     M2_HOME=/usr/share/maven
-
-# Configure AzCLI 2.0  Instructions taken from https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
-RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ wheezy main" | \
-     tee /etc/apt/sources.list.d/azure-cli.list \
-     && apt-key adv --keyserver packages.microsoft.com --recv-keys 417A0893 \
-     && apt-get install apt-transport-https \
-     && apt-get update && apt-get install azure-cli \
-     && az --version
