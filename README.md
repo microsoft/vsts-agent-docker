@@ -99,6 +99,7 @@ These derived images include a set of standard capabilities that enable many of 
 - Python 2.7.12 and Python 3.5.2
 - Node.js 8.4.0
 - .NET Core SDK 2.0.0
+- Azure CLI 2.0
 
 ### `docker` images
 These derived images include a version of the Docker CLI and a compatible version of the Docker Compose CLI. This image cannot run most of the built-in VSTS build or release tasks but it can run tasks that invoke arbitrary Docker workloads.
