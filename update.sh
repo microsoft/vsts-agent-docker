@@ -89,6 +89,7 @@ ubuntu() {
   while read UBUNTU_VERSION LIBICU_VERSION; do
     while read TFS_RELEASE VSTS_AGENT_VERSION; do
       BASE_DIR=$UBUNTU_VERSION/${TFS_RELEASE/-/\/}
+      BASE_TAG=ubuntu-$UBUNTU_VERSION
       tfs $BASE_TAG $BASE_DIR
       while read TARGET_UBUNTU_VERSION na; do
         if [ "$TARGET_UBUNTU_VERSION" == "$UBUNTU_VERSION" ]; then
