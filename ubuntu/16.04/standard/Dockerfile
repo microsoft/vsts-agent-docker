@@ -99,6 +99,6 @@ ENV ANT_HOME=/usr/share/ant \
     grunt=/usr/local/bin/grunt \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
     JAVA_HOME_7_X64=/usr/lib/jvm/java-7-openjdk-amd64 \
-    JAVA_HOME_8_X64=/usr/lib/jvm/java-8-opnejdk-amd64 \
+    JAVA_HOME_8_X64=/usr/lib/jvm/java-8-openjdk-amd64 \
     JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8 \
     M2_HOME=/usr/share/maven
