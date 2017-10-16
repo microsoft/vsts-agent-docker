@@ -83,6 +83,16 @@ docker run \
   -it microsoft/vsts-agent:ubuntu-16.04-tfs-2017
 ```
 
+A more secure option for passing the personal access token is supported by mounting a file that contains the token into the container and specifying the location of this file with the `VSTS_TOKEN_FILE` environment variable. For instance:
+
+```
+docker run \
+  -v /path/to/my/token:/vsts-token
+  -e VSTS_ACCOUNT=<name> \
+  -e VSTS_TOKEN_FILE=/vsts-token \
+  -it microsoft/vsts-agent
+```
+
 Whether targeting VSTS or TFS, agents can be further configured with additional environment variables:
 
 - `VSTS_AGENT`: the name of the agent (default: `"$(hostname)"`)
