@@ -1,4 +1,4 @@
-FROM microsoft/vsts-agent:windows-10.0.14393
+FROM microsoft/vsts-agent:windows-servercore-10.0.14393
 
 
 
