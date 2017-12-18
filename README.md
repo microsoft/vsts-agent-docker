@@ -139,6 +139,7 @@ These derived images include a set of standard capabilities that enable many of 
 - Python 2.7.12 and Python 3.5.2
 - Node.js 9.2.1
 - .NET Core SDK 2.0.0
+- Powershell Core v6.0.0-rc.2
 - Azure CLI 2.0.22
 
 ### `docker` images
