@@ -31,6 +31,7 @@ ubuntu() {
         mkdir -p $TARGET_DIR
         sed \
           -e s/'$(VSTS_AGENT_TAG)'/$BASE_TAG/g \
+          -e s/'$(UBUNTU_VERSION)'/$UBUNTU_VERSION/g \
           -e s/'$(UBUNTU_RELEASE)'/$UBUNTU_RELEASE/g \
           -e s/'$(DEFAULT_JDK_VERSION)'/$DEFAULT_JDK_VERSION/g \
           standard/Dockerfile.template > $TARGET_DIR/Dockerfile
