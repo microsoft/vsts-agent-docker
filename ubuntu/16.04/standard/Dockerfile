@@ -99,7 +99,7 @@ RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ wheez
  && rm -rf /var/lib/apt/lists/* \
  && az --version
 
- # Install Subversion
+# Install Subversion
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     subversion \
