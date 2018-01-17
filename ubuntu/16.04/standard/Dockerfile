@@ -99,6 +99,12 @@ RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ wheez
  && rm -rf /var/lib/apt/lists/* \
  && az --version
 
+ # Install Subversion
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+    subversion \
+ && rm -rf /var/lib/apt/lists/*
+
 # Configure environment variables
 ENV ANT_HOME=/usr/share/ant \
     bower=/usr/local/bin/bower \
