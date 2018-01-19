@@ -133,15 +133,13 @@ These derived images include a set of standard capabilities that enable many of 
 
 - Basic command-line utilities (curl, ftp, etc.)
 - Essential build tools (gcc, make, etc.)
-- Ant 1.9.6
 - Azure CLI 2.0.25
-- CMake 3.9.1
+- CMake 3.10.2
+- OpenJDK 7 (1.7.0_95), 8 (1.8.0_151), and 9 (9-internal)
+- Java Tools (Ant 1.9.6, Gradle 2.10, Maven 3.3.9)
 - Go 1.9.2
-- Gradle 2.10
-- Maven 3.3.9
 - .NET Core SDK 2.0.0
 - Node.js 9.4.0
-- OpenJDK 7 (1.7.0_95), 8 (1.8.0_151), and 9 (1.9-b114)
 - Powershell Core v6.0.0
 - Python 2.7.12 and Python 3.5.2
 - Subversion 1.9.3

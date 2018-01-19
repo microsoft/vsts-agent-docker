@@ -25,7 +25,7 @@ ubuntu() {
     BASE_TAG=ubuntu-$UBUNTU_VERSION
 
     # Update standard image
-    while read TARGET_UBUNTU_VERSION UBUNTU_RELEASE DEFAULT_JDK_VERSION; do
+    while read TARGET_UBUNTU_VERSION UBUNTU_RELEASE DEFAULT_JDK_VERSION ADDITIONAL_JDK_VERSION; do
       if [ "$TARGET_UBUNTU_VERSION" == "$UBUNTU_VERSION" ]; then
         TARGET_DIR=$BASE_DIR/standard
         mkdir -p $TARGET_DIR
@@ -34,6 +34,7 @@ ubuntu() {
           -e s/'$(UBUNTU_VERSION)'/$UBUNTU_VERSION/g \
           -e s/'$(UBUNTU_RELEASE)'/$UBUNTU_RELEASE/g \
           -e s/'$(DEFAULT_JDK_VERSION)'/$DEFAULT_JDK_VERSION/g \
+          -e s/'$(ADDITIONAL_JDK_VERSION)'/${ADDITIONAL_JDK_VERSION:-$DEFAULT_JDK_VERSION}/g \
           standard/Dockerfile.template > $TARGET_DIR/Dockerfile
         if [ -n "$(which unix2dos)" ]; then
           unix2dos -q $TARGET_DIR/Dockerfile
