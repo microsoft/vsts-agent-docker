@@ -26,4 +26,4 @@ WORKDIR /vsts
 COPY ./start.sh .
 RUN chmod +x start.sh
 
-CMD ["./start.sh", "14.04"]
+CMD ["./start.sh"]
