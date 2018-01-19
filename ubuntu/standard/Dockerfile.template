@@ -27,7 +27,7 @@ RUN echo Downloading cmake... \
  && ./cmake.sh --prefix=/usr/local --exclude-subdir \
  && rm -rf cmake.sh
 
-# Install Open JDKs
+# Install OpenJDKs
 RUN apt-add-repository -y ppa:openjdk-r/ppa
 RUN apt-get update \
  && apt-get install -y --no-install-recommends openjdk-7-jdk \
@@ -35,28 +35,37 @@ RUN apt-get update \
 RUN apt-get update \
  && apt-get install -y --no-install-recommends openjdk-8-jdk \
  && rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+ && apt-get -o Dpkg::Options::="--force-overwrite" install -y --no-install-recommends openjdk-9-jdk \
+ && rm -rf /var/lib/apt/lists/*
 RUN update-alternatives --set java /usr/lib/jvm/java-$(DEFAULT_JDK_VERSION)-openjdk-amd64/jre/bin/java
 
-# Install ant
+# Install Ant
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     ant \
     ant-optional \
  && rm -rf /var/lib/apt/lists/*
 
-# Install maven
+# Install Maven
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     maven \
  && rm -rf /var/lib/apt/lists/*
 
-# Install gradle
+# Install Go
+RUN curl -sL https://dl.google.com/go/go1.9.2.linux-amd64.tar.gz -o go1.9.2.linux-amd64.tar.gz \
+ && mkdir -p /usr/local/go1.9.2 \
+ && tar -C /usr/local/go1.9.2 -xzf go1.9.2.linux-amd64.tar.gz --strip-components=1 go \
+ && rm go1.9.2.linux-amd64.tar.gz
+
+# Install Gradle
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     gradle \
  && rm -rf /var/lib/apt/lists/*
 
-# Install python
+# Install Python
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     python \
@@ -109,10 +118,13 @@ RUN apt-get update \
 ENV ANT_HOME=/usr/share/ant \
     bower=/usr/local/bin/bower \
     dotnet=/usr/bin/dotnet \
+    GOROOT=/usr/local/go1.9.2 \
     GRADLE_HOME=/usr/share/gradle \
     grunt=/usr/local/bin/grunt \
     JAVA_HOME=/usr/lib/jvm/java-$(DEFAULT_JDK_VERSION)-openjdk-amd64 \
     JAVA_HOME_7_X64=/usr/lib/jvm/java-7-openjdk-amd64 \
     JAVA_HOME_8_X64=/usr/lib/jvm/java-8-openjdk-amd64 \
+    JAVA_HOME_9_X64=/usr/lib/jvm/java-9-openjdk-amd64 \
     JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8 \
-    M2_HOME=/usr/share/maven
+    M2_HOME=/usr/share/maven \
+    PATH=$PATH:$GOROOT/bin
