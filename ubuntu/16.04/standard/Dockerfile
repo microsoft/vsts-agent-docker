@@ -1,5 +1,8 @@
 FROM microsoft/vsts-agent:ubuntu-16.04
 
+# Make 'apt-get install -y' fully non-interactive
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Install basic command-line utilities
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -68,11 +71,17 @@ RUN apt-get update \
     maven \
  && rm -rf /var/lib/apt/lists/*
 
-# Install Go
-RUN curl -sL https://dl.google.com/go/go1.9.2.linux-amd64.tar.gz -o go1.9.2.linux-amd64.tar.gz \
- && mkdir -p /usr/local/go1.9.2 \
- && tar -C /usr/local/go1.9.2 -xzf go1.9.2.linux-amd64.tar.gz --strip-components=1 go \
- && rm go1.9.2.linux-amd64.tar.gz
+ # Install Go 1.8.6
+RUN curl -sL https://dl.google.com/go/go1.8.6.linux-amd64.tar.gz -o go1.8.6.linux-amd64.tar.gz \
+ && mkdir -p /usr/local/go1.8.6 \
+ && tar -C /usr/local/go1.8.6 -xzf go1.8.6.linux-amd64.tar.gz --strip-components=1 go \
+ && rm go1.8.6.linux-amd64.tar.gz
+
+# Install Go 1.9.3
+RUN curl -sL https://dl.google.com/go/go1.9.3.linux-amd64.tar.gz -o go1.9.3.linux-amd64.tar.gz \
+ && mkdir -p /usr/local/go1.9.3 \
+ && tar -C /usr/local/go1.9.3 -xzf go1.9.3.linux-amd64.tar.gz --strip-components=1 go \
+ && rm go1.9.3.linux-amd64.tar.gz
 
 # Install .NET Core SDK and initialize package cache
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg \
@@ -115,7 +124,9 @@ RUN apt-get update \
 ENV ANT_HOME=/usr/share/ant \
     bower=/usr/local/bin/bower \
     dotnet=/usr/bin/dotnet \
-    GOROOT=/usr/local/go1.9.2 \
+    GOROOT=/usr/local/go1.9.3 \
+    GOROOT_1_8_X64=/usr/local/go1.8.6 \
+    GOROOT_1_9_X64=/usr/local/go1.9.3 \
     GRADLE_HOME=/usr/share/gradle \
     grunt=/usr/local/bin/grunt \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
