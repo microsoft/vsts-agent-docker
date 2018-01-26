@@ -55,6 +55,10 @@ RUN apt-get update \
  && apt-get -o Dpkg::Options::="--force-overwrite" install -y --no-install-recommends openjdk-9-jdk \
  && rm -rf /var/lib/apt/lists/*
 RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+ENV JAVA_HOME_7_X64=/usr/lib/jvm/java-7-openjdk-amd64 \
+    JAVA_HOME_8_X64=/usr/lib/jvm/java-8-openjdk-amd64 \
+    JAVA_HOME_9_X64=/usr/lib/jvm/java-9-openjdk-amd64 \
+    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 # Install Java Tools (Ant, Gradle, Maven)
 RUN apt-get update \
@@ -70,18 +74,24 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     maven \
  && rm -rf /var/lib/apt/lists/*
+ENV ANT_HOME=/usr/share/ant \
+    GRADLE_HOME=/usr/share/gradle \
+    M2_HOME=/usr/share/maven \
+    JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 
- # Install Go 1.8.6
+ # Install Go
 RUN curl -sL https://dl.google.com/go/go1.8.6.linux-amd64.tar.gz -o go1.8.6.linux-amd64.tar.gz \
  && mkdir -p /usr/local/go1.8.6 \
  && tar -C /usr/local/go1.8.6 -xzf go1.8.6.linux-amd64.tar.gz --strip-components=1 go \
  && rm go1.8.6.linux-amd64.tar.gz
-
-# Install Go 1.9.3
 RUN curl -sL https://dl.google.com/go/go1.9.3.linux-amd64.tar.gz -o go1.9.3.linux-amd64.tar.gz \
  && mkdir -p /usr/local/go1.9.3 \
  && tar -C /usr/local/go1.9.3 -xzf go1.9.3.linux-amd64.tar.gz --strip-components=1 go \
  && rm go1.9.3.linux-amd64.tar.gz
+ENV GOROOT_1_8_X64=/usr/local/go1.8.6 \
+    GOROOT_1_9_X64=/usr/local/go1.9.3 \
+    GOROOT=/usr/local/go1.9.3
+ENV PATH $PATH:$GOROOT/bin
 
 # Install .NET Core SDK and initialize package cache
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg \
@@ -92,12 +102,15 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /et
     dotnet-sdk-2.1.4 \
  && rm -rf /var/lib/apt/lists/* \
  && dotnet help
+ENV dotnet=/usr/bin/dotnet
 
 # Install stable Node.js and related build tools
 RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
  && ~/n/bin/n stable \
  && npm install -g bower grunt gulp n \
  && rm -rf ~/n
+ENV bower=/usr/local/bin/bower \
+    grunt=/usr/local/bin/grunt
 
 # Install Powershell Core
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
@@ -119,22 +132,3 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     subversion \
  && rm -rf /var/lib/apt/lists/*
-
-# Configure environment variables
-ENV ANT_HOME=/usr/share/ant \
-    bower=/usr/local/bin/bower \
-    dotnet=/usr/bin/dotnet \
-    GOROOT=/usr/local/go1.9.3 \
-    GOROOT_1_8_X64=/usr/local/go1.8.6 \
-    GOROOT_1_9_X64=/usr/local/go1.9.3 \
-    GRADLE_HOME=/usr/share/gradle \
-    grunt=/usr/local/bin/grunt \
-    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
-    JAVA_HOME_7_X64=/usr/lib/jvm/java-7-openjdk-amd64 \
-    JAVA_HOME_8_X64=/usr/lib/jvm/java-8-openjdk-amd64 \
-    JAVA_HOME_9_X64=/usr/lib/jvm/java-9-openjdk-amd64 \
-    JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8 \
-    M2_HOME=/usr/share/maven
-
-# Update path environment variable
-ENV PATH $PATH:$GOROOT/bin
