@@ -1,8 +1,5 @@
 FROM microsoft/vsts-agent:ubuntu-16.04
 
-# Make 'apt-get install -y' fully non-interactive
-ENV DEBIAN_FRONTEND=noninteractive
-
 # Install basic command-line utilities
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
