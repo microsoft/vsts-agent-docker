@@ -48,10 +48,15 @@ RUN apt-get update \
 RUN apt-get update \
  && apt-get install -y --no-install-recommends openjdk-8-jdk \
  && rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+ && apt-get -o Dpkg::Options::="--force-overwrite" install -y --no-install-recommends openjdk-8-jdk \
+ && rm -rf /var/lib/apt/lists/*
 RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 ENV JAVA_HOME_7_X64=/usr/lib/jvm/java-7-openjdk-amd64 \
     JAVA_HOME_8_X64=/usr/lib/jvm/java-8-openjdk-amd64 \
-    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+    JAVA_HOME_8_X64=/usr/lib/jvm/java-8-openjdk-amd64 \
+    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
+    JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 
 # Install Java Tools (Ant, Gradle, Maven)
 RUN apt-get update \
@@ -69,8 +74,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 ENV ANT_HOME=/usr/share/ant \
     GRADLE_HOME=/usr/share/gradle \
-    M2_HOME=/usr/share/maven \
-    JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
+    M2_HOME=/usr/share/maven
 
 # Install Go
 RUN curl -sL https://dl.google.com/go/go1.8.6.linux-amd64.tar.gz -o go1.8.6.linux-amd64.tar.gz \
@@ -84,10 +88,11 @@ RUN curl -sL https://dl.google.com/go/go1.9.3.linux-amd64.tar.gz -o go1.9.3.linu
 ENV GOROOT_1_8_X64=/usr/local/go1.8.6 \
     GOROOT_1_9_X64=/usr/local/go1.9.3 \
     GOROOT=/usr/local/go1.9.3
+ENV PATH $PATH:$GOROOT/bin
 
 # Install .NET Core SDK and initialize package cache
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg \
- && echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-trusty-prod trusty main" > /etc/apt/sources.list.d/dotnetdev.list \
+ && echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-tusty-prod tusty main" > /etc/apt/sources.list.d/dotnetdev.list \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
     apt-transport-https \

@@ -135,13 +135,13 @@ These derived images include a set of standard capabilities that enable many of 
 - Essential build tools (gcc, make, etc.)
 - Azure CLI 2.0.25
 - CMake 3.10.2
-- OpenJDK 7 (1.7.0_95), 8 (1.8.0_151), and 9 (9-internal)
-- Java Tools (Ant 1.9.6, Gradle 2.10, Maven 3.3.9)
-- Go 1.9.3 and 1.8.6
+- OpenJDK 7 (1.7.0_95), 8 (1.8.0_151), and 9 (9.0.4)
+- Java tools (Ant 1.9.6, Gradle 2.10, Maven 3.3.9)
+- Go 1.8.6 and 1.9.3
 - .NET Core SDK 2.0.0
 - Node.js 9.4.0
 - Powershell Core v6.0.0
-- Python 2.7.12 and Python 3.5.2
+- Python 2.7.12 and 3.5.2
 - Subversion 1.9.3
 
 ### `docker` images

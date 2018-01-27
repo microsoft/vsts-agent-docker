@@ -55,7 +55,8 @@ RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/jav
 ENV JAVA_HOME_7_X64=/usr/lib/jvm/java-7-openjdk-amd64 \
     JAVA_HOME_8_X64=/usr/lib/jvm/java-8-openjdk-amd64 \
     JAVA_HOME_9_X64=/usr/lib/jvm/java-9-openjdk-amd64 \
-    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
+    JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 
 # Install Java Tools (Ant, Gradle, Maven)
 RUN apt-get update \
@@ -73,10 +74,9 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 ENV ANT_HOME=/usr/share/ant \
     GRADLE_HOME=/usr/share/gradle \
-    M2_HOME=/usr/share/maven \
-    JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
+    M2_HOME=/usr/share/maven
 
- # Install Go
+# Install Go
 RUN curl -sL https://dl.google.com/go/go1.8.6.linux-amd64.tar.gz -o go1.8.6.linux-amd64.tar.gz \
  && mkdir -p /usr/local/go1.8.6 \
  && tar -C /usr/local/go1.8.6 -xzf go1.8.6.linux-amd64.tar.gz --strip-components=1 go \
