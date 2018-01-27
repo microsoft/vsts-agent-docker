@@ -92,7 +92,7 @@ ENV PATH $PATH:$GOROOT/bin
 
 # Install .NET Core SDK and initialize package cache
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg \
- && echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-tusty-prod tusty main" > /etc/apt/sources.list.d/dotnetdev.list \
+ && echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-trusty-prod trusty main" > /etc/apt/sources.list.d/dotnetdev.list \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
     apt-transport-https \
