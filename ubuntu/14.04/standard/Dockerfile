@@ -97,13 +97,13 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /et
  && apt-get install -y --no-install-recommends \
     apt-transport-https \
     dotnet-sdk-2.1.4 \
- && rm -rf /var/lib/apt/lists/* \
- && dotnet help
+ && rm -rf /var/lib/apt/lists/*
+RUN dotnet help
 ENV dotnet=/usr/bin/dotnet
 
-# Install stable Node.js and related build tools
+# Install LTS Node.js and related build tools
 RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
- && ~/n/bin/n stable \
+ && ~/n/bin/n lts \
  && npm install -g bower grunt gulp n \
  && rm -rf ~/n
 ENV bower=/usr/local/bin/bower \
