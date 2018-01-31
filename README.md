@@ -139,7 +139,7 @@ These derived images include a set of standard capabilities that enable many of 
 - Java tools (Ant 1.9.6, Gradle 2.10, Maven 3.3.9)
 - Go 1.8.6 and 1.9.3
 - .NET Core SDK 2.0.0
-- Node.js 9.4.0
+- Node.js 8.9.4 LTS
 - Powershell Core v6.0.0
 - Python 2.7.12 and 3.5.2
 - Subversion 1.9.3
