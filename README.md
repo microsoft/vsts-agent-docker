@@ -99,7 +99,7 @@ A more secure option for passing the personal access token is supported by mount
 
 ```
 docker run \
-  -v /path/to/my/token:/vsts-token
+  -v /path/to/my/token:/vsts-token \
   -e VSTS_ACCOUNT=<name> \
   -e VSTS_TOKEN_FILE=/vsts-token \
   -it microsoft/vsts-agent
