@@ -119,7 +119,7 @@ To run a VSTS agent on Ubuntu 16.04 for a specific account with a custom agent n
 docker run \
   -e VSTS_ACCOUNT=<name> \
   -e VSTS_TOKEN=<pat> \
-  -e VSTS_AGENT='$(hostname)-agent'
+  -e VSTS_AGENT='$(hostname)-agent' \
   -e VSTS_POOL=mypool \
   -e VSTS_WORK='/var/vsts/$VSTS_AGENT' \
   -v /var/vsts:/var/vsts \
