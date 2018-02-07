@@ -60,7 +60,7 @@ VSTS_AGENT_URL=$(curl -LsS \
   "https://$VSTS_ACCOUNT.visualstudio.com/_apis/distributedtask/packages/agent?platform=linux-x64" \
   | jq -r '.value | map([.version.major,.version.minor,.version.patch,.downloadUrl]) | sort | .[length-1] | .[3]')
 if [ -z "$VSTS_AGENT_URL" -o "$VSTS_AGENT_URL" == "null" ]; then
-  echo 1>&2 error: could not determine a matching VSTS agent
+  echo 1>&2 error: could not determine a matching VSTS agent. Possible issue could be incorrect VSTS_TOKEN or VSTS_ACCOUNT environment variables. 
   exit 1
 fi
 
