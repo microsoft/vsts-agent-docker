@@ -63,7 +63,7 @@ VSTS_AGENT_URL=$(curl -LsS \
 set -e
 
 if [ -z "$VSTS_AGENT_URL" -o "$VSTS_AGENT_URL" == "null" ]; then
-  echo 1>&2 error: could not determine a matching VSTS agent
+  echo 1>&2 error: could not determine a matching VSTS agent - check that account \'$VSTS_ACCOUNT\' is correct and the token is valid for that account
   exit 1
 fi
 
