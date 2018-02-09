@@ -59,7 +59,7 @@ VSTS_AGENT_RESPONSE=$(curl -LsS \
   -H 'Accept:application/json;api-version=3.0-preview' \
   "https://$VSTS_ACCOUNT.visualstudio.com/_apis/distributedtask/packages/agent?platform=linux-x64")
 
-if echo "$VSTS_AGENT_RESPONSE" | jq -e . >/dev/null 2>&1; then
+if echo "$VSTS_AGENT_RESPONSE" | jq . >/dev/null 2>&1; then
   VSTS_AGENT_URL=$(echo "$VSTS_AGENT_RESPONSE" \
     | jq -r '.value | map([.version.major,.version.minor,.version.patch,.downloadUrl]) | sort | .[length-1] | .[3]')
 fi
