@@ -40,6 +40,20 @@ RUN curl -sL https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh -o cmake
  && ./cmake.sh --prefix=/usr/local --exclude-subdir \
  && rm cmake.sh
 
+# Install Go
+RUN curl -sL https://dl.google.com/go/go1.8.6.linux-amd64.tar.gz -o go1.8.6.linux-amd64.tar.gz \
+ && mkdir -p /usr/local/go1.8.6 \
+ && tar -C /usr/local/go1.8.6 -xzf go1.8.6.linux-amd64.tar.gz --strip-components=1 go \
+ && rm go1.8.6.linux-amd64.tar.gz
+RUN curl -sL https://dl.google.com/go/go1.9.3.linux-amd64.tar.gz -o go1.9.3.linux-amd64.tar.gz \
+ && mkdir -p /usr/local/go1.9.3 \
+ && tar -C /usr/local/go1.9.3 -xzf go1.9.3.linux-amd64.tar.gz --strip-components=1 go \
+ && rm go1.9.3.linux-amd64.tar.gz
+ENV GOROOT_1_8_X64=/usr/local/go1.8.6 \
+    GOROOT_1_9_X64=/usr/local/go1.9.3 \
+    GOROOT=/usr/local/go1.9.3
+ENV PATH $PATH:$GOROOT/bin
+
 # Install OpenJDKs
 RUN apt-add-repository -y ppa:openjdk-r/ppa
 RUN apt-get update \
@@ -76,19 +90,11 @@ ENV ANT_HOME=/usr/share/ant \
     GRADLE_HOME=/usr/share/gradle \
     M2_HOME=/usr/share/maven
 
-# Install Go
-RUN curl -sL https://dl.google.com/go/go1.8.6.linux-amd64.tar.gz -o go1.8.6.linux-amd64.tar.gz \
- && mkdir -p /usr/local/go1.8.6 \
- && tar -C /usr/local/go1.8.6 -xzf go1.8.6.linux-amd64.tar.gz --strip-components=1 go \
- && rm go1.8.6.linux-amd64.tar.gz
-RUN curl -sL https://dl.google.com/go/go1.9.3.linux-amd64.tar.gz -o go1.9.3.linux-amd64.tar.gz \
- && mkdir -p /usr/local/go1.9.3 \
- && tar -C /usr/local/go1.9.3 -xzf go1.9.3.linux-amd64.tar.gz --strip-components=1 go \
- && rm go1.9.3.linux-amd64.tar.gz
-ENV GOROOT_1_8_X64=/usr/local/go1.8.6 \
-    GOROOT_1_9_X64=/usr/local/go1.9.3 \
-    GOROOT=/usr/local/go1.9.3
-ENV PATH $PATH:$GOROOT/bin
+# Install MySQL Client
+RUN apt-get update \
+  && apt-get install mysql-client -y \
+  && rm -rf /var/lib/apt/lists/*
+ENV mysql=/usr/bin/mysql
 
 # Install .NET Core SDK and initialize package cache
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg \
@@ -116,12 +122,6 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
  && apt-get install -y --no-install-recommends \
     powershell \
  && rm -rf /var/lib/apt/lists/*
-
-# Install Mysql
-RUN apt-get update \
-  && apt-get install mysql-client -y \
-  && rm -rf /var/lib/apt/lists/*
-ENV mysql=/usr/bin/mysql
 
 # Install Python
 RUN apt-get update \
