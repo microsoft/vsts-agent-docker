@@ -119,7 +119,8 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
 
 # Install Mysql
 RUN apt-get update \
- && apt-get install mysql-client -y
+  && apt-get install mysql-client -y \
+  && rm -rf /var/lib/apt/lists/*
 ENV mysql=/usr/bin/mysql
 
 # Install Python
