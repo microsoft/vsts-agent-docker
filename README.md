@@ -86,7 +86,7 @@ When using an image that targets a specific TFS version, the connection informat
 
 If `TFS_HOST` is provided, the TFS URL is set to `https://$TFS_HOST/tfs`. If `TFS_URL` is provided, any `TFS_HOST` environment variable is ignored.
 
-To run a VSTS agent image for TFS 2017 that identifies the server at `http://mytfs:8080/tfs`:
+To run a VSTS agent image for TFS 2017 that identifies the server at `https://mytfs/tfs`:
 
 ```
 docker run \
