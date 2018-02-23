@@ -41,17 +41,17 @@ RUN curl -sL https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh -o cmake
  && rm cmake.sh
 
 # Install Go
-RUN curl -sL https://dl.google.com/go/go1.8.6.linux-amd64.tar.gz -o go1.8.6.linux-amd64.tar.gz \
- && mkdir -p /usr/local/go1.8.6 \
- && tar -C /usr/local/go1.8.6 -xzf go1.8.6.linux-amd64.tar.gz --strip-components=1 go \
- && rm go1.8.6.linux-amd64.tar.gz
-RUN curl -sL https://dl.google.com/go/go1.9.3.linux-amd64.tar.gz -o go1.9.3.linux-amd64.tar.gz \
- && mkdir -p /usr/local/go1.9.3 \
- && tar -C /usr/local/go1.9.3 -xzf go1.9.3.linux-amd64.tar.gz --strip-components=1 go \
- && rm go1.9.3.linux-amd64.tar.gz
-ENV GOROOT_1_8_X64=/usr/local/go1.8.6 \
-    GOROOT_1_9_X64=/usr/local/go1.9.3 \
-    GOROOT=/usr/local/go1.9.3
+RUN curl -sL https://dl.google.com/go/go1.9.4.linux-amd64.tar.gz -o go1.9.4.linux-amd64.tar.gz \
+ && mkdir -p /usr/local/go1.9.4 \
+ && tar -C /usr/local/go1.9.4 -xzf go1.9.4.linux-amd64.tar.gz --strip-components=1 go \
+ && rm go1.9.4.linux-amd64.tar.gz
+RUN curl -sL https://dl.google.com/go/go1.10.linux-amd64.tar.gz -o go1.10.linux-amd64.tar.gz \
+ && mkdir -p /usr/local/go1.10 \
+ && tar -C /usr/local/go1.10 -xzf go1.10.linux-amd64.tar.gz --strip-components=1 go \
+ && rm go1.10.linux-amd64.tar.gz
+ENV GOROOT_1_9_X64=/usr/local/go1.9.4 \
+    GOROOT_1_10_X64=/usr/local/go1.10 \
+    GOROOT=/usr/local/go1.10
 ENV PATH $PATH:$GOROOT/bin
 
 # Install OpenJDKs
