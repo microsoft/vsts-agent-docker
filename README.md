@@ -135,7 +135,7 @@ These derived images include a set of standard capabilities that enable many of 
 - Essential build tools (gcc, make, etc.)
 - Azure CLI 2.0.27
 - CMake 3.10.2
-- Go 1.8.6 and 1.9.3
+- Go 1.9.4 and 1.10
 - OpenJDK 7 (1.7.0_95), 8 (1.8.0_151), and 9 (1.9~b115-1ubuntu1)
 - Java tools (Ant 1.9.6, Gradle 2.10, Maven 3.3.9)
 - MySQL Client 14.14
