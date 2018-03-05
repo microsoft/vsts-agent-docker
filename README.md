@@ -136,6 +136,7 @@ These derived images include a set of standard capabilities that enable many of 
 - Azure CLI 2.0.27
 - CMake 3.10.2
 - Go 1.9.4 and 1.10
+- HHVM 3.24
 - OpenJDK 7 (1.7.0_95), 8 (1.8.0_151), and 9 (1.9.0_4)
 - Java tools (Ant 1.9.6, Gradle 2.10, Maven 3.3.9)
 - MySQL Client 14.14
@@ -143,6 +144,7 @@ These derived images include a set of standard capabilities that enable many of 
 - Node.js 8.9.4 LTS
 - Powershell Core v6.0.1
 - Python 2.7.12 and 3.5.2
+- Sbt-extras
 - Subversion 1.9.3
 
 ### `docker` images
