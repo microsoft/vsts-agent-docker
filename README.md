@@ -144,7 +144,7 @@ These derived images include a set of standard capabilities that enable many of 
 - Node.js 8.9.4 LTS
 - Powershell Core v6.0.1
 - Python 2.7.12 and 3.5.2
-- Sbt-extras
+- Scala sbt-extras
 - Subversion 1.9.3
 
 ### `docker` images
