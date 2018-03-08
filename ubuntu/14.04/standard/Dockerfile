@@ -54,6 +54,14 @@ ENV GOROOT_1_9_X64=/usr/local/go1.9.4 \
     GOROOT=/usr/local/go1.10
 ENV PATH $PATH:$GOROOT/bin
 
+# Install HHVM
+RUN apt-get update \
+ && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xB4112585D386EB94 \
+ && add-apt-repository https://dl.hhvm.com/ubuntu \
+ && apt-get update \
+ && apt-get install -y hhvm \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install OpenJDKs
 RUN apt-add-repository -y ppa:openjdk-r/ppa
 RUN apt-get update \
@@ -131,6 +139,10 @@ RUN apt-get update \
     python3 \
     python3-pip \
  && rm -rf /var/lib/apt/lists/*
+
+# Install Scala build tools
+RUN curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /usr/local/bin/sbt \
+ && chmod 0755 /usr/local/bin/sbt
 
 # Install Subversion
 RUN apt-get update \
