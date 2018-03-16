@@ -140,7 +140,7 @@ These derived images include a set of standard capabilities that enable many of 
 - OpenJDK 7 (1.7.0_95), 8 (1.8.0_151), and 9 (internal)
 - Java tools (Ant 1.9.6, Gradle 4.6, Maven 3.3.9)
 - MySQL Client 14.14
-- .NET Core SDK 2.1.4
+- .NET Core SDK 2.1.101 (runtime 2.0.6)
 - Node.js 8.10.0 LTS
 - Powershell Core v6.0.1
 - Python 2.7.12 and 3.5.2
