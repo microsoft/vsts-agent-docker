@@ -110,7 +110,7 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /et
  && apt-get update \
  && apt-get install -y --no-install-recommends \
     apt-transport-https \
-    dotnet-sdk-2.1.4 \
+    dotnet-sdk-2.1.101 \
  && rm -rf /var/lib/apt/lists/*
 RUN dotnet help
 ENV dotnet=/usr/bin/dotnet
