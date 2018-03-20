@@ -3,6 +3,7 @@ FROM microsoft/vsts-agent:$(VSTS_AGENT_TAG)
 # Install basic command-line utilities
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
+    azcopy \
     curl \
     dnsutils \
     file \
