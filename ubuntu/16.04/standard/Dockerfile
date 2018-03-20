@@ -3,6 +3,7 @@ FROM microsoft/vsts-agent:ubuntu-16.04
 # Install basic command-line utilities
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
+    azcopy \
     curl \
     dnsutils \
     file \
