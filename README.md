@@ -144,6 +144,7 @@ These derived images include a set of standard capabilities that enable many of 
 - Node.js 8.10.0 LTS
 - Powershell Core v6.0.1
 - Python 2.7.12 and 3.5.2
+- Ruby 1.9.3 (14.04) or 2.3.1 (16.04)
 - Scala sbt-extras
 - Subversion 1.9.3
 
