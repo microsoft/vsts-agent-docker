@@ -160,7 +160,7 @@ RUN pushd $AGENT_TOOLSDIRECTORY \
  && for tool in $(ls); do
         pushd $tool;
         for version in $(ls); do
-            pushd $v/x64;
+            pushd $version/x64;
             source setup.sh;
             popd;
         done;
