@@ -150,3 +150,21 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     subversion \
  && rm -rf /var/lib/apt/lists/*
+
+# Download hosted tool cache
+ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
+RUN azcopy --recursive --source https://vstsagenttools.blob.core.windows.net/tools/hostedtoolcache/linux --destination $AGENT_TOOLSDIRECTORY
+
+# Install the tools from the hosted tool cache
+RUN pushd $AGENT_TOOLSDIRECTORY \
+ && for tool in $(ls); do
+        pushd $tool;
+        for version in $(ls); do
+            pushd $v/x64;
+            source setup.sh;
+            popd;
+        done;
+        popd;
+    done;
+    popd;
+
