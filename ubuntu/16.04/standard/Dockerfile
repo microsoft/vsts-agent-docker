@@ -3,7 +3,6 @@ FROM microsoft/vsts-agent:ubuntu-16.04
 # Install basic command-line utilities
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-    azcopy \
     curl \
     dnsutils \
     file \
@@ -116,6 +115,11 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /et
 RUN dotnet help
 ENV dotnet=/usr/bin/dotnet
 
+# Install AzCopy (depends on .NET Core)
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends azcopy \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install LTS Node.js and related build tools
 RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
  && ~/n/bin/n lts \
@@ -156,15 +160,15 @@ ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
 RUN azcopy --recursive --source https://vstsagenttools.blob.core.windows.net/tools/hostedtoolcache/linux --destination $AGENT_TOOLSDIRECTORY
 
 # Install the tools from the hosted tool cache
-RUN pushd $AGENT_TOOLSDIRECTORY \
- && for tool in $(ls); do
-        pushd $tool;
-        for version in $(ls); do
-            pushd $version/x64;
-            source setup.sh;
-            popd;
-        done;
-        popd;
+RUN cd $AGENT_TOOLSDIRECTORY \
+ && for tool in $(ls); do \
+        cd $tool; \
+        for version in $(ls); do \
+            cd $version/x64; \
+            chmod +x setup.sh; \
+            ./setup.sh; \
+            cd ../..; \
+        done; \
+        cd ..; \
     done;
-    popd;
 
