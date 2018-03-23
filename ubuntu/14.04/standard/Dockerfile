@@ -119,7 +119,7 @@ ENV dotnet=/usr/bin/dotnet
 RUN apt-get update \
  && apt-get install -y --no-install-recommends azcopy \
  && rm -rf /var/lib/apt/lists/* \
- && apt-get purge azcopy 
+ && apt-get purge -y azcopy 
 
 # Install LTS Node.js and related build tools
 RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
