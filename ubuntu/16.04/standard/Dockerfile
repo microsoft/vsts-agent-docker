@@ -160,15 +160,12 @@ ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
 RUN azcopy --recursive --source https://vstsagenttools.blob.core.windows.net/tools/hostedtoolcache/linux --destination $AGENT_TOOLSDIRECTORY
 
 # Install the tools from the hosted tool cache
-RUN cd $AGENT_TOOLSDIRECTORY \
- && for tool in $(ls); do \
-        cd $tool; \
-        for version in $(ls); do \
-            cd $version/x64; \
-            chmod +x setup.sh; \
-            ./setup.sh; \
-            cd ../..; \
-        done; \
-        cd ..; \
+RUN original_directory=$PWD \
+ && setups=$(find $AGENT_TOOLSDIRECTORY -name setup.sh) \
+ && for setup in $setups; do \
+        chmod +x $setup; \
+        cd $(dirname $setup); \
+        ./$(basename $setup); \
+        cd $original_directory; \
     done;
 
