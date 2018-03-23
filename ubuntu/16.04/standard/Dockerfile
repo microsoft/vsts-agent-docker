@@ -118,8 +118,7 @@ ENV dotnet=/usr/bin/dotnet
 # Install AzCopy (depends on .NET Core)
 RUN apt-get update \
  && apt-get install -y --no-install-recommends azcopy \
- && rm -rf /var/lib/apt/lists/* \
- && apt-get purge -y azcopy 
+ && rm -rf /var/lib/apt/lists/*
 
 # Install LTS Node.js and related build tools
 RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
@@ -168,5 +167,6 @@ RUN original_directory=$PWD \
         cd $(dirname $setup); \
         ./$(basename $setup); \
         cd $original_directory; \
-    done;
+    done; \
+ && apt-get purge -y azcopy
 
