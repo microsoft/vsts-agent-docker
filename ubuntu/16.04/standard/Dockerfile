@@ -167,6 +167,5 @@ RUN original_directory=$PWD \
         cd $(dirname $setup); \
         ./$(basename $setup); \
         cd $original_directory; \
-    done; \
- && apt-get purge -y azcopy
+    done;
 
