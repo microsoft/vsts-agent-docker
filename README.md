@@ -134,6 +134,7 @@ These derived images include a set of standard capabilities that enable many of 
 - Basic command-line utilities (curl, ftp, etc.)
 - Essential build tools (gcc, make, etc.)
 - Azure CLI 2.0.28
+- CLang 6.0
 - CMake 3.10.2
 - Go 1.9.4 and 1.10
 - HipHop VM 3.24.3
