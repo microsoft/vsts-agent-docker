@@ -4,8 +4,7 @@ RUN set -x \
  && curl -fSL https://github.com/Microsoft/vsts-agent/releases/download/v2.105.7/vsts-agent-ubuntu.16.04-x64-2.105.7.tar.gz -o agent.tgz \
  && mkdir agent \
  && cd agent \
- && tar -xzf ../agent.tgz \
- && chown -R root:root . \
+ && tar -xzf --no-same-owner ../agent.tgz \
  && cd .. \
  && rm agent.tgz
 
