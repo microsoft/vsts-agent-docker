@@ -115,6 +115,11 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /et
 RUN dotnet help
 ENV dotnet=/usr/bin/dotnet
 
+# Install AzCopy (depends on .NET Core)
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends azcopy \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install LTS Node.js and related build tools
 RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
  && ~/n/bin/n lts \
@@ -154,3 +159,18 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     subversion \
  && rm -rf /var/lib/apt/lists/*
+
+# Download hosted tool cache
+ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
+RUN azcopy --recursive --source https://vstsagenttools.blob.core.windows.net/tools/hostedtoolcache/linux --destination $AGENT_TOOLSDIRECTORY
+
+# Install the tools from the hosted tool cache
+RUN original_directory=$PWD \
+ && setups=$(find $AGENT_TOOLSDIRECTORY -name setup.sh) \
+ && for setup in $setups; do \
+        chmod +x $setup; \
+        cd $(dirname $setup); \
+        ./$(basename $setup); \
+        cd $original_directory; \
+    done;
+
