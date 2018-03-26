@@ -34,6 +34,13 @@ RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ wheez
     azure-cli \
  && rm -rf /var/lib/apt/lists/*
 
+# Install Clang
+RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - \
+ && apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-6.0 main" \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends clang-6.0 \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install CMake
 RUN curl -sL https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh -o cmake.sh \
  && chmod +x cmake.sh \
