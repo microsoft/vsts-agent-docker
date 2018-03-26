@@ -12,6 +12,7 @@ RUN apt-get update \
         libcurl3 \
         libicu55 \
         libunwind8 \
+        netcat \
  && curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash \
  && apt-get install -y --no-install-recommends git-lfs \
  && rm -rf /var/lib/apt/lists/*
