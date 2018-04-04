@@ -154,13 +154,9 @@ RUN apt-get update \
     python3-pip \
  && rm -rf /var/lib/apt/lists/*
 
-# Install Ruby (see: https://www.brightbox.com/blog/2018/02/05/ruby-2-5-ubuntu-packages/)
-RUN apt-add-repository ppa:brightbox/ruby-ng \
- && apt-get update \
- && apt-get install -y ruby2.5 ruby2.5-dev \
- && apt-get install -y ruby2.4 ruby2.4-dev \
- && apt-get install -y ruby2.3 ruby2.3-dev \
- && apt-get install -y ruby-switch
+# Install Ruby requirements
+RUN apt-get update \
+ && apt-get install -y libz-dev openssl libssl-dev
 
 # Install Scala build tools
 RUN curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /usr/local/bin/sbt \
