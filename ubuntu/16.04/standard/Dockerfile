@@ -154,10 +154,9 @@ RUN apt-get update \
     python3-pip \
  && rm -rf /var/lib/apt/lists/*
 
-# Install Ruby
+# Install Ruby requirements
 RUN apt-get update \
- && apt-get install -y ruby ruby-dev ruby-bundler \
- && rm -rf /var/lib/apt/lists/*
+ && apt-get install -y libz-dev openssl libssl-dev
 
 # Install Scala build tools
 RUN curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /usr/local/bin/sbt \
