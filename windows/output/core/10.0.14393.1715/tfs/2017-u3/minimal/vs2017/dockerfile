@@ -1,0 +1,19 @@
+# escape=`
+FROM microsoft/vsts-agent:windows-core-10.0.14393.1715-tfs-2017-u3
+
+LABEL name="microsoft/vsts-agent:windows-core-10.0.14393.1715-tfs-2017-u3-minimal-vs2017" `
+      version="0.0.1"
+
+# Download the Build Tools.
+ADD https://aka.ms/vs/15/release/vs_buildtools.exe C:\\Setup\\vs_buildtools.exe
+ADD https://aka.ms/vscollect.exe C:\\Setup\\collect.exe
+
+SHELL ["powershell.exe", "-ExecutionPolicy", "Bypass", "-Command", "$ErrorActionPreference='Stop'; $ProgressPreference='SilentlyContinue'; $VerbosePreference = 'Continue';"]
+
+# Install Build Tools excluding workloads and components with known issues.
+RUN $ErrorActionPreference = 'Stop'; `
+    $VerbosePreference = 'Continue'; `
+    $p = Start-Process -Wait -PassThru -FilePath C:\Setup\vs_buildtools.exe -ArgumentList ' --quiet --wait --norestart --nocache --installPath C:\BuildTools --all --remove Microsoft.VisualStudio.Component.Windows10SDK.10240 --remove Microsoft.VisualStudio.Component.Windows10SDK.10586 --remove Microsoft.VisualStudio.Component.Windows10SDK.14393 --remove Microsoft.VisualStudio.Component.Windows81SDK'; `
+    if ($ret = $p.ExitCode) { C:\Setup\collect.exe; throw ('Install failed with exit code 0x{0:x}' -f $ret) }
+
+SHELL ["cmd.exe", "/s", "/c"]

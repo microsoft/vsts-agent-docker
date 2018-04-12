@@ -1,0 +1,25 @@
+# escape=`
+FROM microsoft/vsts-agent:windows-core-$(WINDOWS_VERSION)
+
+LABEL name="microsoft/vsts-agent:windows-core-$(WINDOWS_VERSION)-$(AGENT_VERSION)" `
+      version="0.0.1"
+
+WORKDIR C:\TFS
+
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+RUN Invoke-WebRequest "https://github.com/Microsoft/vsts-agent/releases/download/v$(AGENT_VERSION)/vsts-agent-win7-x64-$(AGENT_VERSION).zip" -OutFile agent.zip; `
+    Expand-Archive agent.zip -DestinationPath .\Agent -Force; `
+    Remove-Item -Force agent.zip
+
+SHELL ["cmd", "/S", "/C"]
+
+ENV chocolateyUseWindowsCompression=false
+
+RUN @powershell -ExecutionPolicy Bypass -Command "iex (Invoke-WebRequest 'https://chocolatey.org/install.ps1' -UseBasicParsing)" `
+ && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+
+RUN choco config set cachelocation C:\chococache
+
+COPY ./Run-Agent.ps1 .
+
+CMD ["powershell", "-Command", "C:/TFS/Run-Agent.ps1"]

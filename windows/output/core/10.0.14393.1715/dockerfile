@@ -1,0 +1,23 @@
+# escape=`
+FROM microsoft/windowsservercore:10.0.14393.1715
+
+LABEL name="microsoft/vsts-agent:windows-core-10.0.14393.1715" `
+      version="0.0.1"
+
+ENV HTTP_PROXY=$HTTP_PROXY `
+    HTTPS_PROXY=$HTTPS_PROXY `
+    NO_PROXY=$NO_PROXY `
+    WINDOWS_IMAGE_VERSION=10.0.14393.1715
+
+RUN mkdir C:\TFS `
+ && mkdir C:\Setup
+
+WORKDIR C:/Setup
+
+COPY setup/ .
+
+RUN netsh.exe winhttp set proxy proxy-server="http=%HTTP_PROXY%;https=%HTTPS_PROXY%" bypass-list="%NO_PROXY%" `
+ && @powershell -ExecutionPolicy Bypass -File .\setprofile.ps1
+
+WORKDIR C:\
+
