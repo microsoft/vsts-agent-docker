@@ -119,7 +119,7 @@ RUN curl -sL https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.
  && chmod +x miniconda.sh \
  && ./miniconda.sh -b -p $HOME/miniconda \
  && rm miniconda.sh
-ENV CONDA $HOME/miniconda
+ENV CONDA=$HOME/miniconda
 
 # Install MySQL Client
 RUN apt-get update \
