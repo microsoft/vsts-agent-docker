@@ -114,6 +114,13 @@ ENV ANT_HOME=/usr/share/ant \
     GRADLE_HOME=/usr/share/gradle \
     M2_HOME=/usr/share/maven
 
+# Install Miniconda
+RUN curl -sL https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh \
+ && chmod +x miniconda.sh \
+ && ./miniconda.sh -b -p $HOME/miniconda \
+ && rm miniconda.sh
+ENV CONDA $HOME/miniconda
+
 # Install MySQL Client
 RUN apt-get update \
   && apt-get install mysql-client -y \
