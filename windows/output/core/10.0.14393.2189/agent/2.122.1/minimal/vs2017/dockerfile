@@ -4,16 +4,31 @@ FROM microsoft/vsts-agent:windows-core-10.0.14393.2189-2.122.1
 LABEL name="microsoft/vsts-agent:windows-core-10.0.14393.2189-2.122.1-minimal-vs2017" `
       version="0.0.1"
 
+# Download collect.exe in case of an install failure.
+ADD https://aka.ms/vscollect.exe C:\Setup\collect.exe
+
 # Download the Build Tools.
-ADD https://aka.ms/vs/15/release/vs_buildtools.exe C:\\Setup\\vs_buildtools.exe
-ADD https://aka.ms/vscollect.exe C:\\Setup\\collect.exe
+ADD https://aka.ms/vs/15/release/vs_buildtools.exe C:\Setup\vs_buildtools.exe
+
+# Use the latest release channel.
+ADD https://aka.ms/vs/15/release/channel C:\Setup\VisualStudio.chman
+
+
 
 SHELL ["powershell.exe", "-ExecutionPolicy", "Bypass", "-Command", "$ErrorActionPreference='Stop'; $ProgressPreference='SilentlyContinue'; $VerbosePreference = 'Continue';"]
 
 # Install Build Tools excluding workloads and components with known issues.
 RUN $ErrorActionPreference = 'Stop'; `
     $VerbosePreference = 'Continue'; `
-    $p = Start-Process -Wait -PassThru -FilePath C:\Setup\vs_buildtools.exe -ArgumentList ' --quiet --wait --norestart --nocache --installPath C:\BuildTools --all --remove Microsoft.VisualStudio.Component.Windows10SDK.10240 --remove Microsoft.VisualStudio.Component.Windows10SDK.10586 --remove Microsoft.VisualStudio.Component.Windows10SDK.14393 --remove Microsoft.VisualStudio.Component.Windows81SDK'; `
+    $p = Start-Process -Wait -PassThru -FilePath C:\Setup\vs_buildtools.exe -ArgumentList ' --quiet --wait --norestart --nocache `
+        --installPath C:\BuildTools `
+        --channelUri C:\Setup\VisualStudio.chman `
+        --installChannelUri C:\Setup\VisualStudio.chman `
+        --all `
+        --remove Microsoft.VisualStudio.Component.Windows10SDK.10240 `
+        --remove Microsoft.VisualStudio.Component.Windows10SDK.10586 `
+        --remove Microsoft.VisualStudio.Component.Windows10SDK.14393 `
+        --remove Microsoft.VisualStudio.Component.Windows81SDK'; `
     if ($ret = $p.ExitCode) { C:\Setup\collect.exe; throw ('Install failed with exit code 0x{0:x}' -f $ret) }
 
 SHELL ["cmd.exe", "/s", "/c"]

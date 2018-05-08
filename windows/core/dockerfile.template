@@ -1,5 +1,5 @@
 # escape=`
-FROM microsoft/windowsservercore:$(WINDOWS_VERSION)
+FROM microsoft/dotnet-framework:4.7.1
 
 LABEL name="microsoft/vsts-agent:windows-core-$(WINDOWS_VERSION)" `
       version="0.0.1"
