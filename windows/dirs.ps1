@@ -15,7 +15,7 @@ function Core () {
         Write-Output "core\$($versionsFields[0])"
         foreach ($releasesLine in Get-Content .\versioned\releases | Where-Object { $_ -notmatch '^\s*#' }) {
             $releasesFields = $releasesLine.Split()
-            dirs "core\$($versionsFields[0])\$($releasesFields[0] -replace '^(.*?)-(.*)','$1\$2')"
+            dirs "core\$($versionsFields[0])\agent\$($releasesFields[0])"
         }    
     }
 
