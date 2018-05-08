@@ -1,7 +1,7 @@
 # escape=`
-FROM microsoft/vsts-agent:windows-core-10.0.14393.1715-tfs-2017-u3
+FROM microsoft/vsts-agent:windows-core-10.0.14393.2189-2.122.1
 
-LABEL name="microsoft/vsts-agent:windows-core-10.0.14393.1715-tfs-2017-u3-minimal-vs2017" `
+LABEL name="microsoft/vsts-agent:windows-core-10.0.14393.2189-2.122.1-minimal-vs2017" `
       version="0.0.1"
 
 # Download the Build Tools.

@@ -1,7 +1,7 @@
 # escape=`
-FROM microsoft/vsts-agent:windows-core-10.0.14393.1715
+FROM microsoft/vsts-agent:windows-core-10.0.14393.2189
 
-LABEL name="microsoft/vsts-agent:windows-core-10.0.14393.1715-2.122.1" `
+LABEL name="microsoft/vsts-agent:windows-core-10.0.14393.2189-2.122.1" `
       version="0.0.1"
 
 WORKDIR C:\TFS
