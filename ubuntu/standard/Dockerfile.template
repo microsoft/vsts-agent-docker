@@ -168,13 +168,6 @@ RUN apt-get update \
     python3-pip \
  && rm -rf /var/lib/apt/lists/*
 
-# Install Ruby requirements
-RUN apt-get update \
- && apt-get install -y libz-dev openssl libssl-dev
-
-# Add the latest Ruby version in the tool cache to the path
-ENV PATH $PATH:/opt/hostedtoolcache/Ruby/2.5.1/x64/bin
-
 # Install Scala build tools
 RUN curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /usr/local/bin/sbt \
  && chmod 0755 /usr/local/bin/sbt
@@ -199,3 +192,18 @@ RUN original_directory=$PWD \
         cd $original_directory; \
     done;
 
+# Install Ruby requirements
+RUN apt-get update \
+ && apt-get install -y libz-dev openssl libssl-dev
+RUN /opt/hostedtoolcache/Ruby/2.3.7/x64/bin/gem install bundler \
+ && /opt/hostedtoolcache/Ruby/2.3.7/x64/bin/gem install rails \
+ && /opt/hostedtoolcache/Ruby/2.3.7/x64/bin/gem install rake
+RUN /opt/hostedtoolcache/Ruby/2.4.4/x64/bin/gem install bundler \
+ && /opt/hostedtoolcache/Ruby/2.4.4/x64/bin/gem install rails \
+ && /opt/hostedtoolcache/Ruby/2.4.4/x64/bin/gem install rake
+RUN /opt/hostedtoolcache/Ruby/2.5.1/x64/bin/gem install bundler \
+ && /opt/hostedtoolcache/Ruby/2.5.1/x64/bin/gem install rails \
+ && /opt/hostedtoolcache/Ruby/2.5.1/x64/bin/gem install rake
+ 
+# Add the latest Ruby version in the tool cache to the path
+ENV PATH $PATH:/opt/hostedtoolcache/Ruby/2.5.1/x64/bin
