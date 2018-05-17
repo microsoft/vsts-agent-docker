@@ -145,7 +145,7 @@ These derived images include a set of standard capabilities that enable many of 
 
 - Basic command-line utilities (curl, ftp, etc.)
 - Essential build tools (gcc, make, etc.)
-- Azure CLI 2.0.31
+- Azure CLI 2.0.32
 - CLang 6.0
 - CMake 3.10.2
 - Go 1.9.4 and 1.10
@@ -155,8 +155,8 @@ These derived images include a set of standard capabilities that enable many of 
 - Miniconda 4.4.10
 - MySQL Client 14.14
 - .NET Core SDK 2.1.101 (runtime 2.0.6)
-- Node.js 8.11.1 LTS
-- Powershell Core v6.1.0-preview.1
+- Node.js 8.11.2 LTS
+- Powershell Core v6.1.0-preview.2
 - Python 2.7.14, 3.3.7, 3.4.8, 3.5.5, 3.6.4 and 3.7.0-b2 (from hosted tools cache)
 - Ruby 2.3.7, 2.4.4 and 2.5.1 (from hosted tools cache)
 - Scala sbt-extras

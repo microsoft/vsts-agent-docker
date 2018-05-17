@@ -172,9 +172,6 @@ RUN apt-get update \
 RUN apt-get update \
  && apt-get install -y libz-dev openssl libssl-dev
 
-# Add the latest Ruby version in the tool cache to the path
-ENV PATH $PATH:/opt/hostedtoolcache/Ruby/2.5.1/x64/bin
-
 # Install Scala build tools
 RUN curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /usr/local/bin/sbt \
  && chmod 0755 /usr/local/bin/sbt
@@ -198,3 +195,6 @@ RUN original_directory=$PWD \
         ./$(basename $setup); \
         cd $original_directory; \
     done;
+
+# Add the latest Ruby version in the tool cache to the path
+ENV PATH $PATH:/opt/hostedtoolcache/Ruby/2.5.1/x64/bin
