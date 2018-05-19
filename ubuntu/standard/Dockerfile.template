@@ -168,9 +168,13 @@ RUN apt-get update \
     python3-pip \
  && rm -rf /var/lib/apt/lists/*
 
-# Install Ruby requirements
+# Install Ruby tools
 RUN apt-get update \
- && apt-get install -y libz-dev openssl libssl-dev
+ && apt-get install -y libz-dev openssl libssl-dev \
+ && gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB \
+ && apt-add-repository -y ppa:rael-gc/rvm \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends rvm
 
 # Install Scala build tools
 RUN curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /usr/local/bin/sbt \
