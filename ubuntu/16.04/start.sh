@@ -86,7 +86,7 @@ source ./env.sh
   --auth PAT \
   --token $(cat "$VSTS_TOKEN_FILE") \
   --pool "${VSTS_POOL:-Default}" \
-  --work "${VSTS_WORK:-_work}" \
+  --work "${VSTS_WORK:-work_}" \
   --replace & wait $!
 
 web-server &
