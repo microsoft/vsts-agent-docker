@@ -35,6 +35,10 @@ fi
 if [ -n "$VSTS_WORK" ]; then
   export VSTS_WORK="$(eval echo $VSTS_WORK)"
   mkdir -p "$VSTS_WORK"
+  if [ ! -d "$VSTS_WORK" ]; then
+    echo 1>&2 error: Failed to create specified VSTS_WORK directory: $VSTS_WORK
+    exit 1
+  fi
 fi
 
 touch /vsts/.configure
