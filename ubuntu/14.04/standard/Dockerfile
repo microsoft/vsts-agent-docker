@@ -70,6 +70,9 @@ ENV GOROOT_1_9_X64=/usr/local/go1.9.4 \
     GOROOT=/usr/local/go1.10
 ENV PATH $PATH:$GOROOT/bin
 
+# Install Helm
+RUN curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+
 # Install HHVM
 RUN apt-get update \
  && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xB4112585D386EB94 \
@@ -78,7 +81,7 @@ RUN apt-get update \
  && apt-get install -y hhvm \
  && rm -rf /var/lib/apt/lists/*
 
-# Install OpenJDKs
+# Install Java OpenJDKs
 RUN apt-add-repository -y ppa:openjdk-r/ppa
 RUN apt-get update \
  && apt-get install -y --no-install-recommends openjdk-7-jdk \
@@ -113,6 +116,11 @@ RUN apt-get update \
 ENV ANT_HOME=/usr/share/ant \
     GRADLE_HOME=/usr/share/gradle \
     M2_HOME=/usr/share/maven
+
+# Install kubectl
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
+ && chmod +x ./kubectl \
+ && mv ./kubectl /usr/local/bin/kubectl
 
 # Install Miniconda
 RUN curl -sL https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh \
@@ -152,9 +160,9 @@ ENV bower=/usr/local/bin/bower \
     grunt=/usr/local/bin/grunt
 
 # Install PHP versions and libraries
-RUN apt-add-repository ppa:ondrej/php -y && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends \
+RUN apt-add-repository ppa:ondrej/php -y \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends \
     php5.6 \
     php7.0 \
     php7.1 \
@@ -184,25 +192,17 @@ RUN apt-add-repository ppa:ondrej/php -y && \
     php-xdebug \
     php-yaml \
     php-zmq \
-    && apt-get remove --purge -yq php7.1-dev \
-    && rm -rf /var/lib/apt/lists/*
+ && apt-get remove --purge -yq php7.1-dev \
+ && rm -rf /var/lib/apt/lists/*
 
 # Install composer (for PHP)
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 # Install phpunit (for PHP)
-RUN wget -q -O phpunit https://phar.phpunit.de/phpunit-7.phar && \
-    chmod +x phpunit && \
-    mv phpunit /usr/local/bin/phpunit
-
-# Install kubectl
-RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
-    chmod +x ./kubectl && \
-    mv ./kubectl /usr/local/bin/kubectl
-
-# Install Helm
-RUN curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+RUN wget -q -O phpunit https://phar.phpunit.de/phpunit-7.phar \
+ && chmod +x phpunit \
+ && mv phpunit /usr/local/bin/phpunit
 
 # Install Powershell Core
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
