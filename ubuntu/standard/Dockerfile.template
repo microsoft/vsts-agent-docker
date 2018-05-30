@@ -151,6 +151,59 @@ RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
 ENV bower=/usr/local/bin/bower \
     grunt=/usr/local/bin/grunt
 
+# Install PHP versions and libraries
+RUN apt-add-repository ppa:ondrej/php -y && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    php5.6 \
+    php7.0 \
+    php7.1 \
+    php7.1-amqp \
+    php-apcu \
+    php7.1-bcmath \
+    php7.1-bz2 \
+    php7.1-curl \
+    php7.1-dev \
+    php7.1-fpm \
+    php7.1-gd \
+    php7.1-intl \
+    php7.1-json \
+    php7.1-mbstring \
+    php7.1-mcrypt \
+    php7.1-mysql \
+    php7.1-pgsql \
+    php7.1-sqlite \
+    php7.1-xml \
+    php7.1-zip \
+    php7.2 \
+    php-igbinary \
+    php-memcache \
+    php-memcached \
+    php-mongodb \
+    php-redis \
+    php-xdebug \
+    php-yaml \
+    php-zmq \
+    && apt-get remove --purge -yq php7.1-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install composer (for PHP)
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+# Install phpunit (for PHP)
+RUN wget -q -O phpunit https://phar.phpunit.de/phpunit-7.phar && \
+    chmod +x phpunit && \
+    mv phpunit /usr/local/bin/phpunit
+
+# Install kubectl
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
+    chmod +x ./kubectl && \
+    mv ./kubectl /usr/local/bin/kubectl
+
+# Install Helm
+RUN curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+
 # Install Powershell Core
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
  && curl https://packages.microsoft.com/config/ubuntu/$(UBUNTU_VERSION)/prod.list | tee /etc/apt/sources.list.d/microsoft.list \
