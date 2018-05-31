@@ -137,12 +137,13 @@ RUN apt-get update \
 ENV mysql=/usr/bin/mysql
 
 # Install .NET Core SDK and initialize package cache
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg \
- && echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-trusty-prod trusty main" > /etc/apt/sources.list.d/dotnetdev.list \
+RUN curl https://packages.microsoft.com/config/ubuntu/14.04/packages-microsoft-prod.deb > packages-microsoft-prod.deb \
+ && dpkg -i packages-microsoft-prod.deb \
+ && rm packages-microsoft-prod.deb \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
     apt-transport-https \
-    dotnet-sdk-2.1.101 \
+    dotnet-sdk-2.1 \
  && rm -rf /var/lib/apt/lists/*
 RUN dotnet help
 ENV dotnet=/usr/bin/dotnet
