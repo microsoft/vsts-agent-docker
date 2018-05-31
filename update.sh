@@ -78,8 +78,7 @@ ubuntu() {
     mkdir -p $TARGET_DIR
     sed \
       -e s/'$(VSTS_AGENT_TAG)'/$VSTS_AGENT_TAG/g \
-      -e s/'$(VSTS_AGENT_VERSION)'/$VSTS_AGENT_VERSION/g \
-      -e s/'$(UBUNTU_VERSION)'/$UBUNTU_VERSION/g \
+      -e s/'$(VSTS_AGENT_URL)'/${VSTS_AGENT_URL//\//\\\/}/g \
       tfs/Dockerfile.template > $TARGET_DIR/Dockerfile
     if [ -n "$(which unix2dos)" ]; then
       unix2dos -q $TARGET_DIR/Dockerfile
@@ -89,9 +88,10 @@ ubuntu() {
 
   # Update TFS base, standard, docker and docker-standard images
   while read UBUNTU_VERSION LIBICU_VERSION; do
-    while read TFS_RELEASE VSTS_AGENT_VERSION; do
+    while read TFS_RELEASE VSTS_AGENT_URL; do
       BASE_DIR=$UBUNTU_VERSION/${TFS_RELEASE/-/\/}
       BASE_TAG=ubuntu-$UBUNTU_VERSION
+      VSTS_AGENT_URL=$(eval echo $VSTS_AGENT_URL)
       tfs $BASE_TAG $BASE_DIR
       while read TARGET_UBUNTU_VERSION na; do
         if [ "$TARGET_UBUNTU_VERSION" == "$UBUNTU_VERSION" ]; then
