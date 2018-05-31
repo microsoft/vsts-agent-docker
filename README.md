@@ -178,5 +178,20 @@ docker run \
   -it microsoft/vsts-agent:ubuntu-16.04-docker-17.12.0-ce
 ```
 
+### `docker` images on Docker for Windows
+These derived images include a version of the Docker CLI and a compatible version of the Docker Compose CLI. This image cannot run most of the built-in VSTS build or release tasks but it can run tasks that invoke arbitrary Docker workloads.
+
+These images do not run in Windows containers, make sure your Docker For Windows is switched to Linux containers.
+
+These images do not run "Docker in Docker", but rather re-use the host instance of Docker. To ensure this works correctly, volume map the host's Docker socket into the container:
+
+```
+docker run \
+  -e VSTS_ACCOUNT=<name> \
+  -e VSTS_TOKEN=<pat> \
+  -v //var/run/docker.sock:/var/run/docker.sock \
+  -it microsoft/vsts-agent:ubuntu-16.04-docker-17.12.0-ce
+```
+
 ### `docker-standard` images
 These derived images bring together a docker image and a standard image.
