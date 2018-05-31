@@ -1,7 +1,7 @@
 FROM microsoft/vsts-agent:ubuntu-16.04-docker-17.12.0-ce
 
 RUN set -x \
- && curl -fSL https://github.com/Microsoft/vsts-agent/releases/download/v2.131.0/vsts-agent-ubuntu.16.04-x64-2.131.0.tar.gz -o agent.tgz \
+ && curl -fSL https://vstsagentpackage.azureedge.net/agent/2.131.0/vsts-agent-linux-x64-2.131.0.tar.gz -o agent.tgz \
  && mkdir agent \
  && cd agent \
  && tar -xz --no-same-owner -f ../agent.tgz \
