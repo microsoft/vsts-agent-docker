@@ -133,25 +133,27 @@ These derived images include a set of standard capabilities that enable many of 
 
 - Basic command-line utilities (curl, ftp, etc.)
 - Essential build tools (gcc, make, etc.)
-- Azure CLI 2.0.33
+- Azure CLI 2.0.38
 - CLang 6.0
 - CMake 3.10.2
+- GCC 5.4.0
 - Go 1.9.4 and 1.10
 - Helm 2.9.1
-- HipHop VM 3.25.2
+- HipHop VM (HHVM) 3.27.0
 - Java OpenJDK 7 (1.7.0_95), 8 (1.8.0_162) and 9 (internal)
 - Java tools (Ant 1.9.6, Gradle 4.6, Maven 3.3.9)
-- kubectl 1.10.3
-- Miniconda 4.4.10
+- kubectl 1.10.4
+- Miniconda 4.5.4
 - MySQL Client 14.14
 - .NET Core SDK 2.1.300 (runtime 2.1.0)
-- Node.js 8.11.2 LTS
-- PHP 5.6, 7.0, 7.1, and 7.2, with composer and phpunit
+- Node.js 8.11.3 LTS
+- PHP 5.6, 7.0, 7.1, and 7.2 (with composer, phpunit, and xdebug)
 - Powershell Core v6.1.0-preview.2
 - Python 2.7.14, 3.3.7, 3.4.8, 3.5.5, 3.6.4 and 3.7.0-b2 (from hosted tools cache)
 - Ruby 2.3.7, 2.4.4 and 2.5.1 (from hosted tools cache)
 - Scala sbt-extras
 - Subversion 1.9.3
+- xsltproc 1.1.28 and xalan 1.11
 
 ### `docker` images
 These derived images include a version of the Docker CLI and a compatible version of the Docker Compose CLI. This image cannot run most of the built-in VSTS build or release tasks but it can run tasks that invoke arbitrary Docker workloads.
