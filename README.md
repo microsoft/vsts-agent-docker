@@ -149,8 +149,8 @@ These derived images include a set of standard capabilities that enable many of 
 - Node.js 8.11.3 LTS
 - PHP 5.6, 7.0, 7.1, and 7.2 (with composer, phpunit, and xdebug)
 - Powershell Core v6.1.0-preview.2
-- Python 2.7.14, 3.3.7, 3.4.8, 3.5.5, 3.6.4 and 3.7.0-b2 (from hosted tools cache)
-- Ruby 2.3.7, 2.4.4 and 2.5.1 (from hosted tools cache)
+- Python 2.7.15, 3.4.8, 3.5.5, 3.6.5 and 3.7.0 (available through the [Use Python Version](https://go.microsoft.com/fwlink/?linkid=871498) task)
+- Ruby 2.3.7, 2.4.4 and 2.5.1 (available through the  [Use Ruby Version](https://go.microsoft.com/fwlink/?linkid=2005989) task)
 - Scala sbt-extras
 - Subversion 1.9.3
 - xsltproc 1.1.28 and xalan 1.11
