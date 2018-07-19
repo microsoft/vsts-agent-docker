@@ -1,6 +1,7 @@
 FROM microsoft/vsts-agent:ubuntu-16.04
 
 # Install basic command-line utilities
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     curl \

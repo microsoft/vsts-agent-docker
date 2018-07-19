@@ -6,16 +6,22 @@ cd "$(dirname $0)"
 ubuntu() {
   cd ubuntu
 
-  while read UBUNTU_VERSION LIBICU_VERSION; do
+  while read UBUNTU_VERSION LIBICU_VERSION LIBCURL_VERSION EXTRA_PACKAGES; do
     BASE_DIR=$UBUNTU_VERSION
 
     TARGET_DIR=$BASE_DIR
     mkdir -p $TARGET_DIR
 
+    if [ "$EXTRA_PACKAGES" != "" ]; then
+        EXTRA_PACKAGES="$EXTRA_PACKAGES "
+    fi
+
     # Update base image
     sed \
       -e s/'$(UBUNTU_VERSION)'/$UBUNTU_VERSION/g \
       -e s/'$(LIBICU_VERSION)'/$LIBICU_VERSION/g \
+      -e s/'$(LIBCURL_VERSION)'/$LIBCURL_VERSION/g \
+      -e s/'$(EXTRA_PACKAGES)'/"$EXTRA_PACKAGES"/g \
       Dockerfile.template > $UBUNTU_VERSION/Dockerfile
     if [ -n "$(which unix2dos)" ]; then
       unix2dos -q $TARGET_DIR/Dockerfile

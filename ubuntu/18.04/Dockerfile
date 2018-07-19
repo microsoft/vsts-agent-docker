@@ -1,4 +1,4 @@
-FROM ubuntu:$(UBUNTU_VERSION)
+FROM ubuntu:18.04
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -9,10 +9,10 @@ RUN apt-get update \
         curl \
         git \
         jq \
-        libcurl$(LIBCURL_VERSION) \
-        libicu$(LIBICU_VERSION) \
+        libcurl4 \
+        libicu60 \
         libunwind8 \
-        netcat $(EXTRA_PACKAGES)\
+        netcat gpg-agent dirmngr \
  && curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash \
  && apt-get install -y --no-install-recommends git-lfs \
  && rm -rf /var/lib/apt/lists/*

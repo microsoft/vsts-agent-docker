@@ -1,4 +1,4 @@
-FROM microsoft/vsts-agent:ubuntu-14.04
+FROM microsoft/vsts-agent:ubuntu-18.04
 
 # Install basic command-line utilities
 ENV DEBIAN_FRONTEND=noninteractive
@@ -44,9 +44,9 @@ RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb
  && rm -rf /var/lib/apt/lists/*
 
 # Install Clang (only appears to work on xenial)
-RUN [ "trusty" = "xenial" ] \
+RUN [ "bionic" = "xenial" ] \
  && wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - \
- && apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main" \
+ && apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-6.0 main" \
  && apt-get update \
  && apt-get install -y --no-install-recommends clang-6.0 \
  && rm -rf /var/lib/apt/lists/* \
@@ -92,13 +92,13 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends openjdk-8-jdk \
  && rm -rf /var/lib/apt/lists/*
 RUN apt-get update \
- && apt-get -o Dpkg::Options::="--force-overwrite" install -y --no-install-recommends openjdk-8-jdk \
+ && apt-get -o Dpkg::Options::="--force-overwrite" install -y --no-install-recommends openjdk-11-jdk \
  && rm -rf /var/lib/apt/lists/*
-RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+RUN update-alternatives --set java /usr/lib/jvm/java-11-openjdk-amd64/jre/bin/java
 ENV JAVA_HOME_7_X64=/usr/lib/jvm/java-7-openjdk-amd64 \
     JAVA_HOME_8_X64=/usr/lib/jvm/java-8-openjdk-amd64 \
-    JAVA_HOME_8_X64=/usr/lib/jvm/java-8-openjdk-amd64 \
-    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
+    JAVA_HOME_11_X64=/usr/lib/jvm/java-11-openjdk-amd64 \
+    JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 \
     JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 
 # Install Java Tools (Ant, Gradle, Maven)
@@ -131,13 +131,6 @@ RUN curl -sL https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.
  && rm miniconda.sh
 ENV CONDA=/usr/share/miniconda
 
-# Install Mono
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
- && echo "deb https://download.mono-project.com/repo/ubuntu stable-trusty main" | tee /etc/apt/sources.list.d/mono-official-stable.list \
- && apt-get update \
- && apt-get install -y --no-install-recommends apt-transport-https mono-complete \
- && rm -rf /var/lib/apt/lists/*
-
 # Install MySQL Client
 RUN apt-get update \
   && apt-get install mysql-client -y \
@@ -145,7 +138,7 @@ RUN apt-get update \
 ENV mysql=/usr/bin/mysql
 
 # Install .NET Core SDK and initialize package cache
-RUN curl https://packages.microsoft.com/config/ubuntu/14.04/packages-microsoft-prod.deb > packages-microsoft-prod.deb \
+RUN curl https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb > packages-microsoft-prod.deb \
  && dpkg -i packages-microsoft-prod.deb \
  && rm packages-microsoft-prod.deb \
  && apt-get update \
@@ -355,7 +348,7 @@ RUN wget -q -O phpunit https://phar.phpunit.de/phpunit-7.phar \
 
 # Install Powershell Core
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
- && curl https://packages.microsoft.com/config/ubuntu/14.04/prod.list | tee /etc/apt/sources.list.d/microsoft.list \
+ && curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list | tee /etc/apt/sources.list.d/microsoft.list \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
     powershell \
