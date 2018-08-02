@@ -140,7 +140,7 @@ These derived images include a set of standard capabilities that enable many of 
 - Go 1.9.4 and 1.10
 - Helm 2.9.1
 - HipHop VM (HHVM) 3.27.0
-- Java OpenJDK 7 (1.7.0_95), 8 (1.8.0_162) and 9 (internal)
+- Java OpenJDK 7 (1.7.0_95), 8 (1.8.0_162), 9 (1.9.0_4), 10 (1.10.0_2), and 11 (1.11.24)
 - Java tools (Ant 1.9.6, Gradle 4.6, Maven 3.3.9)
 - kubectl 1.10.4
 - Miniconda 4.5.4
