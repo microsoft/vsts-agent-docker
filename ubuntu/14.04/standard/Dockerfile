@@ -2,7 +2,7 @@ FROM microsoft/vsts-agent:ubuntu-14.04
 
 # Install basic command-line utilities
 RUN apt-get update \
- && apt-get install -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends \
     curl \
     dnsutils \
     file \
@@ -18,54 +18,54 @@ RUN apt-get update \
     wget \
     zip \
     tzdata \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 # Setup the locale
 ENV LANG en_US.UTF-8
 ENV LC_ALL $LANG
 RUN locale-gen $LANG \
- && update-locale
+    && update-locale
 
 # Install essential build tools
 RUN apt-get update \
- && apt-get install -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends \
     build-essential \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Azure CLI (instructions taken from https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" \
-  | tee /etc/apt/sources.list.d/azure-cli.list \
- && curl -L https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - \
- && apt-get update \
- && apt-get install -y --no-install-recommends \
+    | tee /etc/apt/sources.list.d/azure-cli.list \
+    && curl -L https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
     apt-transport-https \
     azure-cli \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Clang (only appears to work on xenial)
 RUN [ "trusty" = "xenial" ] \
- && wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - \
- && apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main" \
- && apt-get update \
- && apt-get install -y --no-install-recommends clang-6.0 \
- && rm -rf /var/lib/apt/lists/* \
- || echo -n
+    && wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - \
+    && apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main" \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends clang-6.0 \
+    && rm -rf /var/lib/apt/lists/* \
+    || echo -n
 
 # Install CMake
 RUN curl -sL https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh -o cmake.sh \
- && chmod +x cmake.sh \
- && ./cmake.sh --prefix=/usr/local --exclude-subdir \
- && rm cmake.sh
+    && chmod +x cmake.sh \
+    && ./cmake.sh --prefix=/usr/local --exclude-subdir \
+    && rm cmake.sh
 
 # Install Go
 RUN curl -sL https://dl.google.com/go/go1.9.4.linux-amd64.tar.gz -o go1.9.4.linux-amd64.tar.gz \
- && mkdir -p /usr/local/go1.9.4 \
- && tar -C /usr/local/go1.9.4 -xzf go1.9.4.linux-amd64.tar.gz --strip-components=1 go \
- && rm go1.9.4.linux-amd64.tar.gz
+    && mkdir -p /usr/local/go1.9.4 \
+    && tar -C /usr/local/go1.9.4 -xzf go1.9.4.linux-amd64.tar.gz --strip-components=1 go \
+    && rm go1.9.4.linux-amd64.tar.gz
 RUN curl -sL https://dl.google.com/go/go1.10.linux-amd64.tar.gz -o go1.10.linux-amd64.tar.gz \
- && mkdir -p /usr/local/go1.10 \
- && tar -C /usr/local/go1.10 -xzf go1.10.linux-amd64.tar.gz --strip-components=1 go \
- && rm go1.10.linux-amd64.tar.gz
+    && mkdir -p /usr/local/go1.10 \
+    && tar -C /usr/local/go1.10 -xzf go1.10.linux-amd64.tar.gz --strip-components=1 go \
+    && rm go1.10.linux-amd64.tar.gz
 ENV GOROOT_1_9_X64=/usr/local/go1.9.4 \
     GOROOT_1_10_X64=/usr/local/go1.10 \
     GOROOT=/usr/local/go1.10
@@ -76,29 +76,29 @@ RUN curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | 
 
 # Install HHVM
 RUN apt-get update \
- && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xB4112585D386EB94 \
- && add-apt-repository https://dl.hhvm.com/ubuntu \
- && apt-get update \
- && apt-get install -y hhvm \
- && rm -rf /var/lib/apt/lists/*
+    && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xB4112585D386EB94 \
+    && add-apt-repository https://dl.hhvm.com/ubuntu \
+    && apt-get update \
+    && apt-get install -y hhvm \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Java OpenJDKs
 RUN apt-add-repository -y ppa:openjdk-r/ppa
 RUN apt-get update \
- && apt-get install -y --no-install-recommends openjdk-7-jdk \
- && rm -rf /var/lib/apt/lists/*
+    && apt-get install -y --no-install-recommends openjdk-7-jdk \
+    && rm -rf /var/lib/apt/lists/*
 RUN apt-get update \
- && apt-get install -y --no-install-recommends openjdk-8-jdk \
- && rm -rf /var/lib/apt/lists/*
+    && apt-get install -y --no-install-recommends openjdk-8-jdk \
+    && rm -rf /var/lib/apt/lists/*
 RUN apt-get update \
- && apt-get install -y --no-install-recommends openjdk-9-jdk \
- && rm -rf /var/lib/apt/lists/*
+    && apt-get install -y --no-install-recommends openjdk-9-jdk \
+    && rm -rf /var/lib/apt/lists/*
 RUN apt-get update \
- && apt-get install -y --no-install-recommends openjdk-10-jdk \
- && rm -rf /var/lib/apt/lists/*
+    && apt-get install -y --no-install-recommends openjdk-10-jdk \
+    && rm -rf /var/lib/apt/lists/*
 RUN apt-get update \
- && apt-get install -y --no-install-recommends openjdk-11-jdk \
- && rm -rf /var/lib/apt/lists/*
+    && apt-get install -y --no-install-recommends openjdk-11-jdk \
+    && rm -rf /var/lib/apt/lists/*
 RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 ENV JAVA_HOME_7_X64=/usr/lib/jvm/java-7-openjdk-amd64 \
     JAVA_HOME_8_X64=/usr/lib/jvm/java-8-openjdk-amd64 \
@@ -110,77 +110,75 @@ ENV JAVA_HOME_7_X64=/usr/lib/jvm/java-7-openjdk-amd64 \
 
 # Install Java Tools (Ant, Gradle, Maven)
 RUN apt-get update \
- && apt-get install -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends \
     ant \
     ant-optional \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 RUN curl -sL https://services.gradle.org/distributions/gradle-4.6-bin.zip -o gradle-4.6.zip \
- && unzip -d /usr/share gradle-4.6.zip \
- && ln -s /usr/share/gradle-4.6/bin/gradle /usr/bin/gradle \
- && rm gradle-4.6.zip
+    && unzip -d /usr/share gradle-4.6.zip \
+    && ln -s /usr/share/gradle-4.6/bin/gradle /usr/bin/gradle \
+    && rm gradle-4.6.zip
 RUN apt-get update \
- && apt-get install -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends \
     maven \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 ENV ANT_HOME=/usr/share/ant \
     GRADLE_HOME=/usr/share/gradle \
     M2_HOME=/usr/share/maven
 
 # Install kubectl
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
- && chmod +x ./kubectl \
- && mv ./kubectl /usr/local/bin/kubectl
+    && chmod +x ./kubectl \
+    && mv ./kubectl /usr/local/bin/kubectl
 
 # Install Miniconda
 RUN curl -sL https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh \
- && chmod +x miniconda.sh \
- && ./miniconda.sh -b -p /usr/share/miniconda \
- && rm miniconda.sh
-ENV CONDA=/usr/share/miniconda
-ENV PATH $PATH:$CONDA/bin
+    && chmod +x miniconda.sh \
+    && ./miniconda.sh -b -p /usr/share/miniconda \
+    && rm miniconda.sh
 
 # Install Mono
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
- && echo "deb https://download.mono-project.com/repo/ubuntu stable-trusty main" | tee /etc/apt/sources.list.d/mono-official-stable.list \
- && apt-get update \
- && apt-get install -y --no-install-recommends apt-transport-https mono-complete \
- && rm -rf /var/lib/apt/lists/*
+    && echo "deb https://download.mono-project.com/repo/ubuntu stable-trusty main" | tee /etc/apt/sources.list.d/mono-official-stable.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends apt-transport-https mono-complete \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install MySQL Client
 RUN apt-get update \
-  && apt-get install mysql-client -y \
-  && rm -rf /var/lib/apt/lists/*
+    && apt-get install mysql-client -y \
+    && rm -rf /var/lib/apt/lists/*
 ENV mysql=/usr/bin/mysql
 
 # Install .NET Core SDK and initialize package cache
 RUN curl https://packages.microsoft.com/config/ubuntu/14.04/packages-microsoft-prod.deb > packages-microsoft-prod.deb \
- && dpkg -i packages-microsoft-prod.deb \
- && rm packages-microsoft-prod.deb \
- && apt-get update \
- && apt-get install -y --no-install-recommends \
+    && dpkg -i packages-microsoft-prod.deb \
+    && rm packages-microsoft-prod.deb \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
     apt-transport-https \
     dotnet-sdk-2.1 \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 RUN dotnet help
 ENV dotnet=/usr/bin/dotnet
 
 # Install AzCopy (depends on .NET Core)
 RUN apt-get update \
- && apt-get install -y --no-install-recommends azcopy \
- && rm -rf /var/lib/apt/lists/*
+    && apt-get install -y --no-install-recommends azcopy \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install LTS Node.js and related build tools
 RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
- && ~/n/bin/n lts \
- && npm install -g bower grunt gulp n \
- && rm -rf ~/n
+    && ~/n/bin/n lts \
+    && npm install -g bower grunt gulp n \
+    && rm -rf ~/n
 ENV bower=/usr/local/bin/bower \
     grunt=/usr/local/bin/grunt
 
 # Install PHP versions and libraries
 RUN apt-add-repository ppa:ondrej/php -y \
- && apt-get update \
- && apt-get install -y --no-install-recommends \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
     php5.6 \
     php5.6-amqp \
     php5.6-bcmath \
@@ -219,8 +217,8 @@ RUN apt-add-repository ppa:ondrej/php -y \
     php5.6-xmlrpc \
     php5.6-xsl \
     php5.6-zip \
- && apt-get remove --purge -yq php5.6-dev \
- && apt-get install -y --no-install-recommends \
+    && apt-get remove --purge -yq php5.6-dev \
+    && apt-get install -y --no-install-recommends \
     php7.0 \
     php7.0-amqp \
     php7.0-bcmath \
@@ -259,8 +257,8 @@ RUN apt-add-repository ppa:ondrej/php -y \
     php7.0-xmlrpc \
     php7.0-xsl \
     php7.0-zip \
- && apt-get remove --purge -yq php7.0-dev \
- && apt-get install -y --no-install-recommends \
+    && apt-get remove --purge -yq php7.0-dev \
+    && apt-get install -y --no-install-recommends \
     php7.1 \
     php7.1-amqp \
     php7.1-bcmath \
@@ -299,8 +297,8 @@ RUN apt-add-repository ppa:ondrej/php -y \
     php7.1-xmlrpc \
     php7.1-xsl \
     php7.1-zip \
- && apt-get remove --purge -yq php7.1-dev \
- && apt-get install -y --no-install-recommends \
+    && apt-get remove --purge -yq php7.1-dev \
+    && apt-get install -y --no-install-recommends \
     php7.2 \
     php7.2-apcu \
     php7.2-amqp \
@@ -339,7 +337,7 @@ RUN apt-add-repository ppa:ondrej/php -y \
     php7.2-xmlrpc \
     php7.2-xsl \
     php7.2-zip \
- && apt-get install -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends \
     php-igbinary \
     php-memcache \
     php-memcached \
@@ -348,9 +346,9 @@ RUN apt-add-repository ppa:ondrej/php -y \
     php-xdebug \
     php-yaml \
     php-zmq \
- && apt-get remove --purge -yq php7.2-dev \
- && apt-get install -y --no-install-recommends snmp \
- && rm -rf /var/lib/apt/lists/*
+    && apt-get remove --purge -yq php7.2-dev \
+    && apt-get install -y --no-install-recommends snmp \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install composer (for PHP)
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -358,54 +356,54 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 # Install phpunit (for PHP)
 RUN wget -q -O phpunit https://phar.phpunit.de/phpunit-7.phar \
- && chmod +x phpunit \
- && mv phpunit /usr/local/bin/phpunit
+    && chmod +x phpunit \
+    && mv phpunit /usr/local/bin/phpunit
 
 # Install Powershell Core
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
- && curl https://packages.microsoft.com/config/ubuntu/14.04/prod.list | tee /etc/apt/sources.list.d/microsoft.list \
- && apt-get update \
- && apt-get install -y --no-install-recommends \
+    && curl https://packages.microsoft.com/config/ubuntu/14.04/prod.list | tee /etc/apt/sources.list.d/microsoft.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
     powershell \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Python
 RUN apt-get update \
- && apt-get install -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends \
     python \
     python-pip \
     python3 \
     python3-pip \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Ruby requirements
 RUN apt-get update \
- && apt-get install -y libz-dev openssl libssl-dev
+    && apt-get install -y libz-dev openssl libssl-dev
 
 # Install Scala build tools
 RUN curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /usr/local/bin/sbt \
- && chmod 0755 /usr/local/bin/sbt
+    && chmod 0755 /usr/local/bin/sbt
 
 # Install Subversion
 RUN apt-get update \
- && apt-get install -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends \
     subversion \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 ENV svn=/usr/bin/svn
 
 # XSLT transformation
 RUN apt-get update \
- && apt-get install -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends \
     xsltproc \
     xalan \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 # Install yarn
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
- && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
- && apt-get update \
- && apt-get install -y --no-install-recommends yarn \
- && rm -rf /var/lib/apt/lists/*
+    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends yarn \
+    && rm -rf /var/lib/apt/lists/*
 
 # Download hosted tool cache
 ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
@@ -413,12 +411,12 @@ RUN azcopy --recursive --source https://vstsagenttools.blob.core.windows.net/too
 
 # Install the tools from the hosted tool cache
 RUN original_directory=$PWD \
- && setups=$(find $AGENT_TOOLSDIRECTORY -name setup.sh) \
- && for setup in $setups; do \
-        chmod +x $setup; \
-        cd $(dirname $setup); \
-        ./$(basename $setup); \
-        cd $original_directory; \
+    && setups=$(find $AGENT_TOOLSDIRECTORY -name setup.sh) \
+    && for setup in $setups; do \
+    chmod +x $setup; \
+    cd $(dirname $setup); \
+    ./$(basename $setup); \
+    cd $original_directory; \
     done;
 
 # Add the latest Ruby version in the tool cache to the path

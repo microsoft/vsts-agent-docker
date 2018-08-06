@@ -156,6 +156,8 @@ These derived images include a set of standard capabilities that enable many of 
 - xsltproc 1.1.28 and xalan 1.11
 - yarn 1.7.0
 
+Note : All capabilities may not be added to PATH. e.g. conda is not, to avoid conflicts between python and pip versions, but ruby is.
+
 ### `docker` images
 These derived images include a version of the Docker CLI and a compatible version of the Docker Compose CLI. This image cannot run most of the built-in VSTS build or release tasks but it can run tasks that invoke arbitrary Docker workloads.
 
