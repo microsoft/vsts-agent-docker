@@ -71,6 +71,14 @@ ENV GOROOT_1_9_X64=/usr/local/go1.9.4 \
     GOROOT=/usr/local/go1.10
 ENV PATH $PATH:$GOROOT/bin
 
+# Install Google Chrome
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - \
+ && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list \
+ && apt-get update \
+ && apt-get install -y google-chrome-stable \
+ && rm -rf /var/lib/apt/lists/*
+ENV CHROME_BIN /usr/bin/google-chrome
+
 # Install Helm
 RUN curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
 
