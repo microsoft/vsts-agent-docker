@@ -26,6 +26,9 @@ ENV LC_ALL $LANG
 RUN locale-gen $LANG \
  && update-locale
 
+# Accept EULA - needed for certain Microsoft packages
+ENV ACCEPT_EULA=Y
+
 # Install essential build tools
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -153,12 +156,12 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E03280
  && apt-get install -y --no-install-recommends apt-transport-https mono-complete \
  && rm -rf /var/lib/apt/lists/*
 
-# Install MS SQL client (https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-setup-tools?view=sql-server-2017)
+# Install MS SQL Server client tools (https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-setup-tools?view=sql-server-2017)
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
   && curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | tee /etc/apt/sources.list.d/msprod.list \
   && apt-get update \
   && apt-get install -y mssql-tools unixodbc-dev
-ENV PATH $PATH:/opt/mssql-tools/bin
+ENV PATH=$PATH:/opt/mssql-tools/bin
 
 # Install MySQL Client
 RUN apt-get update \
