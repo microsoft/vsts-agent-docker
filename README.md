@@ -145,7 +145,7 @@ These derived images include a set of standard capabilities that enable many of 
 - kubectl 1.10.4
 - Miniconda 4.5.4
 - MS SQL Server client tools 17.2.0000.1
-- MySQL Client 14.14 
+- MySQL Client 14.14
 - .NET Core SDK 2.1.300 (runtime 2.1.0)
 - Node.js 8.11.3 LTS
 - PHP 5.6, 7.0, 7.1, and 7.2 (with composer, phpunit, and xdebug)
