@@ -144,6 +144,7 @@ These derived images include a set of standard capabilities that enable many of 
 - Java tools (Ant 1.9.6, Gradle 4.6, Maven 3.3.9)
 - kubectl 1.10.4
 - Miniconda 4.5.4
+- MS SQL Server client tools 17.2.0000.1
 - MySQL Client 14.14
 - .NET Core SDK 2.1.300 (runtime 2.1.0)
 - Node.js 8.11.3 LTS
