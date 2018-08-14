@@ -11,6 +11,8 @@ RUN apt-get update \
     iputils-ping \
     locales \
     openssh-client \
+    rsync\
+    shellcheck \
     sudo \
     telnet \
     time \
@@ -60,6 +62,13 @@ RUN curl -sL https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh -o cmake
  && ./cmake.sh --prefix=/usr/local --exclude-subdir \
  && rm cmake.sh
 
+# Install Erlang
+RUN echo "deb http://binaries.erlang-solutions.com/debian xenial contrib" > /etc/apt/sources.list.d/eslerlang.list \
+ && wget -O - http://binaries.erlang-solutions.com/debian/erlang_solutions.asc | sudo apt-key add - \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends esl-erlang \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install Go
 RUN curl -sL https://dl.google.com/go/go1.9.4.linux-amd64.tar.gz -o go1.9.4.linux-amd64.tar.gz \
  && mkdir -p /usr/local/go1.9.4 \
@@ -82,8 +91,16 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo ap
  && rm -rf /var/lib/apt/lists/*
 ENV CHROME_BIN /usr/bin/google-chrome
 
+# Install Haskell
+RUN apt-get update \
+ && apt-get install -y haskell-platform \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install Helm
 RUN curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+
+# Install Heroku CLI
+RUN curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 
 # Install HHVM
 RUN apt-get update \
@@ -91,6 +108,15 @@ RUN apt-get update \
  && add-apt-repository https://dl.hhvm.com/ubuntu \
  && apt-get update \
  && apt-get install -y hhvm \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install ImageMagick
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends --fix-missing \
+    imagemagick \
+    libmagickcore-dev \
+    libmagickwand-dev \
+    libmagic-dev \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Java OpenJDKs
@@ -142,6 +168,11 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s
  && chmod +x ./kubectl \
  && mv ./kubectl /usr/local/bin/kubectl
 
+# Install Mercurial
+RUN apt-get update \
+  && apt-get install mercurial -y \
+  && rm -rf /var/lib/apt/lists/*
+
 # Install Miniconda
 RUN curl -sL https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh \
  && chmod +x miniconda.sh \
@@ -161,6 +192,7 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
   && curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | tee /etc/apt/sources.list.d/msprod.list \
   && apt-get update \
   && apt-get install -y mssql-tools unixodbc-dev
+  && rm -rf /var/lib/apt/lists/*
 ENV PATH=$PATH:/opt/mssql-tools/bin
 
 # Install MySQL Client
@@ -168,6 +200,14 @@ RUN apt-get update \
   && apt-get install mysql-client -y \
   && rm -rf /var/lib/apt/lists/*
 ENV mysql=/usr/bin/mysql
+
+# Install MySQL Server
+ENV MYSQL_ROOT_PASSWORD=
+RUN debconf-set-selections <<< 'mysql-server mysql-server/root_password password $MYSQL_ROOT_PASSWORD' \
+  && debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD' \
+  && apt-get update \
+  && apt-get install mysql-server -y \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install .NET Core SDK and initialize package cache
 RUN curl https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb > packages-microsoft-prod.deb \
@@ -378,6 +418,11 @@ RUN wget -q -O phpunit https://phar.phpunit.de/phpunit-7.phar \
  && chmod +x phpunit \
  && mv phpunit /usr/local/bin/phpunit
 
+# Install Pollinate
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends pollinate \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install Powershell Core
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
  && curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | tee /etc/apt/sources.list.d/microsoft.list \
@@ -395,6 +440,11 @@ RUN apt-get update \
     python3-pip \
  && rm -rf /var/lib/apt/lists/*
 
+# Install rebar3 (for Erlang)
+RUN wget -q -O rebar3 https://s3.amazonaws.com/rebar3/rebar3 \
+ && chmod +x rebar3 \
+ && mv rebar3 /usr/local/bin/rebar3
+
 # Install Ruby requirements
 RUN apt-get update \
  && apt-get install -y libz-dev openssl libssl-dev
@@ -402,6 +452,11 @@ RUN apt-get update \
 # Install Scala build tools
 RUN curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /usr/local/bin/sbt \
  && chmod 0755 /usr/local/bin/sbt
+
+# Install Sphinx
+RUN apt-get update \
+  && apt-get install sphinxsearch -y \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install Subversion
 RUN apt-get update \
