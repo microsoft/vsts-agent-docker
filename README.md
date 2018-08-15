@@ -139,35 +139,36 @@ These derived images include a set of standard capabilities that enable many of 
 - Erlang/OTP 21
 - GCC 5.4.0
 - Go 1.9.4 and 1.10
-- Haskell 
+- Haskell 2014.2.0.0
 - Helm 2.9.1
 - Heroku CLI 7.7.10
-- HipHop VM (HHVM) 3.27.0
+- HipHop VM (HHVM) 3.27.1
 - ImageMagick 6.8.9-9
-- Java OpenJDK 7 (1.7.0_95), 8 (1.8.0_162), 9 (1.9.0_4), 10 (1.10.0_2), and 11 (1.11.24)
+- Java OpenJDK 7 (1.7.0_95), 8 (1.8.0_181), 9 (1.9.0_4), 10 (1.10.0_2), and 11 (1.11.24)
 - Java tools (Ant 1.9.6, Gradle 4.6, Maven 3.3.9)
 - jq 1.5-1
-- kubectl 1.10.4
+- kubectl 1.11.1
 - Mercurial 3.7.3
 - Miniconda 4.5.4
-- MS SQL Server Client Tools 17.2.0000.1
-- MySQL Client 14.14
-- MySQL Server 5.7
-- .NET Core SDK 2.1.300 (runtime 2.1.0)
-- Node.js 8.11.3 LTS
+- Mono 5.14.0.177
+- Microsoft SQL Server Client Tools 17.2.0.1
+- MySQL Client 5.7.23
+- MySQL Server 5.7.23
+- .NET Core SDK 2.1.400 (runtime 2.1.2)
+- Node.js 8.11.3 LTS (with bower, grunt, gulp, n, parcel, and webpack)
 - PHP 5.6, 7.0, 7.1, and 7.2 (with composer, phpunit, and xdebug)
 - Pollinate 4.33
 - Powershell Core v6.1.0-preview.2
 - Python 2.7.15, 3.4.8, 3.5.5, 3.6.5 and 3.7.0 (available through the [Use Python Version](https://go.microsoft.com/fwlink/?linkid=871498) task)
 - rebar 3.6.1
 - rsync 3.1.1
-- Ruby 2.3.7, 2.4.4 and 2.5.1 (available through the  [Use Ruby Version](https://go.microsoft.com/fwlink/?linkid=2005989) task)
+- Ruby 2.3.7, 2.4.4 and 2.5.1 (available through the [Use Ruby Version](https://go.microsoft.com/fwlink/?linkid=2005989) task)
 - Scala sbt-extras
 - ShellCheck 0.3.7-5
 - Sphinx 2.2.9
 - Subversion 1.9.3
 - xsltproc 1.1.28 and xalan 1.11
-- yarn 1.7.0
+- yarn 1.9.2
 
 ### `docker` images
 These derived images include a version of the Docker CLI and a compatible version of the Docker Compose CLI. This image cannot run most of the built-in VSTS build or release tasks but it can run tasks that invoke arbitrary Docker workloads.

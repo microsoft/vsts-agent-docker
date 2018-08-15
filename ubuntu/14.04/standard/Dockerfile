@@ -1,5 +1,10 @@
 FROM microsoft/vsts-agent:ubuntu-14.04
 
+# To make it easier for build and release pipelines to run apt-get,
+# configure apt to not require confirmation (assume the -y argument by default)
+ENV DEBIAN_FRONTEND=noninteractive
+RUN echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
+
 # Install basic command-line utilities
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -167,7 +172,7 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s
 
 # Install Mercurial
 RUN apt-get update \
-  && apt-get install mercurial -y \
+  && apt-get install -y mercurial \
   && rm -rf /var/lib/apt/lists/*
 
 # Install Miniconda
@@ -186,16 +191,16 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E03280
 
 # Install MySQL Client
 RUN apt-get update \
-  && apt-get install mysql-client -y \
+  && apt-get install -y mysql-client \
   && rm -rf /var/lib/apt/lists/*
 ENV mysql=/usr/bin/mysql
 
 # Install MySQL Server
 ENV MYSQL_ROOT_PASSWORD=
-RUN debconf-set-selections <<< 'mysql-server mysql-server/root_password password $MYSQL_ROOT_PASSWORD' \
-  && debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD' \
-  && apt-get update \
-  && apt-get install mysql-server -y \
+RUN bash -c 'debconf-set-selections <<< "mysql-server mysql-server/root_password password $MYSQL_ROOT_PASSWORD"'
+RUN bash -c 'debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD"'
+RUN apt-get update \
+  && apt-get install -y mysql-server \
   && rm -rf /var/lib/apt/lists/*
 
 # Install .NET Core SDK and initialize package cache
@@ -215,10 +220,16 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends azcopy \
  && rm -rf /var/lib/apt/lists/*
 
-# Install LTS Node.js and related build tools
+# Install LTS Node.js and related tools
 RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
  && ~/n/bin/n lts \
- && npm install -g bower grunt gulp n \
+ && npm install -g bower \
+ && npm install -g grunt \
+ && npm install -g gulp \
+ && npm install -g n \
+ && npm install -g webpack webpack-cli --save-dev \
+ && npm install -g parcel-bundler
+ && npm i -g npm
  && rm -rf ~/n
 ENV bower=/usr/local/bin/bower \
     grunt=/usr/local/bin/grunt
@@ -444,7 +455,7 @@ RUN curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /usr
 
 # Install Sphinx
 RUN apt-get update \
-  && apt-get install sphinxsearch -y \
+  && apt-get install -y sphinxsearch \
   && rm -rf /var/lib/apt/lists/*
 
 # Install Subversion
