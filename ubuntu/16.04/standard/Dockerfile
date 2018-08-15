@@ -239,8 +239,8 @@ RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
  && npm install -g gulp \
  && npm install -g n \
  && npm install -g webpack webpack-cli --save-dev \
- && npm install -g parcel-bundler
- && npm i -g npm
+ && npm install -g parcel-bundler \
+ && npm i -g npm \
  && rm -rf ~/n
 ENV bower=/usr/local/bin/bower \
     grunt=/usr/local/bin/grunt
