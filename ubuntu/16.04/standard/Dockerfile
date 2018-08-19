@@ -9,6 +9,7 @@ RUN apt-get update \
     ftp \
     iproute2 \
     iputils-ping \
+    jq \
     locales \
     openssh-client \
     sudo \
@@ -409,6 +410,12 @@ RUN apt-get update \
     subversion \
  && rm -rf /var/lib/apt/lists/*
 ENV svn=/usr/bin/svn
+
+# Install terraform
+RUN TERRAFORM_VERSION=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r .current_version) \
+ && curl -LO https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
+ && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/local/bin \
+ && rm -f terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
 # XSLT transformation
 RUN apt-get update \
