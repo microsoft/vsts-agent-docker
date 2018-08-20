@@ -154,6 +154,7 @@ These derived images include a set of standard capabilities that enable many of 
 - Ruby 2.3.7, 2.4.4 and 2.5.1 (available through the  [Use Ruby Version](https://go.microsoft.com/fwlink/?linkid=2005989) task)
 - Scala sbt-extras
 - Subversion 1.9.3
+- Terraform 0.11.8
 - xsltproc 1.1.28 and xalan 1.11
 - yarn 1.7.0
 
