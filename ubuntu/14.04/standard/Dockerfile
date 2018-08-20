@@ -1,5 +1,10 @@
 FROM microsoft/vsts-agent:ubuntu-14.04
 
+# To make it easier for build and release pipelines to run apt-get,
+# configure apt to not require confirmation (assume the -y argument by default)
+ENV DEBIAN_FRONTEND=noninteractive
+RUN echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
+
 # Install basic command-line utilities
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -11,6 +16,8 @@ RUN apt-get update \
     iputils-ping \
     locales \
     openssh-client \
+    rsync\
+    shellcheck \
     sudo \
     telnet \
     time \
@@ -25,6 +32,9 @@ ENV LANG en_US.UTF-8
 ENV LC_ALL $LANG
 RUN locale-gen $LANG \
  && update-locale
+
+# Accept EULA - needed for certain Microsoft packages like SQL Server Client Tools
+ENV ACCEPT_EULA=Y
 
 # Install essential build tools
 RUN apt-get update \
@@ -57,6 +67,18 @@ RUN curl -sL https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh -o cmake
  && ./cmake.sh --prefix=/usr/local --exclude-subdir \
  && rm cmake.sh
 
+# Install Erlang
+RUN echo "deb http://binaries.erlang-solutions.com/debian xenial contrib" > /etc/apt/sources.list.d/eslerlang.list \
+ && wget -O - http://binaries.erlang-solutions.com/debian/erlang_solutions.asc | sudo apt-key add - \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends esl-erlang \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install Firefox
+RUN apt-get update \
+ && apt-get install -y firefox \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install Go
 RUN curl -sL https://dl.google.com/go/go1.9.4.linux-amd64.tar.gz -o go1.9.4.linux-amd64.tar.gz \
  && mkdir -p /usr/local/go1.9.4 \
@@ -79,8 +101,16 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo ap
  && rm -rf /var/lib/apt/lists/*
 ENV CHROME_BIN /usr/bin/google-chrome
 
+# Install Haskell
+RUN apt-get update \
+ && apt-get install -y haskell-platform \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install Helm
 RUN curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+
+# Install Heroku CLI
+RUN curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 
 # Install HHVM
 RUN apt-get update \
@@ -88,6 +118,15 @@ RUN apt-get update \
  && add-apt-repository https://dl.hhvm.com/ubuntu \
  && apt-get update \
  && apt-get install -y hhvm \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install ImageMagick
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends --fix-missing \
+    imagemagick \
+    libmagickcore-dev \
+    libmagickwand-dev \
+    libmagic-dev \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Java OpenJDKs
@@ -139,6 +178,11 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s
  && chmod +x ./kubectl \
  && mv ./kubectl /usr/local/bin/kubectl
 
+# Install Mercurial
+RUN apt-get update \
+  && apt-get install -y mercurial \
+  && rm -rf /var/lib/apt/lists/*
+
 # Install Miniconda
 RUN curl -sL https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh \
  && chmod +x miniconda.sh \
@@ -155,9 +199,17 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E03280
 
 # Install MySQL Client
 RUN apt-get update \
-  && apt-get install mysql-client -y \
+  && apt-get install -y mysql-client \
   && rm -rf /var/lib/apt/lists/*
 ENV mysql=/usr/bin/mysql
+
+# Install MySQL Server
+ENV MYSQL_ROOT_PASSWORD=
+RUN bash -c 'debconf-set-selections <<< "mysql-server mysql-server/root_password password $MYSQL_ROOT_PASSWORD"'
+RUN bash -c 'debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD"'
+RUN apt-get update \
+  && apt-get install -y mysql-server \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install .NET Core SDK and initialize package cache
 RUN curl https://packages.microsoft.com/config/ubuntu/14.04/packages-microsoft-prod.deb > packages-microsoft-prod.deb \
@@ -176,13 +228,29 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends azcopy \
  && rm -rf /var/lib/apt/lists/*
 
-# Install LTS Node.js and related build tools
+# Install LTS Node.js and related tools
 RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
  && ~/n/bin/n lts \
- && npm install -g bower grunt gulp n \
+ && npm install -g bower \
+ && npm install -g grunt \
+ && npm install -g gulp \
+ && npm install -g n \
+ && npm install -g webpack webpack-cli --save-dev \
+ && npm install -g parcel-bundler \
+ && npm i -g npm \
  && rm -rf ~/n
 ENV bower=/usr/local/bin/bower \
     grunt=/usr/local/bin/grunt
+
+# Install PhantomJS
+RUN apt-get update \
+ && apt-get install -y chrpath libssl-dev libxft-dev libfreetype6 libfreetype6-dev libfontconfig1 libfontconfig1-dev \
+ && rm -rf /var/lib/apt/lists/* \
+ && export PHANTOM_JS=phantomjs-2.1.1-linux-x86_64 \
+ && wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2 \
+ && tar xvjf $PHANTOM_JS.tar.bz2 \
+ && mv $PHANTOM_JS /usr/local/share \
+ && ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin
 
 # Install PHP versions and libraries
 RUN apt-add-repository ppa:ondrej/php -y \
@@ -368,6 +436,11 @@ RUN wget -q -O phpunit https://phar.phpunit.de/phpunit-7.phar \
  && chmod +x phpunit \
  && mv phpunit /usr/local/bin/phpunit
 
+# Install Pollinate
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends pollinate \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install Powershell Core
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
  && curl https://packages.microsoft.com/config/ubuntu/14.04/prod.list | tee /etc/apt/sources.list.d/microsoft.list \
@@ -375,6 +448,20 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
  && apt-get install -y --no-install-recommends \
     powershell \
  && rm -rf /var/lib/apt/lists/*
+
+# Instally PyPy2
+RUN wget -q -P /tmp https://bitbucket.org/pypy/pypy/downloads/pypy2-v6.0.0-linux64.tar.bz2 \
+ && tar -x -C /opt -f /tmp/pypy2-v6.0.0-linux64.tar.bz2 \
+ && rm /tmp/pypy2-v6.0.0-linux64.tar.bz2 \
+ && mv /opt/pypy2-v6.0.0-linux64 /opt/pypy2 \
+ && ln -s /opt/pypy2/bin/pypy /usr/local/bin/pypy
+
+# Install PyPy3
+RUN wget -q -P /tmp https://bitbucket.org/pypy/pypy/downloads/pypy3-v6.0.0-linux64.tar.bz2 \
+ && tar -x -C /opt -f /tmp/pypy3-v6.0.0-linux64.tar.bz2 \
+ && rm /tmp/pypy3-v6.0.0-linux64.tar.bz2 \
+ && mv /opt/pypy3-v6.0.0-linux64 /opt/pypy3 \
+ && ln -s /opt/pypy3/bin/pypy3 /usr/local/bin/pypy3
 
 # Install Python
 RUN apt-get update \
@@ -385,6 +472,11 @@ RUN apt-get update \
     python3-pip \
  && rm -rf /var/lib/apt/lists/*
 
+# Install rebar3 (for Erlang)
+RUN wget -q -O rebar3 https://s3.amazonaws.com/rebar3/rebar3 \
+ && chmod +x rebar3 \
+ && mv rebar3 /usr/local/bin/rebar3
+
 # Install Ruby requirements
 RUN apt-get update \
  && apt-get install -y libz-dev openssl libssl-dev
@@ -393,12 +485,23 @@ RUN apt-get update \
 RUN curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /usr/local/bin/sbt \
  && chmod 0755 /usr/local/bin/sbt
 
+# Install Sphinx
+RUN apt-get update \
+  && apt-get install -y sphinxsearch \
+  && rm -rf /var/lib/apt/lists/*
+
 # Install Subversion
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     subversion \
  && rm -rf /var/lib/apt/lists/*
 ENV svn=/usr/bin/svn
+
+# Install Terraform
+RUN TERRAFORM_VERSION=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r .current_version) \
+ && curl -LO https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
+ && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/local/bin \
+ && rm -f terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
 # XSLT transformation
 RUN apt-get update \
@@ -412,6 +515,11 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
  && apt-get update \
  && apt-get install -y --no-install-recommends yarn \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install Xvfb
+RUN apt-get update \
+ && apt-get install -y xvfb \
  && rm -rf /var/lib/apt/lists/*
 
 # Download hosted tool cache
