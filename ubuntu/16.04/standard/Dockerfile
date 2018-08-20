@@ -527,7 +527,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
 
 # Install Xvfb
 RUN apt-get update \
- && apt-get install -y xvfb
+ && apt-get install -y xvfb \
  && rm -rf /var/lib/apt/lists/*
 
 # Download hosted tool cache
