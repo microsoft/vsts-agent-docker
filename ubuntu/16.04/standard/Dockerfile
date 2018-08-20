@@ -33,7 +33,7 @@ ENV LC_ALL $LANG
 RUN locale-gen $LANG \
  && update-locale
 
-# Accept EULA - needed for certain Microsoft packages
+# Accept EULA - needed for certain Microsoft packages like SQL Server Client Tools
 ENV ACCEPT_EULA=Y
 
 # Install essential build tools
