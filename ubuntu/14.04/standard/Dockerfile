@@ -76,7 +76,7 @@ RUN echo "deb http://binaries.erlang-solutions.com/debian xenial contrib" > /etc
 
 # Install Firefox
 RUN apt-get update \
- && apt-get install -y firefox
+ && apt-get install -y firefox \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Go
