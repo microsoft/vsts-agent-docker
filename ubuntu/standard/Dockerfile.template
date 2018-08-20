@@ -9,7 +9,6 @@ RUN apt-get update \
     ftp \
     iproute2 \
     iputils-ping \
-    jq \
     locales \
     openssh-client \
     sudo \
