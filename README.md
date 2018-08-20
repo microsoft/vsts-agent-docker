@@ -137,8 +137,10 @@ These derived images include a set of standard capabilities that enable many of 
 - CLang 6.0
 - CMake 3.10.2
 - Erlang/OTP 21
+- Firefox 61.0.1
 - GCC 5.4.0
 - Go 1.9.4 and 1.10
+- Google Chrome 68.0
 - Haskell 2014.2.0.0
 - Helm 2.9.1
 - Heroku CLI 7.7.10
@@ -156,9 +158,11 @@ These derived images include a set of standard capabilities that enable many of 
 - MySQL Server 5.7.23
 - .NET Core SDK 2.1.400 (runtime 2.1.2)
 - Node.js 8.11.3 LTS (with bower, grunt, gulp, n, parcel, and webpack)
+- PhantomJS 2.1.1
 - PHP 5.6, 7.0, 7.1, and 7.2 (with composer, phpunit, and xdebug)
 - Pollinate 4.33
 - Powershell Core v6.1.0-preview.2
+- PyPy2 (6.0.0) and PyPy3 (6.0.0)
 - Python 2.7.15, 3.4.8, 3.5.5, 3.6.5 and 3.7.0 (available through the [Use Python Version](https://go.microsoft.com/fwlink/?linkid=871498) task)
 - rebar 3.6.1
 - rsync 3.1.1
@@ -167,7 +171,9 @@ These derived images include a set of standard capabilities that enable many of 
 - ShellCheck 0.3.7-5
 - Sphinx 2.2.9
 - Subversion 1.9.3
+- Terraform 0.11.8
 - xsltproc 1.1.28 and xalan 1.11
+- Xvfb 2:1.18.4
 - yarn 1.9.2
 
 ### `docker` images

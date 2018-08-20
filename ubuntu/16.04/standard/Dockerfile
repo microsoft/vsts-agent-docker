@@ -74,6 +74,11 @@ RUN echo "deb http://binaries.erlang-solutions.com/debian xenial contrib" > /etc
  && apt-get install -y --no-install-recommends esl-erlang \
  && rm -rf /var/lib/apt/lists/*
 
+# Install Firefox
+RUN apt-get update \
+ && apt-get install -y firefox
+ && rm -rf /var/lib/apt/lists/*
+
 # Install Go
 RUN curl -sL https://dl.google.com/go/go1.9.4.linux-amd64.tar.gz -o go1.9.4.linux-amd64.tar.gz \
  && mkdir -p /usr/local/go1.9.4 \
@@ -244,6 +249,16 @@ RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
  && rm -rf ~/n
 ENV bower=/usr/local/bin/bower \
     grunt=/usr/local/bin/grunt
+
+# Install PhantomJS
+RUN apt-get update \
+ && apt-get install -y chrpath libssl-dev libxft-dev libfreetype6 libfreetype6-dev libfontconfig1 libfontconfig1-dev \
+ && rm -rf /var/lib/apt/lists/*
+ && export PHANTOM_JS="phantomjs-2.1.1-linux-x86_64" \
+ && wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2 \
+ && tar xvjf $PHANTOM_JS.tar.bz2 \
+ && mv $PHANTOM_JS /usr/local/share \
+ && ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin
 
 # Install PHP versions and libraries
 RUN apt-add-repository ppa:ondrej/php -y \
@@ -442,6 +457,20 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
     powershell \
  && rm -rf /var/lib/apt/lists/*
 
+# Instally PyPy2
+RUN wget -q -P /tmp https://bitbucket.org/pypy/pypy/downloads/pypy2-v6.0.0-linux64.tar.bz2 \
+ && tar -x -C /opt -f /tmp/pypy2-v6.0.0-linux64.tar.bz2 \
+ && rm /tmp/pypy2-v6.0.0-linux64.tar.bz2 \
+ && mv /opt/pypy2-v6.0.0-linux64 /opt/pypy2 \
+ && ln -s /opt/pypy2/bin/pypy /usr/local/bin/pypy
+
+# Install PyPy3
+RUN wget -q -P /tmp https://bitbucket.org/pypy/pypy/downloads/pypy3-v6.0.0-linux64.tar.bz2 \
+ && tar -x -C /opt -f /tmp/pypy3-v6.0.0-linux64.tar.bz2 \
+ && rm /tmp/pypy3-v6.0.0-linux64.tar.bz2 \
+ && mv /opt/pypy3-v6.0.0-linux64 /opt/pypy3 \
+ && ln -s /opt/pypy3/bin/pypy3 /usr/local/bin/pypy3
+
 # Install Python
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -476,6 +505,12 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 ENV svn=/usr/bin/svn
 
+# Install Terraform
+RUN TERRAFORM_VERSION=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r .current_version) \
+ && curl -LO https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
+ && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/local/bin \
+ && rm -f terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+
 # XSLT transformation
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -488,6 +523,11 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
  && apt-get update \
  && apt-get install -y --no-install-recommends yarn \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install Xvfb
+RUN apt-get update \
+ && apt-get install -y xvfb
  && rm -rf /var/lib/apt/lists/*
 
 # Download hosted tool cache
