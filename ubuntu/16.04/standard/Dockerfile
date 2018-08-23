@@ -198,11 +198,13 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E03280
  && rm -rf /var/lib/apt/lists/*
 
 # Install MS SQL Server client tools (https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-setup-tools?view=sql-server-2017)
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+RUN [ "xenial" = "xenial" ] \
+  && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
   && curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | tee /etc/apt/sources.list.d/msprod.list \
   && apt-get update \
   && apt-get install -y mssql-tools unixodbc-dev \
-  && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/* \
+  || echo -n
 ENV PATH=$PATH:/opt/mssql-tools/bin
 
 # Install MySQL Client
@@ -487,21 +489,23 @@ RUN wget -q -O rebar3 https://s3.amazonaws.com/rebar3/rebar3 \
 
 # Install Ruby requirements
 RUN apt-get update \
- && apt-get install -y libz-dev openssl libssl-dev
+ && apt-get install -y libz-dev openssl libssl-dev \
+ && rm -rf /var/lib/apt/lists/*
 
 # Install Scala build tools
 RUN curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /usr/local/bin/sbt \
  && chmod 0755 /usr/local/bin/sbt
 
 # Install Sphinx
-RUN apt-get update \
+RUN [ "xenial" = "xenial" ] \
+  && apt-get update \
   && apt-get install -y sphinxsearch \
-  && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/* \
+  || echo -n
 
 # Install Subversion
 RUN apt-get update \
- && apt-get install -y --no-install-recommends \
-    subversion \
+ && apt-get install -y --no-install-recommends subversion \
  && rm -rf /var/lib/apt/lists/*
 ENV svn=/usr/bin/svn
 
