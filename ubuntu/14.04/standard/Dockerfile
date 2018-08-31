@@ -41,6 +41,12 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends \
     build-essential \
  && rm -rf /var/lib/apt/lists/*
+ 
+# Install Ansible
+RUN apt-get update \   
+ && apt-get install -y --no-install-recommends \
+    ansible \      
+ && rm -rf /var/lib/apt/lists/*
 
 # Install Azure CLI (instructions taken from https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" \
