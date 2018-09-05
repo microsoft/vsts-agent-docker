@@ -133,6 +133,7 @@ These derived images include a set of standard capabilities that enable many of 
 
 - Basic command-line utilities (curl, ftp, etc.)
 - Essential build tools (gcc, make, etc.)
+- Ansible 2.6.3
 - Azure CLI 2.0.38
 - CLang 6.0
 - CMake 3.10.2
