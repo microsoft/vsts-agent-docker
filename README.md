@@ -143,7 +143,7 @@ These derived images include a set of standard capabilities that enable many of 
 - Java OpenJDK 7 (1.7.0_95), 8 (1.8.0_162), 9 (1.9.0_4), 10 (1.10.0_2), and 11 (1.11.24)
 - Java tools (Ant 1.9.6, Gradle 4.6, Maven 3.3.9)
 - kubectl 1.10.4
-- Miniconda 4.5.4
+- Miniconda 4.5.4 (available through the [Conda Environment](https://docs.microsoft.com/en-us/vsts/pipelines/tasks/package/conda-environment?view=vsts) task)
 - MySQL Client 14.14
 - .NET Core SDK 2.1.300 (runtime 2.1.0)
 - Node.js 8.11.3 LTS
@@ -155,6 +155,8 @@ These derived images include a set of standard capabilities that enable many of 
 - Subversion 1.9.3
 - xsltproc 1.1.28 and xalan 1.11
 - yarn 1.7.0
+
+Note : All capabilities may not be added to PATH. e.g. conda is not, to avoid conflicts between python and pip versions, but ruby is.
 
 ### `docker` images
 These derived images include a version of the Docker CLI and a compatible version of the Docker Compose CLI. This image cannot run most of the built-in VSTS build or release tasks but it can run tasks that invoke arbitrary Docker workloads.
