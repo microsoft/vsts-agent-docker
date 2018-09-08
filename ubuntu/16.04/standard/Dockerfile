@@ -137,6 +137,7 @@ RUN curl -sL https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.
  && ./miniconda.sh -b -p /usr/share/miniconda \
  && rm miniconda.sh
 ENV CONDA=/usr/share/miniconda
+ENV PATH $PATH:$CONDA/bin
 
 # Install Mono
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
