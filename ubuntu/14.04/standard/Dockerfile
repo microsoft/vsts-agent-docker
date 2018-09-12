@@ -565,3 +565,8 @@ RUN original_directory=$PWD \
 
 # Add the latest Ruby version in the tool cache to the path
 ENV PATH $PATH:/opt/hostedtoolcache/Ruby/2.5.1/x64/bin
+
+# Clean system
+RUN apt-get clean \
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /etc/apt/sources.list.d/*
