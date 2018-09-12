@@ -1,10 +1,5 @@
 FROM microsoft/vsts-agent:ubuntu-16.04
 
-# To make it easier for build and release pipelines to run apt-get,
-# configure apt to not require confirmation (assume the -y argument by default)
-ENV DEBIAN_FRONTEND=noninteractive
-RUN echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
-
 # Install basic command-line utilities
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -51,20 +46,23 @@ RUN apt-get update \
 # Install Azure CLI (instructions taken from https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" \
   | tee /etc/apt/sources.list.d/azure-cli.list \
- && curl -L https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - \
+ && curl -L https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
     apt-transport-https \
     azure-cli \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /etc/apt/sources.list.d/* \
+ && az --version
 
 # Install Clang (only appears to work on xenial)
 RUN [ "xenial" = "xenial" ] \
- && wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - \
+ && wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
  && apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-6.0 main" \
  && apt-get update \
  && apt-get install -y --no-install-recommends clang-6.0 \
  && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /etc/apt/sources.list.d/* \
  || echo -n
 
 # Install CMake
@@ -75,10 +73,11 @@ RUN curl -sL https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh -o cmake
 
 # Install Erlang
 RUN echo "deb http://binaries.erlang-solutions.com/debian xenial contrib" > /etc/apt/sources.list.d/eslerlang.list \
- && wget -O - http://binaries.erlang-solutions.com/debian/erlang_solutions.asc | sudo apt-key add - \
+ && wget -O - http://binaries.erlang-solutions.com/debian/erlang_solutions.asc | apt-key add - \
  && apt-get update \
  && apt-get install -y --no-install-recommends esl-erlang \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /etc/apt/sources.list.d/*
 
 # Install Firefox
 RUN apt-get update \
@@ -100,11 +99,12 @@ ENV GOROOT_1_9_X64=/usr/local/go1.9.4 \
 ENV PATH $PATH:$GOROOT/bin
 
 # Install Google Chrome
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - \
- && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list \
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+ && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list \
  && apt-get update \
  && apt-get install -y google-chrome-stable \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /etc/apt/sources.list.d/*
 ENV CHROME_BIN /usr/bin/google-chrome
 
 # Install Haskell
@@ -116,7 +116,7 @@ RUN apt-get update \
 RUN curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
 
 # Install Heroku CLI
-RUN curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+RUN curl https://cli-assets.heroku.com/install.sh | sh
 
 # Install HHVM
 RUN apt-get update \
@@ -124,7 +124,8 @@ RUN apt-get update \
  && add-apt-repository https://dl.hhvm.com/ubuntu \
  && apt-get update \
  && apt-get install -y hhvm \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /etc/apt/sources.list.d/*
 
 # Install ImageMagick
 RUN apt-get update \
@@ -201,7 +202,8 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E03280
  && echo "deb https://download.mono-project.com/repo/ubuntu stable-xenial main" | tee /etc/apt/sources.list.d/mono-official-stable.list \
  && apt-get update \
  && apt-get install -y --no-install-recommends apt-transport-https mono-complete \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /etc/apt/sources.list.d/*
 
 # Install MS SQL Server client tools (https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-setup-tools?view=sql-server-2017)
 RUN [ "xenial" = "xenial" ] \
@@ -210,6 +212,7 @@ RUN [ "xenial" = "xenial" ] \
   && apt-get update \
   && apt-get install -y mssql-tools unixodbc-dev \
   && rm -rf /var/lib/apt/lists/* \
+  && rm -rf /etc/apt/sources.list.d/* \
   || echo -n
 ENV PATH=$PATH:/opt/mssql-tools/bin
 
@@ -235,14 +238,18 @@ RUN curl https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-p
  && apt-get install -y --no-install-recommends \
     apt-transport-https \
     dotnet-sdk-2.1 \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /etc/apt/sources.list.d/*
 RUN dotnet help
 ENV dotnet=/usr/bin/dotnet
 
 # Install AzCopy (depends on .NET Core)
-RUN apt-get update \
+RUN apt-key adv --keyserver packages.microsoft.com --recv-keys EB3E94ADBE1229CF \
+ && echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-xenial-prod/ xenial main" | tee /etc/apt/sources.list.d/azure.list \
+ && apt-get update \
  && apt-get install -y --no-install-recommends azcopy \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /etc/apt/sources.list.d/*
 
 # Install LTS Node.js and related tools
 RUN curl -sL https://git.io/n-install | bash -s -- -ny - \
@@ -463,7 +470,8 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
     powershell \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /etc/apt/sources.list.d/*
 
 # Instally PyPy2
 RUN wget -q -P /tmp https://bitbucket.org/pypy/pypy/downloads/pypy2-v6.0.0-linux64.tar.bz2 \
@@ -529,11 +537,12 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # Install yarn
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
- && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+ && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
  && apt-get update \
  && apt-get install -y --no-install-recommends yarn \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /etc/apt/sources.list.d/*
 
 # Install Xvfb
 RUN apt-get update \

@@ -6,7 +6,7 @@ cd "$(dirname $0)"
 ubuntu() {
   cd ubuntu
 
-  while read UBUNTU_VERSION LIBICU_VERSION; do
+  while read UBUNTU_VERSION UBUNTU_RELEASE LIBICU_VERSION; do
     BASE_DIR=$UBUNTU_VERSION
 
     TARGET_DIR=$BASE_DIR
@@ -15,6 +15,7 @@ ubuntu() {
     # Update base image
     sed \
       -e s/'$(UBUNTU_VERSION)'/$UBUNTU_VERSION/g \
+      -e s/'$(UBUNTU_RELEASE)'/$UBUNTU_RELEASE/g \
       -e s/'$(LIBICU_VERSION)'/$LIBICU_VERSION/g \
       Dockerfile.template > $UBUNTU_VERSION/Dockerfile
     if [ -n "$(which unix2dos)" ]; then
