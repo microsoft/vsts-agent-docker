@@ -1,1 +1,1 @@
-ubuntu-16.04-docker-17.12.0-ce-standard
+ubuntu-16.04-docker-18.06.1-ce-standard
