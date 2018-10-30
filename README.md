@@ -1,10 +1,10 @@
 ![](https://github.com/microsoft/vsts-agent-docker/raw/master/images/vsts.png)
 
-## Visual Studio Team Services agent
-This repository contains images for the Visual Studio Team Services (VSTS) agent that runs tasks as part of a build or release.
+## Azure DevOps agent
+This repository contains images for the Azure DevOps(Previously VSTS) agent that runs tasks as part of a build or release.
 
 ## Supported tags and `Dockerfile` links
-VSTS agent images are tagged according to the base OS, an optional Team Foundation Server (TFS) version, and tools that are installed:
+Azure DevOps agent images are tagged according to the base OS, an optional Azure DevOps Server(TFS) version, and tools that are installed:
 
 - [`ubuntu-14.04`](https://github.com/microsoft/vsts-agent-docker/blob/d9c72fb5d961e37843d8dd0274fb5346022d6852/ubuntu/14.04/Dockerfile) [(ubuntu/14.04/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/d9c72fb5d961e37843d8dd0274fb5346022d6852/ubuntu/14.04/Dockerfile)
 - [`ubuntu-14.04-standard`](https://github.com/microsoft/vsts-agent-docker/blob/d9c72fb5d961e37843d8dd0274fb5346022d6852/ubuntu/14.04/standard/Dockerfile) [(ubuntu/14.04/standard/Dockerfile)](https://github.com/microsoft/vsts-agent-docker/blob/d9c72fb5d961e37843d8dd0274fb5346022d6852/ubuntu/14.04/standard/Dockerfile)
@@ -45,19 +45,19 @@ VSTS agent images are tagged according to the base OS, an optional Team Foundati
 
 Ubuntu 14.04 and 16.04 are the currently supported OSes, but there are plans for Windows support.
 
-When used with VSTS, the agent version is automatically determined and downloaded at container startup based on the account to which the agent is connecting. When used with TFS, an image that matches the installed TFS version should be chosen.
+When used with Azure DevOps, the agent version is automatically determined and downloaded at container startup based on the account to which the agent is connecting. When used with Azure DevOps Server(TFS), an image that matches the installed TFS version should be chosen.
 
-Derived images that are based on the standalone agent images provide a variety of capabilities that enable it to support specific VSTS build and release tasks.
+Derived images that are based on the standalone agent images provide a variety of capabilities that enable it to support specific Azure Pipeline build and release tasks.
 
-The `latest` tag always points at a standard image based on the best supported OS that targets VSTS and includes capabilities enabling many of the built-in VSTS build and release tasks.
+The `latest` tag always points at a standard image based on the best supported OS that targets Azure DevOps and includes capabilities enabling many of the built-in Azure Pipeline build and release tasks.
 
 ## How to use these images
-VSTS agents must be started with account connection information, which is provided through two environment variables:
+Azure DevOps agents must be started with account connection information, which is provided through two environment variables:
 
 - `VSTS_ACCOUNT`: the name of the Visual Studio account
 - `VSTS_TOKEN`: a personal access token (PAT) for the Visual Studio account that has been given at least the **Agent Pools (read, manage)** scope.
 
-To run the default VSTS agent image for a specific Visual Studio account:
+To run the default Azure DevOps(VSTS) agent image for a specific Visual Studio account:
 
 ```
 docker run \
@@ -66,15 +66,15 @@ docker run \
   -it microsoft/vsts-agent
 ```
 
-When using an image that targets a specific TFS version, the connection information is instead supplied through one of the following environment variables:
+When using an image that targets a specific Azure DevOps Server(TFS) version, the connection information is instead supplied through one of the following environment variables:
 
 - `TFS_HOST`: the hostname of the Team Foundation Server
 - `TFS_URL`: the full URL of the Team Foundation Server
-- `VSTS_TOKEN`: a personal access token (PAT) for the Team Foundation Server account that has been given at least the **Agent Pools (read, manage)** scope.
+- `VSTS_TOKEN`: a personal access token (PAT) for the Azure DevOps Server(TFS) account that has been given at least the **Agent Pools (read, manage)** scope.
 
-If `TFS_HOST` is provided, the TFS URL is set to `https://$TFS_HOST/tfs`. If `TFS_URL` is provided, any `TFS_HOST` environment variable is ignored.
+If `TFS_HOST` is provided, the Azure DevOps Server(TFS) URL is set to `https://$TFS_HOST/tfs`. If `TFS_URL` is provided, any `TFS_HOST` environment variable is ignored.
 
-To run a VSTS agent image for TFS 2018 that identifies the server at `https://mytfs/tfs`:
+To run a Azure DevOps agent image for TFS 2018/Azure DevOps Server that identifies the server at `https://mytfs/tfs`:
 
 ```
 docker run \
@@ -93,7 +93,7 @@ docker run \
   -it microsoft/vsts-agent
 ```
 
-Whether targeting VSTS or TFS, agents can be further configured with additional environment variables:
+Whether targeting Azure DevOps(VSTS) or Azure DevOps Server(TFS), agents can be further configured with additional environment variables:
 
 - `VSTS_AGENT`: the name of the agent (default: `"$(hostname)"`)
 - `VSTS_POOL`: the name of the agent pool (default: `"Default"`)
@@ -101,7 +101,7 @@ Whether targeting VSTS or TFS, agents can be further configured with additional 
 
 The `VSTS_AGENT` and `VSTS_WORK` values are evaluated inside the container as an expression so they can use shell expansions. The `VSTS_AGENT` value is evaluated first, so the `VSTS_WORK` value may reference the expanded `VSTS_AGENT` value.
 
-To run a VSTS agent on Ubuntu 16.04 for a specific account with a custom agent name, pool and a volume mapped agent work folder:
+To run a Azure DevOps agent on Ubuntu 16.04 for a specific account with a custom agent name, pool and a volume mapped agent work folder:
 
 ```
 docker run \
@@ -117,7 +117,7 @@ docker run \
 ## Derived Images
 
 ### `standard` images
-These derived images include a set of standard capabilities that enable many of the built-in VSTS build and release tasks. The Ubuntu-based standard images currently include:
+These derived images include a set of standard capabilities that enable many of the built-in Azure Pipeline build and release tasks. The Ubuntu-based standard images currently include:
 
 - Basic command-line utilities (curl, ftp, etc.)
 - Essential build tools (gcc, make, etc.)
@@ -166,7 +166,7 @@ These derived images include a set of standard capabilities that enable many of 
 - yarn 1.9.2
 
 ### `docker` images
-These derived images include a version of the Docker CLI and a compatible version of the Docker Compose CLI. This image cannot run most of the built-in VSTS build or release tasks but it can run tasks that invoke arbitrary Docker workloads.
+These derived images include a version of the Docker CLI and a compatible version of the Docker Compose CLI. This image cannot run most of the built-in Azure Pipeline build or release tasks but it can run tasks that invoke arbitrary Docker workloads.
 
 These images do not run "Docker in Docker", but rather re-use the host instance of Docker. To ensure this works correctly, volume map the host's Docker socket into the container:
 
