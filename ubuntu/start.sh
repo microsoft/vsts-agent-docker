@@ -82,7 +82,7 @@ source ./env.sh
 
 ./bin/Agent.Listener configure --unattended \
   --agent "${VSTS_AGENT:-$(hostname)}" \
-  --url "https://$VSTS_ACCOUNT.visualstudio.com" \
+  --url "https://dev.azure.com/$VSTS_ACCOUNT" \
   --auth PAT \
   --token $(cat "$VSTS_TOKEN_FILE") \
   --pool "${VSTS_POOL:-Default}" \
