@@ -1,4 +1,2 @@
-tfs-2017 2.105.7
-tfs-2017-u1 2.116.1
-tfs-2018 2.122.1
-tfs-2018-u1 2.122.2
+tfs-2018-u2 https://vstsagentpackage.azureedge.net/agent/2.131.0/vsts-agent-linux-x64-2.131.0.tar.gz
+tfs-2018-u3 https://vstsagentpackage.azureedge.net/agent/2.140.2/vsts-agent-linux-x64-2.140.2.tar.gz

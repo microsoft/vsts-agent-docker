@@ -1,7 +1,7 @@
 FROM microsoft/vsts-agent:$(VSTS_AGENT_TAG)
 
 RUN set -x \
- && curl -fSL https://github.com/Microsoft/vsts-agent/releases/download/v$(VSTS_AGENT_VERSION)/vsts-agent-ubuntu.$(UBUNTU_VERSION)-x64-$(VSTS_AGENT_VERSION).tar.gz -o agent.tgz \
+ && curl -fSL $(VSTS_AGENT_URL) -o agent.tgz \
  && mkdir agent \
  && cd agent \
  && tar -xz --no-same-owner -f ../agent.tgz \
