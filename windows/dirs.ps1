@@ -3,9 +3,9 @@ function Core () {
         [string] $baseDir
     ) {
         Write-Output "$baseDir"
-        foreach ($folder in (Get-ChildItem -path ".\derived\minimal" | where-object {$_.Psiscontainer}).Name) {
-            Write-Output "$baseDir\minimal\$folder"
-        }
+        # foreach ($folder in (Get-ChildItem -path ".\derived\minimal" | where-object {$_.Psiscontainer}).Name) {
+        #     Write-Output "$baseDir\minimal\$folder"
+        # }
     }
 
    Set-Location ".\core"

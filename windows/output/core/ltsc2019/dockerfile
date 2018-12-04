@@ -1,13 +1,13 @@
 # escape=`
-FROM microsoft/dotnet-framework:4.7.1
+FROM microsoft/dotnet-framework:4.7.2-runtime-windowsservercore-ltsc2019
 
-LABEL name="microsoft/vsts-agent:windows-core-10.0.14393.2189" `
+LABEL name="microsoft/vsts-agent:windows-core-ltsc2019" `
       version="0.0.1"
 
 ENV HTTP_PROXY=$HTTP_PROXY `
     HTTPS_PROXY=$HTTPS_PROXY `
     NO_PROXY=$NO_PROXY `
-    WINDOWS_IMAGE_VERSION=10.0.14393.2189
+    WINDOWS_IMAGE_VERSION=ltsc2019
 
 RUN mkdir C:\TFS `
  && mkdir C:\Setup

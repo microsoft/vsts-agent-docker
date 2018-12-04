@@ -1,7 +1,7 @@
 # escape=`
-FROM microsoft/vsts-agent:windows-core-10.0.14393.2189-2.122.1
+FROM microsoft/vsts-agent:windows-core-ltsc2019-2.141.1
 
-LABEL name="microsoft/vsts-agent:windows-core-10.0.14393.2189-2.122.1-minimal-vs2017" `
+LABEL name="microsoft/vsts-agent:windows-core-ltsc2019-2.141.1-minimal-vs2017" `
       version="0.0.1"
 
 # Download collect.exe in case of an install failure.

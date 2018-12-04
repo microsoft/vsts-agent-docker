@@ -9,7 +9,7 @@ foreach($dir in .\dirs.ps1){
     --build-arg HTTP_PROXY="" `
     --build-arg HTTPS_PROXY="" `
     --build-arg NO_PROXY="" `
-    -m 6GB `
+    --memory=16GB `
     ".\Output\$dir"
     Write-Output "`n------------------------------------------------------`n"
 }

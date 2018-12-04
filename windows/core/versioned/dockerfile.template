@@ -4,11 +4,13 @@ FROM microsoft/vsts-agent:windows-core-$(WINDOWS_VERSION)
 LABEL name="microsoft/vsts-agent:windows-core-$(WINDOWS_VERSION)-$(AGENT_VERSION)" `
       version="0.0.1"
 
+# Download Agent
+ADD https://vstsagentpackage.azureedge.net/agent/$(AGENT_VERSION)/vsts-agent-win-x64-$(AGENT_VERSION).zip C:\TFS\agent.zip
+
 WORKDIR C:\TFS
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
-RUN Invoke-WebRequest "https://github.com/Microsoft/vsts-agent/releases/download/v$(AGENT_VERSION)/vsts-agent-win7-x64-$(AGENT_VERSION).zip" -OutFile agent.zip; `
-    Expand-Archive agent.zip -DestinationPath .\Agent -Force; `
+RUN Expand-Archive agent.zip -DestinationPath .\Agent -Force; `
     Remove-Item -Force agent.zip
 
 SHELL ["cmd", "/S", "/C"]
@@ -21,5 +23,7 @@ RUN @powershell -ExecutionPolicy Bypass -Command "iex (Invoke-WebRequest 'https:
 RUN choco config set cachelocation C:\chococache
 
 COPY ./Run-Agent.ps1 .
+COPY ./Cleanup-Agent.ps1 .
 
-CMD ["powershell", "-Command", "C:/TFS/Run-Agent.ps1"]
+ENTRYPOINT ["powershell.exe", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+CMD ["try {C:/TFS/Run-Agent.ps1;}finally {C:/TFS/Cleanup-Agent.ps1;}"]
