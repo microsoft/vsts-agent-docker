@@ -237,7 +237,7 @@ RUN curl https://packages.microsoft.com/config/ubuntu/14.04/packages-microsoft-p
  && apt-get update \
  && apt-get install -y --no-install-recommends \
     apt-transport-https \
-    dotnet-sdk-2.1 \
+    dotnet-sdk-2.2 \
  && rm -rf /var/lib/apt/lists/* \
  && rm -rf /etc/apt/sources.list.d/*
 RUN dotnet help
