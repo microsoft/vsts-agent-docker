@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+if [ -z "$VSTS_AGENT_SIGKILL_TIMEOUT" ]; then
+  export VSTS_AGENT_SIGKILL_TIMEOUT=30;
+fi
+
 export VSO_AGENT_IGNORE=_,MAIL,OLDPWD,PATH,PWD,VSTS_AGENT,VSTS_ACCOUNT,VSTS_TOKEN_FILE,VSTS_TOKEN,VSTS_POOL,VSTS_WORK,VSO_AGENT_IGNORE
 if [ -n "$VSTS_AGENT_IGNORE" ]; then
   export VSO_AGENT_IGNORE=$VSO_AGENT_IGNORE,VSTS_AGENT_IGNORE,$VSTS_AGENT_IGNORE
@@ -48,6 +52,33 @@ web-server() {
   done
 }
 
+checkIdle() {
+  echo Determining matching VSTS agent...
+  POOL_REQUEST=$(curl -LsS \
+  -u user:$(cat "$VSTS_TOKEN_FILE") \
+  -H 'Accept:application/json;api-version=3.0-preview' \
+  "https://dev.azure.com/$VSTS_ACCOUNT/_apis/distributedtask/pools")
+  JQ_STRING=".value | map(select(.name == \"$VSTS_POOL\")) | .[].id"
+  POOL_ID=$( echo "$POOL_REQUEST" | jq -r "$JQ_STRING")
+  AGENT_STATUS_REQ=$(curl -LsS \
+  -u user:$(cat "$VSTS_TOKEN_FILE") \
+  -H 'Accept:application/json;api-version=3.0-preview' \
+  "https://dev.azure.com/$VSTS_ACCOUNT/_apis/distributedtask/pools/$POOL_ID/agents?includeCapabilities=false&includeAssignedRequest=true")
+  JQ_STRING2="if .value | map(select(.name == \"$HOSTNAME\")) | .[].assignedRequest then \"Running\" else \"Idle\" end"
+  AGENT_STATUS=$( echo "$AGENT_STATUS_REQ" | jq -r "$JQ_STRING2")
+  while [ "$AGENT_STATUS" == "Running" ]; do
+    echo "Agent is currently $AGENT_STATUS. Wait $VSTS_AGENT_SIGKILL_TIMEOUT seconds.";
+    sleep $VSTS_AGENT_SIGKILL_TIMEOUT;
+    checkIdle;
+  done
+  if [ -z "$AGENT_STATUS" ]; then
+    echo "Agent not registered. Killing anyway.";
+  else
+    echo "Agent state is currently $AGENT_STATUS. Killing.";
+  fi
+  
+}
+
 cleanup() {
   if [ -e config.sh ]; then
     ./bin/Agent.Listener remove --unattended \
@@ -56,7 +87,7 @@ cleanup() {
   fi
 }
 
-trap 'cleanup; exit 130' INT
+trap 'checkIdle; cleanup; exit 130' INT
 trap 'cleanup; exit 143' TERM
 
 echo Determining matching VSTS agent...
@@ -64,6 +95,7 @@ VSTS_AGENT_RESPONSE=$(curl -LsS \
   -u user:$(cat "$VSTS_TOKEN_FILE") \
   -H 'Accept:application/json;api-version=3.0-preview' \
   "https://$VSTS_ACCOUNT.visualstudio.com/_apis/distributedtask/packages/agent?platform=linux-x64")
+
 
 if echo "$VSTS_AGENT_RESPONSE" | jq . >/dev/null 2>&1; then
   VSTS_AGENT_URL=$(echo "$VSTS_AGENT_RESPONSE" \
