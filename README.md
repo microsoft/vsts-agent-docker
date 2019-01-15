@@ -145,7 +145,7 @@ These derived images include a set of standard capabilities that enable many of 
 - Microsoft SQL Server Client Tools 17.2.0.1
 - MySQL Client 5.7.23
 - MySQL Server 5.7.23
-- .NET Core SDK 2.2.0 (runtime 2.2.0)
+- .NET Core SDK 2.2.102 (runtime 2.2.1)
 - Node.js 8.11.3 LTS (with bower, grunt, gulp, n, parcel, and webpack)
 - PhantomJS 2.1.1
 - PHP 5.6, 7.0, 7.1, and 7.2 (with composer, phpunit, and xdebug)
