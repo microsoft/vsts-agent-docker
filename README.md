@@ -1,3 +1,7 @@
+# Deprecated
+
+This repo is deprecated. Related to this repo, Azure Pipelines hosted images are generated in the [azure-pipelines-image-generation](https://github.com/Microsoft/azure-pipelines-image-generation) repo.
+
 ![](https://github.com/microsoft/vsts-agent-docker/raw/master/images/vsts.png)
 
 ## Visual Studio Team Services agent
