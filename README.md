@@ -1,6 +1,9 @@
 # Deprecated
 
-This repo is deprecated. Related to this repo, Azure Pipelines hosted images are generated in the [azure-pipelines-image-generation](https://github.com/Microsoft/azure-pipelines-image-generation) repo.
+This repo and Docker container are deprecated.
+To run the agent in a Docker container, see [the docs]()https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/docker?view=azure-devops.
+
+You may be looking for the Azure Pipelines hosted images, which are generated in the [azure-pipelines-image-generation](https://github.com/Microsoft/azure-pipelines-image-generation) repo.
 
 ![](https://github.com/microsoft/vsts-agent-docker/raw/master/images/vsts.png)
 
