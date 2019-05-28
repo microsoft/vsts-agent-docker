@@ -1,7 +1,7 @@
 # Deprecated
 
 This repo and Docker container are deprecated.
-To run the agent in a Docker container, see [the docs]()https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/docker?view=azure-devops.
+To run the agent in a Docker container, see [the docs](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/docker?view=azure-devops).
 
 You may be looking for the Azure Pipelines hosted images, which are generated in the [azure-pipelines-image-generation](https://github.com/Microsoft/azure-pipelines-image-generation) repo.
 
