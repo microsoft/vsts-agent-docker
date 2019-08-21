@@ -81,6 +81,8 @@ curl -LsS $VSTS_AGENT_URL | tar -xz --no-same-owner & wait $!
 source ./env.sh
 
 ./bin/Agent.Listener configure --unattended \
+  ${VSTS_ACCEPTTEEEULA:+--acceptteeeula} \
+  ${VSTS_SSLSKIPCERTVALIDATION:+--sslskipcertvalidation} \
   --agent "${VSTS_AGENT:-$(hostname)}" \
   --url "https://$VSTS_ACCOUNT.visualstudio.com" \
   --auth PAT \

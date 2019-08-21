@@ -59,6 +59,8 @@ fi
 source ./env.sh
 
 ./bin/Agent.Listener configure --unattended \
+  ${VSTS_ACCEPTTEEEULA:+--acceptteeeula} \
+  ${VSTS_SSLSKIPCERTVALIDATION:+--sslskipcertvalidation} \
   --agent "${VSTS_AGENT:-$(hostname)}" \
   --url "$TFS_URL" \
   --auth PAT \
