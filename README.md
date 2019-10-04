@@ -5,6 +5,7 @@ To run the agent in a Docker container, see [the docs]()https://docs.microsoft.c
 
 You may be looking for the Azure Pipelines hosted images, which are generated in the [azure-pipelines-image-generation](https://github.com/Microsoft/azure-pipelines-image-generation) repo.
 
+<!--
 ![](https://github.com/microsoft/vsts-agent-docker/raw/master/images/vsts.png)
 
 ## Visual Studio Team Services agent
@@ -187,3 +188,4 @@ docker run \
 
 ### `docker-standard` images
 These derived images bring together a docker image and a standard image.
+-->
